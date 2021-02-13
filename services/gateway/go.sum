@@ -1,0 +1,10 @@
+github.com/felixge/httpsnoop v1.0.1 h1:lvB5Jl89CsZtGIWuTcDM1E/vkVs49/Ml7JJe07l8SPQ=
+github.com/felixge/httpsnoop v1.0.1/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=
+github.com/gorilla/handlers v1.5.1 h1:9lRY6j8DEeeBT10CvO9hGW0gmky0BprnvDI5vfhUHH4=
+github.com/gorilla/handlers v1.5.1/go.mod h1:t8XrUpc4KVXb7HGyJ4/cEnwQiaxrX/hz1Zv/4g96P1Q=
+github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
+github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/vivian-hua/civic-qa v0.0.0-20210212232906-50872afb6b1d h1:WiHnceskQU99ck6sfQ+OLGiHeIKpbOWizXzsIRAgKDY=
+github.com/vivian-hua/civic-qa v0.0.0-20210213001141-bd4fbd60d179 h1:6jRcPm3R3W5pWUykzumGgxrz03/GakX391Rqkr5Fsag=
+github.com/vivian-hua/civic-qa/services/common v0.0.0-20210213001141-bd4fbd60d179 h1:pjCsYZIKrGJ9oz1yXaADN5cR/wah5ugddNfzDdbwE6k=
+github.com/vivian-hua/civic-qa/services/common v0.0.0-20210213001141-bd4fbd60d179/go.mod h1:JLgAYQvjhO7IoFIBtjanP/c54NHZMDCQaYWzQzY6h9M=
