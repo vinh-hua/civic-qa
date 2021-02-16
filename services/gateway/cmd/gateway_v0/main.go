@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/vivian-hua/civic-qa/services/common/environment"
 	"github.com/vivian-hua/civic-qa/services/common/middleware"
 )
 
@@ -20,19 +21,19 @@ const (
 var (
 	// LoggingOutput is a file that recieves log outputs
 	LoggingOutput = os.Stdout
+
+	// Environment
+	addr = environment.GetEnvOrFallback("ADDR", ":80")
 )
 
 func main() {
 
-	// Variables
-	addr := os.Getenv("ADDR")
-	if len(addr) == 0 {
-		addr = ":80"
-	}
-
 	// Routers
 	router := mux.NewRouter()
 	api := router.PathPrefix(VersionBase).Subrouter()
+
+	// Middleware
+	router.Use(middleware.NewLoggingMiddleware(LoggingOutput))
 
 	// Routes
 	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -40,10 +41,7 @@ func main() {
 		io.WriteString(w, "Hello world!")
 	})
 
-	// Middleware
-	router.Use(middleware.NewLoggingMiddleware(LoggingOutput))
-
-	// Start
+	// Start Server
 	log.Printf("Server %s running on %s", APIVersion, addr)
 	log.Fatal(http.ListenAndServe(addr, router))
 
