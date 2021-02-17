@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Header = () => {
+function Inbox() {
     return (
         <div>
-            <h1>Civic Q&A</h1>
+            <h1>Inbox</h1>
         </div>
     );
 }
 
-export default Header;
+export default Inbox;
