@@ -1,10 +1,10 @@
 import React from 'react';
-import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import StatCard from '../Dashboard/StatCard.js';
 import './Dashboard.css';
 
 // currently using dummy data for StatCards and LineChart
-function Dashboard() {
+export function Dashboard() {
     const test_data = [{name: 1, uv: 12},
                        {name: 2, uv: 15},
                        {name: 3, uv: 34}];
@@ -32,5 +32,3 @@ function Dashboard() {
         </div>
     );
 }
-
-export default Dashboard;

@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Dashboard from './Views/Dashboard';
-import Inbox from './Views/Inbox';
-import EngagementReports from './Views/EngagementReports';
-import Templates from './Views/Templates';
+import { Dashboard } from './Views/Dashboard';
+import { Inbox } from './Views/Inbox';
+import { EngagementReports } from './Views/EngagementReports';
+import { Templates } from './Views/Templates';
 
 function App() {
   return (
