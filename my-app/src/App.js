@@ -8,12 +8,12 @@ import Templates from './Views/Templates';
 function App() {
   return (
     <Router>
-      <nav>
+      <nav class="nav-bar">
         <ul>
-          <li><Link to="/dashboard">Dashboard</Link></li>
-          <li><Link to="/inbox">Inbox</Link></li>
-          <li><Link to="/engagement-reports">Engagement Reports</Link></li>
-          <li><Link to="/templates">Your Templates</Link></li>
+          <li><Link class="nav-link" to="/dashboard">Dashboard</Link></li>
+          <li><Link class="nav-link" to="/inbox">Inbox</Link></li>
+          <li><Link class="nav-link" to="/engagement-reports">Engagement Reports</Link></li>
+          <li><Link class="nav-link" to="/templates">Your Templates</Link></li>
         </ul>
       </nav>
       <Route path="/" exact component={Dashboard}></Route>

@@ -1,3 +1,18 @@
 .App {
   text-align: center;
 }
+
+.nav-bar {
+  background-color: #363740;
+  float: left;
+  width: 25%;
+  height: 100vh;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.nav-link {
+  color: #A4A6B3;
+}
