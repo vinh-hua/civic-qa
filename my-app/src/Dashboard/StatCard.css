@@ -8,11 +8,13 @@
 }
 
 .stat-card-title {
-    font-size: 14px;
-    font-weight: normal;
+    color: #9FA2B4;
+    font-weight: bold;
+    padding-top: 10%;
+    font-size: 20px;
 }
 
 .stat-card-data {
-    font-size: 24px;
+    font-size: 40px;
     font-weight: bold;
 }
