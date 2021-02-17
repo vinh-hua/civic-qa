@@ -8,6 +8,7 @@ function Dashboard() {
     const test_data = [{name: 1, uv: 12},
                        {name: 2, uv: 15},
                        {name: 3, uv: 34}];
+
     const renderLineChart = (
         <div class="chart">
             <LineChart width={700} height={300} data={test_data}>
@@ -19,8 +20,8 @@ function Dashboard() {
                 <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
             </LineChart>
         </div>
-
     );
+
     return (
         <div>
             <StatCard title={"General"} data={625}></StatCard>
