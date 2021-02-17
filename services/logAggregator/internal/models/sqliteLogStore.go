@@ -57,6 +57,7 @@ func (s *SQLiteLogStore) Log(newEntry LogEntry) *LogError {
 	if err != nil {
 		return &LogError{Err: err, Code: 500}
 	}
+
 	return nil
 }
 
@@ -68,6 +69,7 @@ func (s *SQLiteLogStore) Query(query LogQuery) ([]*LogEntry, *QueryError) {
 
 // Initializes the Users table in SQLite syntax, for testing mostly
 func (s *SQLiteLogStore) initializeDB() {
+
 	log.Println("Initializing database...")
 	stmt, err := s.DB.Prepare(`
 		CREATE TABLE IF NOT EXISTS Logs (
@@ -88,5 +90,4 @@ func (s *SQLiteLogStore) initializeDB() {
 		log.Fatalf("Error initializing DB: %v", err)
 	}
 	log.Println("Database initialized!")
-
 }

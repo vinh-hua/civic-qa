@@ -10,7 +10,7 @@ type LogEntry struct {
 	TimeUnix      int64     `json:"timeUnix"`
 	Service       string    `json:"service"`
 	StatusCode    int       `json:"statusCode"`
-	Notes         string    `json:"Notes"`
+	Notes         string    `json:"notes"`
 }
 
 // LogQuery represents a query against existing logs
@@ -23,11 +23,13 @@ type LogQuery struct {
 	StatusCodeStop  int       `json:"statusCodeStop"`
 }
 
+// LogError represents an error creating a log
 type LogError struct {
 	Err  error
 	Code int
 }
 
+// QueryError represents and error querying logs
 type QueryError struct {
 	Err  error
 	Code int

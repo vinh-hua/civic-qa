@@ -4,7 +4,6 @@ import (
 	// standard
 	"log"
 	"net/http"
-	"os"
 
 	// 3rd party
 	"github.com/gorilla/mux"
@@ -25,11 +24,9 @@ const (
 )
 
 var (
-	// LoggingOutput is a file that recieves log outputs
-	LoggingOutput = os.Stdout
-
 	// Environment
-	addr = environment.GetEnvOrFallback("ADDR", ":8888")
+	addr   = environment.GetEnvOrFallback("ADDR", ":8888")
+	dbPath = environment.GetEnvOrFallback("DBPATH", "logs.db")
 )
 
 func main() {
