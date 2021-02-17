@@ -1,10 +1,10 @@
 import React from 'react';
 import StatCard from '../Dashboard/StatCard.js';
 
-function DashboardPage() {
+function Dashboard() {
     return (
         <div>
-            <h1>Dashboard Page</h1>
+            <h1>Dashboard</h1>
             <StatCard></StatCard>
             <StatCard></StatCard>
             <StatCard></StatCard>
@@ -13,4 +13,4 @@ function DashboardPage() {
     );
 }
 
-export default DashboardPage;
+export default Dashboard;
