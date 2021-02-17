@@ -1,7 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { StatCard } from '../Dashboard/StatCard';
 import './Dashboard.css';
+
+function fetchChartData() {
+     
+}
 
 // currently using dummy data for StatCards and LineChart
 export function Dashboard() {
@@ -10,7 +14,7 @@ export function Dashboard() {
                        {name: 3, uv: 34}];
 
     const renderLineChart = (
-        <div class="chart">
+        <div className="chart">
             <LineChart width={700} height={300} data={test_data}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
