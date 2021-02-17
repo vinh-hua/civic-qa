@@ -1,7 +1,7 @@
 import React from 'react';
 import './StatCard.css';
 
-const StatCard = (props) => {
+export function StatCard(props) {
     return (
         <div class="stat-card">
             <h1 class="stat-card-title">{props.title}</h1>
@@ -9,5 +9,3 @@ const StatCard = (props) => {
         </div>
     );
 }
-
-export default StatCard;

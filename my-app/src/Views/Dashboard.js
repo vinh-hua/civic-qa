@@ -1,6 +1,6 @@
 import React from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
-import StatCard from '../Dashboard/StatCard.js';
+import { StatCard } from '../Dashboard/StatCard';
 import './Dashboard.css';
 
 // currently using dummy data for StatCards and LineChart
