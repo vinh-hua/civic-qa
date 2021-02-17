@@ -1,0 +1,18 @@
+.stat-card {
+    width: 250px;
+    height: 150px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: inline-block;
+    margin: 10px;
+}
+
+.stat-card-title {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.stat-card-data {
+    font-size: 24px;
+    font-weight: bold;
+}

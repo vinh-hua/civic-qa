@@ -1,10 +1,11 @@
 import React from 'react';
+import './StatCard.css';
 
 const StatCard = (props) => {
     return (
-        <div>
-            <h1>Title</h1>
-            <p>123</p>
+        <div class="stat-card">
+            <h1 class="stat-card-title">General</h1>
+            <p class="stat-card-data">625</p>
         </div>
     );
 }
