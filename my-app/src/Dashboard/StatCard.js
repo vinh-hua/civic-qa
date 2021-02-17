@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Stat = () => {
+const StatCard = (props) => {
     return (
         <div>
             <h1>Title</h1>
@@ -9,4 +9,4 @@ const Stat = () => {
     );
 }
 
-export default Stat;
+export default StatCard;
