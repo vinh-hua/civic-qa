@@ -28,11 +28,13 @@ export function Dashboard() {
     );
 
     return (
-        <div>
-            <StatCard title={"General"} stat={625}></StatCard>
-            <StatCard title={"Casework"} stat={198}></StatCard>
-            <StatCard title={"Assigned"} stat={190}></StatCard>
-            <StatCard title={"Overdue"} stat={246}></StatCard>
+        <div className="dashboard">
+            <div className="stat-cards">
+                <StatCard title={"General"} stat={625}></StatCard>
+                <StatCard title={"Casework"} stat={198}></StatCard>
+                <StatCard title={"Assigned"} stat={190}></StatCard>
+                <StatCard title={"Overdue"} stat={246}></StatCard>
+            </div>
             {renderLineChart}
         </div>
     );
