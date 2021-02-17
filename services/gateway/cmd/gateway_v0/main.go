@@ -1,14 +1,22 @@
 package main
 
 import (
+	// standard
 	"io"
 	"log"
 	"net/http"
 	"os"
 
+	// 3rd party
 	"github.com/gorilla/mux"
+
+	// common
 	"github.com/vivian-hua/civic-qa/services/common/environment"
-	"github.com/vivian-hua/civic-qa/services/common/middleware"
+	commonMiddleware "github.com/vivian-hua/civic-qa/services/common/middleware"
+	logClient "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/client"
+
+	// internal
+	"github.com/vivian-hua/civic-qa/services/gateway/internal/middleware"
 )
 
 const (
@@ -23,7 +31,8 @@ var (
 	LoggingOutput = os.Stdout
 
 	// Environment
-	addr = environment.GetEnvOrFallback("ADDR", ":80")
+	addr           = environment.GetEnvOrFallback("ADDR", ":80")
+	aggregatorAddr = environment.GetEnvOrFallback("AGG_ADDR", "http://localhost:8888")
 )
 
 func main() {
@@ -33,10 +42,18 @@ func main() {
 	api := router.PathPrefix(VersionBase).Subrouter()
 
 	// Middleware
-	router.Use(middleware.NewLoggingMiddleware(LoggingOutput))
+	router.Use(middleware.NewCorrelatorMiddleware)
+	router.Use(commonMiddleware.NewLoggingMiddleware(LoggingOutput))
+
+	// Handlers and clients
+	aggregator, err := logClient.NewLogClient(aggregatorAddr)
+	if err != nil {
+		log.Fatalf("Failed to create aggregator client: %v", err)
+	}
 
 	// Routes
 	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		aggregator.Log(r.Header.Get("X-Correlation-ID"), "Gateway", 200, "Hello!")
 		w.WriteHeader(http.StatusOK)
 		io.WriteString(w, "Hello world!")
 	})
@@ -44,5 +61,4 @@ func main() {
 	// Start Server
 	log.Printf("Server %s running on %s", APIVersion, addr)
 	log.Fatal(http.ListenAndServe(addr, router))
-
 }

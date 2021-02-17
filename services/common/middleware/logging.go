@@ -9,7 +9,7 @@ import (
 
 // NewLoggingMiddleware returns an http.Handler middleware to log all
 // requests before forwarding them to the next handler
-func NewLoggingMiddleware(output *os.File) func(http.Handler) http.Handler {
+func NewLoggingMiddleware(output *os.File, aggregatorAddress string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return handlers.LoggingHandler(output, next)
 	}
