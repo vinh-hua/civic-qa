@@ -3,6 +3,7 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'r
 import { StatCard } from '../Dashboard/StatCard';
 import './Dashboard.css';
 
+// TODO
 function fetchChartData() {
      
 }
@@ -28,10 +29,10 @@ export function Dashboard() {
 
     return (
         <div>
-            <StatCard title={"General"} data={625}></StatCard>
-            <StatCard title={"Casework"} data={198}></StatCard>
-            <StatCard title={"Assigned"} data={190}></StatCard>
-            <StatCard title={"Overdue"} data={246}></StatCard>
+            <StatCard title={"General"} stat={625}></StatCard>
+            <StatCard title={"Casework"} stat={198}></StatCard>
+            <StatCard title={"Assigned"} stat={190}></StatCard>
+            <StatCard title={"Overdue"} stat={246}></StatCard>
             {renderLineChart}
         </div>
     );
