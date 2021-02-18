@@ -46,5 +46,4 @@ func main() {
 	// Start Server
 	log.Printf("Server %s running on %s", APIVersion, addr)
 	log.Fatal(http.ListenAndServe(addr, router))
-
 }

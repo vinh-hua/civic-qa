@@ -33,7 +33,7 @@ func (ctx *Context) HandleLog(w http.ResponseWriter, r *http.Request) {
 	logErr := ctx.Store.Log(logReq)
 	if err != nil {
 		log.Printf("Failed to Log: %v\n", logErr.Err)
-		http.Error(w, "Failed to log", http.StatusBadRequest)
+		http.Error(w, "Failed to log", http.StatusInternalServerError)
 		return
 	}
 
