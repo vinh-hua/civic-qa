@@ -16,10 +16,10 @@ export default function App() {
         </div>
         <nav className="nav-bar">
           <ul>
-            <li><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
-            <li><Link className="nav-link" to="/inbox">Inbox</Link></li>
-            <li><Link className="nav-link" to="/engagement-reports">Engagement Reports</Link></li>
-            <li><Link className="nav-link" to="/templates">Your Templates</Link></li>
+            <li><img src="./assets/icons/pie.png" /><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
+            <li><img src="./assets/icons/inbox.png" /><Link className="nav-link" to="/inbox">Inbox</Link></li>
+            <li><img src="./assets/icons/stats.png" /><Link className="nav-link" to="/engagement-reports">Engagement Reports</Link></li>
+            <li><img src="./assets/icons/layout.png" /><Link className="nav-link" to="/templates">Your Templates</Link></li>
           </ul>
         </nav>
         <Route path="/" exact component={Dashboard}></Route>
