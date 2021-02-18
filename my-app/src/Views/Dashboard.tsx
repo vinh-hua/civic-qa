@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { StatCard } from '../Dashboard/StatCard';
 import './Dashboard.css';
 
@@ -30,6 +30,7 @@ export function Dashboard() {
             <LineChart width={700} height={300} data={test_data}>
                 <XAxis dataKey="index" />
                 <YAxis />
+                <CartesianGrid stroke="#eee" vertical={false}/>
                 <Tooltip />
                 <Line type="monotone" dataKey="stat" stroke="#3751FF" />
             </LineChart>
