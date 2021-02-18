@@ -2,10 +2,10 @@ import './App.css';
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { ProfileHeader } from "./Profile/ProfileHeader";
-import { Dashboard } from './Pages/Dashboard';
-import { Inbox } from './Pages/Inbox';
-import { EngagementReports } from './Pages/EngagementReports';
-import { Templates } from './Pages/Templates';
+import { Dashboard } from './Views/Dashboard';
+import { Inbox } from './Views/Inbox';
+import { EngagementReports } from './Views/EngagementReports';
+import { Templates } from './Views/Templates';
 
 export default function App() {
   return (

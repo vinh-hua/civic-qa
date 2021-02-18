@@ -4,7 +4,7 @@ import './ProfileHeader.css';
 export function ProfileHeader() {
     return (
         <div className="profile-heading">
-            <p>Sloan Edwards</p>
+            <p>Sloane Edwards</p>
         </div>
     );
 }
