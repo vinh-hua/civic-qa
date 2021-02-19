@@ -1,8 +1,7 @@
 .stat-card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 1px 0 #9FA2B4;
     text-align: center;
     width: 250px;
-    margin: 20px;
 }
 
 .stat-card-title {

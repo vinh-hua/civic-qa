@@ -1,10 +1,20 @@
-.stat-cards {
-    display: flex;
-    justify-content: space-around;
-    width: 80%;
+.dashboard {
+    margin-left: 22.5%;
+    margin-right: 2.5%;
 }
 
-.chart {
+.stat-cards {
     display: flex;
-    width: 50%;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.chart-stats {
+    box-shadow: 0 0 1px 0 #9FA2B4;
+}
+
+.chart-title {
+    margin-left: 2.5%;
+    text-align: left;
 }

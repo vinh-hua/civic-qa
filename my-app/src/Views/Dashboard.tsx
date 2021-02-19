@@ -51,7 +51,10 @@ export function Dashboard() {
                 <StatCard title={"Assigned"} stat={190}></StatCard>
                 <StatCard title={"Overdue"} stat={246}></StatCard>
             </div>
-            {renderLineChart}
+            <div className="chart-stats">
+                <h2 className="chart-title">Today's trends</h2>
+                {renderLineChart}
+            </div>
         </div>
     );
 }
