@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { StatCard } from '../Dashboard/StatCard';
 import './Dashboard.css';
 

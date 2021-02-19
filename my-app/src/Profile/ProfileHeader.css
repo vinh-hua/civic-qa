@@ -1,4 +1,11 @@
 .profile-heading {
-    text-align: right;
+    display: flex;
+    float: right;
     padding-right: 20px;
+}
+
+.profile-name {
+    padding-top: 15px;
+    font-size: 14px;
+    padding-right: 10px;
 }
