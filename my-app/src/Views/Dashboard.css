@@ -14,10 +14,19 @@
     box-shadow: 0 0 1px 0 #9FA2B4;
 }
 
-.chart-title {
-    padding-top: 20px;
+.chart-heading {
+    display: flex;
+    justify-content: space-between;
     margin-left: 2.5%;
     text-align: left;
+}
+
+.chart-title {
+    padding-top: 20px;
+}
+
+.dropdown-menu {
+    
 }
 
 .chart {
