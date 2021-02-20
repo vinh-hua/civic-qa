@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { AreaChart, Area, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { Dropdown } from '../Components/Dropdown';
 import { StatCard } from '../Dashboard/StatCard';
 import * as Constants from '../Constants/constants';
 import './Dashboard.css';
@@ -24,12 +25,15 @@ function makeTestChartData(): Array<ChartData> {
 
 // currently using dummy data for StatCards and LineChart
 export function Dashboard() {
+    // stat cards data
     const [general, setGeneral] = useState(0);
     const [casework, setCasework] = useState(0);
     const [assigned, setAssigned] = useState(0);
     const [overdue, setOverdue] = useState(0);
     const [total, setTotal] = useState(0);
     const [today, setToday] = useState(0);
+    // dropdown menu state
+    const [showMenu, toggleMenu] = useState(false);
 
     const test_data = makeTestChartData();
 
@@ -60,7 +64,9 @@ export function Dashboard() {
                 <StatCard title={Constants.Overdue} stat={overdue}></StatCard>
             </div>
             <div className="trends">
-                <h2 className="chart-title">{Constants.ChartTitle}</h2>
+                <div className="chart-title">
+                    <h2>{Constants.ChartTitle}</h2>
+                </div>
                 <div className="chart-stats">
                     {renderAreaChart}
                     <div className="chart-stats-cards">
