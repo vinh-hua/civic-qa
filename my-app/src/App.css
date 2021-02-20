@@ -1,6 +1,11 @@
 .App {
   text-align: center;
 }
+.title {
+  color: #C9A8FF;
+  font-size: 48px;
+  padding-top: 20%;
+}
 
 .profile-header {
   width: 80%;
@@ -18,7 +23,7 @@
 
 ul {
   text-align: left;
-  margin-top: 20vh;
+  margin-top: 25%;
   list-style-type: none;
 }
 

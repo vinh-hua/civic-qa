@@ -1,8 +1,7 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { StatCard } from '../Dashboard/StatCard';
 import './Dashboard.css';
-import colors from '../Constants/colors';
 
 type ChartData = {
     index: number;
@@ -24,6 +23,13 @@ function makeTestChartData(): Array<ChartData> {
 
 // currently using dummy data for StatCards and LineChart
 export function Dashboard() {
+    const [general, setGeneral] = useState(0);
+    const [casework, setCasework] = useState(0);
+    const [assigned, setAssigned] = useState(0);
+    const [overdue, setOverdue] = useState(0);
+    const [weeklyTotal, setWeeklyTotal] = useState(0);
+    const [today, setToday] = useState(0);
+
     const test_data = makeTestChartData();
 
     const renderLineChart = (
@@ -33,7 +39,7 @@ export function Dashboard() {
                 <YAxis />
                 <CartesianGrid stroke="#eee" vertical={false}/>
                 <Tooltip />
-                <Line type="monotone" dataKey="stat" stroke={colors.PURPLE} />
+                <Line type="monotone" dataKey="stat" stroke="#9B51E0" />
             </LineChart>
         </div>
     );
@@ -47,18 +53,18 @@ export function Dashboard() {
     return (
         <div className="dashboard">
             <div className="stat-cards">
-                <StatCard title={"General"} stat={625}></StatCard>
-                <StatCard title={"Casework"} stat={198}></StatCard>
-                <StatCard title={"Assigned"} stat={190}></StatCard>
-                <StatCard title={"Overdue"} stat={246}></StatCard>
+                <StatCard title={"General"} stat={general}></StatCard>
+                <StatCard title={"Casework"} stat={casework}></StatCard>
+                <StatCard title={"Assigned"} stat={assigned}></StatCard>
+                <StatCard title={"Overdue"} stat={overdue}></StatCard>
             </div>
             <div className="trends">
                 <h2 className="chart-title">Today's trends</h2>
                 <div className="chart-stats">
                     {renderLineChart}
                     <div className="chart-stats-cards">
-                        <StatCard title={"Weekly Total"} stat={1013}></StatCard>
-                        <StatCard title={"From Today"} stat={297}></StatCard>
+                        <StatCard title={"Weekly Total"} stat={weeklyTotal}></StatCard>
+                        <StatCard title={"From Today"} stat={today}></StatCard>
                     </div>
                 </div>
             </div>

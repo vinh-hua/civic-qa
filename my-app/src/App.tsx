@@ -15,6 +15,7 @@ export default function App() {
           <ProfileHeader></ProfileHeader>
         </div>
         <nav className="nav-bar">
+          <h1 className="title">Civic QA</h1>
           <ul>
             <li><img src="./assets/icons/pie.png" /><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
             <li><img src="./assets/icons/inbox.png" /><Link className="nav-link" to="/inbox">Inbox</Link></li>
