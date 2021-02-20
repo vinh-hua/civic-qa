@@ -1,19 +1,9 @@
 import React, { useState } from 'react';
-import { AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-import { Dropdown } from '../Components/Dropdown';
+import { DropdownMenu } from '../Components/DropdownMenu';
 import { StatCard } from '../Dashboard/StatCard';
+import { ChartData, DashboardChart } from '../Dashboard/DashboardChart';
 import * as Constants from '../Constants/constants';
 import './Dashboard.css';
-
-type ChartData = {
-    index: number;
-    count: number;
-}
-
-// TODO
-function fetchChartData() {
-     
-}
 
 function makeTestChartData(): Array<ChartData> {
     var data = [];
@@ -37,24 +27,6 @@ export function Dashboard() {
 
     const test_data = makeTestChartData();
 
-    const renderAreaChart = (
-        <div>
-            <AreaChart width={800} height={500} data={test_data}>
-            <defs>
-                <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={Constants.Purple} stopOpacity={0.5}/>
-                    <stop offset="100%" stopColor={Constants.Purple} stopOpacity={0}/>
-                </linearGradient>
-            </defs>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <CartesianGrid stroke="#eee" vertical={false} />
-            <Tooltip />
-            <Area type="monotone" dataKey="count" stroke={Constants.Purple} fillOpacity={1} fill="url(#purpleGradient)" />
-            </AreaChart>
-        </div>
-    );
-
     return (
         <div className="dashboard">
             <div className="stat-cards">
@@ -68,7 +40,7 @@ export function Dashboard() {
                     <h2>{Constants.ChartTitle}</h2>
                 </div>
                 <div className="chart-stats">
-                    {renderAreaChart}
+                    <DashboardChart data={test_data}></DashboardChart>
                     <div className="chart-stats-cards">
                         <StatCard title={Constants.Total} stat={total}></StatCard>
                         <StatCard title={Constants.Today} stat={today}></StatCard>

@@ -1,4 +1,4 @@
-export function Dropdown() {
+export function DropdownMenu() {
     return (
         <div>
             <button>
