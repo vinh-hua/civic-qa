@@ -3,4 +3,4 @@
 
 
 ## Architecture
-![arch](https://lucid.app/publicSegments/view/4f26cc6f-dc1c-4fe9-9949-6058e06c6eb6/image.png)
+![arch](https://lucid.app/publicSegments/view/3b94b1a5-60ef-40cf-a499-41a6d1cbd504/image.png)
