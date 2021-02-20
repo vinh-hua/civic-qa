@@ -6,6 +6,7 @@ import { Dashboard } from './Views/Dashboard';
 import { Inbox } from './Views/Inbox';
 import { EngagementReports } from './Views/EngagementReports';
 import { Templates } from './Views/Templates';
+import * as Constants from './Constants/constants';
 
 export default function App() {
   return (
@@ -17,10 +18,10 @@ export default function App() {
         <nav className="nav-bar">
           <h1 className="title">Civic QA</h1>
           <ul>
-            <li><img src="./assets/icons/pie.png" /><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
-            <li><img src="./assets/icons/inbox.png" /><Link className="nav-link" to="/inbox">Inbox</Link></li>
-            <li><img src="./assets/icons/stats.png" /><Link className="nav-link" to="/engagement-reports">Engagement Reports</Link></li>
-            <li><img src="./assets/icons/layout.png" /><Link className="nav-link" to="/templates">Your Templates</Link></li>
+            <li><img src="./assets/icons/pie.png" /><Link className="nav-link" to="/dashboard">{Constants.Dashboard}</Link></li>
+            <li><img src="./assets/icons/inbox.png" /><Link className="nav-link" to="/inbox">{Constants.Inbox}</Link></li>
+            <li><img src="./assets/icons/stats.png" /><Link className="nav-link" to="/engagement-reports">{Constants.EngagementReports}</Link></li>
+            <li><img src="./assets/icons/layout.png" /><Link className="nav-link" to="/templates">{Constants.Templates}</Link></li>
           </ul>
         </nav>
         <Route path="/" exact component={Dashboard}></Route>

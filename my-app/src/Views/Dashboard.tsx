@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { AreaChart, Area, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { StatCard } from '../Dashboard/StatCard';
+import * as Constants from '../Constants/constants';
 import './Dashboard.css';
 
 type ChartData = {
     index: number;
-    stat: number;
+    count: number;
 }
 
 // TODO
@@ -16,7 +17,7 @@ function fetchChartData() {
 function makeTestChartData(): Array<ChartData> {
     var data = [];
     for (var i = 0; i < 24; i++) {
-        data.push({index: i, stat: Math.floor(Math.random() * 50)});
+        data.push({index: i, count: Math.floor(Math.random() * 50)});
     }
     return data as Array<ChartData>;
 }
@@ -27,44 +28,56 @@ export function Dashboard() {
     const [casework, setCasework] = useState(0);
     const [assigned, setAssigned] = useState(0);
     const [overdue, setOverdue] = useState(0);
-    const [weeklyTotal, setWeeklyTotal] = useState(0);
+    const [total, setTotal] = useState(0);
     const [today, setToday] = useState(0);
 
     const test_data = makeTestChartData();
 
-    const renderLineChart = (
+    const renderChart = (
         <div className="chart">
             <LineChart width={800} height={500} data={test_data}>
                 <XAxis dataKey="index" />
                 <YAxis />
                 <CartesianGrid stroke="#eee" vertical={false}/>
                 <Tooltip />
-                <Line type="monotone" dataKey="stat" stroke="#9B51E0" />
+                <Line type="monotone" dataKey="count" stroke="#9B51E0" />
             </LineChart>
         </div>
     );
 
-    const renderChartCard = (
-        <div className="chart-card">
-
+    const renderAreaChart = (
+        <div>
+            <AreaChart width={800} height={500} data={test_data}>
+            <defs>
+                <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#9B51E0" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#9B51E0" stopOpacity={0}/>
+                </linearGradient>
+            </defs>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <CartesianGrid stroke="#eee" vertical={false} />
+            <Tooltip />
+            <Area type="monotone" dataKey="count" stroke="#9B51E0" fillOpacity={1} fill="url(#purpleGradient)" />
+            </AreaChart>
         </div>
     );
 
     return (
         <div className="dashboard">
             <div className="stat-cards">
-                <StatCard title={"General"} stat={general}></StatCard>
-                <StatCard title={"Casework"} stat={casework}></StatCard>
-                <StatCard title={"Assigned"} stat={assigned}></StatCard>
-                <StatCard title={"Overdue"} stat={overdue}></StatCard>
+                <StatCard title={Constants.General} stat={general}></StatCard>
+                <StatCard title={Constants.Casework} stat={casework}></StatCard>
+                <StatCard title={Constants.Assigned} stat={assigned}></StatCard>
+                <StatCard title={Constants.Overdue} stat={overdue}></StatCard>
             </div>
             <div className="trends">
-                <h2 className="chart-title">Today's trends</h2>
+                <h2 className="chart-title">{Constants.ChartTitle}</h2>
                 <div className="chart-stats">
-                    {renderLineChart}
+                    {renderAreaChart}
                     <div className="chart-stats-cards">
-                        <StatCard title={"Weekly Total"} stat={weeklyTotal}></StatCard>
-                        <StatCard title={"From Today"} stat={today}></StatCard>
+                        <StatCard title={Constants.Total} stat={total}></StatCard>
+                        <StatCard title={Constants.Today} stat={today}></StatCard>
                     </div>
                 </div>
             </div>
