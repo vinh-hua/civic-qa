@@ -2,6 +2,7 @@ import * as React from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import { StatCard } from '../Dashboard/StatCard';
 import './Dashboard.css';
+import colors from '../Constants/colors';
 
 type ChartData = {
     index: number;
@@ -27,12 +28,12 @@ export function Dashboard() {
 
     const renderLineChart = (
         <div className="chart">
-            <LineChart width={700} height={300} data={test_data}>
+            <LineChart width={800} height={500} data={test_data}>
                 <XAxis dataKey="index" />
                 <YAxis />
                 <CartesianGrid stroke="#eee" vertical={false}/>
                 <Tooltip />
-                <Line type="monotone" dataKey="stat" stroke="#3751FF" />
+                <Line type="monotone" dataKey="stat" stroke={colors.PURPLE} />
             </LineChart>
         </div>
     );
@@ -51,9 +52,15 @@ export function Dashboard() {
                 <StatCard title={"Assigned"} stat={190}></StatCard>
                 <StatCard title={"Overdue"} stat={246}></StatCard>
             </div>
-            <div className="chart-stats">
+            <div className="trends">
                 <h2 className="chart-title">Today's trends</h2>
-                {renderLineChart}
+                <div className="chart-stats">
+                    {renderLineChart}
+                    <div className="chart-stats-cards">
+                        <StatCard title={"Weekly Total"} stat={1013}></StatCard>
+                        <StatCard title={"From Today"} stat={297}></StatCard>
+                    </div>
+                </div>
             </div>
         </div>
     );

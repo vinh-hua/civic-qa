@@ -10,11 +10,27 @@
     margin-bottom: 50px;
 }
 
-.chart-stats {
+.trends {
     box-shadow: 0 0 1px 0 #9FA2B4;
 }
 
 .chart-title {
+    padding-top: 20px;
     margin-left: 2.5%;
     text-align: left;
+}
+
+.chart {
+    padding-bottom: 20px;
+}
+
+.chart-stats {
+    display: flex;
+}
+
+.chart-stats-cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-left: 10%;
 }
