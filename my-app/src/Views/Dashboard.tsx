@@ -38,15 +38,15 @@ export function Dashboard() {
             <AreaChart width={800} height={500} data={test_data}>
             <defs>
                 <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#9B51E0" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#9B51E0" stopOpacity={0}/>
+                    <stop offset="0%" stopColor={Constants.Purple} stopOpacity={0.5}/>
+                    <stop offset="100%" stopColor={Constants.Purple} stopOpacity={0}/>
                 </linearGradient>
             </defs>
             <XAxis dataKey="name" />
             <YAxis />
             <CartesianGrid stroke="#eee" vertical={false} />
             <Tooltip />
-            <Area type="monotone" dataKey="count" stroke="#9B51E0" fillOpacity={1} fill="url(#purpleGradient)" />
+            <Area type="monotone" dataKey="count" stroke={Constants.Purple} fillOpacity={1} fill="url(#purpleGradient)" />
             </AreaChart>
         </div>
     );

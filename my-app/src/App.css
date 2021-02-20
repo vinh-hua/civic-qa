@@ -2,7 +2,7 @@
   text-align: center;
 }
 .title {
-  color: #C9A8FF;
+  color: #9B51E0;
   font-size: 48px;
   padding-top: 20%;
 }
@@ -42,6 +42,24 @@ li {
   color: #DDE2FF;
 }
 
-.nav-link {
+.compose-email-btn-container {
+  padding-right: 20%;
+  margin-bottom: -15%;
+}
+
+.compose-email-btn {
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  width: 150px;
+  height: 40px;
+  color: white;
+  background-color: rgb(179, 103, 255, 0.7);
+}
+
+hr.solid {
+  margin-top: 30px;
+  border-top: 1px solid;
   color: #A4A6B3;
+  opacity: 30%;
 }
