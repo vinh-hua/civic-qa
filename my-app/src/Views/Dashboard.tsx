@@ -33,18 +33,6 @@ export function Dashboard() {
 
     const test_data = makeTestChartData();
 
-    const renderChart = (
-        <div className="chart">
-            <LineChart width={800} height={500} data={test_data}>
-                <XAxis dataKey="index" />
-                <YAxis />
-                <CartesianGrid stroke="#eee" vertical={false}/>
-                <Tooltip />
-                <Line type="monotone" dataKey="count" stroke="#9B51E0" />
-            </LineChart>
-        </div>
-    );
-
     const renderAreaChart = (
         <div>
             <AreaChart width={800} height={500} data={test_data}>
