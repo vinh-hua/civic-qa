@@ -1,6 +1,7 @@
 // navigation panel
 export const Title = "Civic QA";
 export const Dashboard = "Dashboard";
+export const GeneralInquiries = "General Inquiries";
 export const Inbox = "Inbox";
 export const EngagementReports = "Engagement Reports";
 export const Templates = "Your Templates";

@@ -31,6 +31,10 @@ li {
   margin-bottom: 40px;
 }
 
+.dashboard-sub-list {
+  margin-top: 0;
+}
+
 .nav-link {
   margin-left: 20px;
   color: #A4A6B3;
