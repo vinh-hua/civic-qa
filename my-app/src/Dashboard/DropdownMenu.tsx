@@ -12,6 +12,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
     // dropdown menu state
     const [showMenu, toggleMenu] = useState(false);
 
+    // set chart view and auto close menu
     function SetChartViewAndToggleMenu(view: string) {
         props.setChartView(view);
         toggleMenu(showMenu => !showMenu);
