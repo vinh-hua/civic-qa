@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DropdownMenu } from '../Components/DropdownMenu';
+import { DropdownMenu } from '../Dashboard/DropdownMenu';
 import { StatCard } from '../Dashboard/StatCard';
 import { ChartData, DashboardChart } from '../Dashboard/DashboardChart';
 import * as Constants from '../Constants/constants';

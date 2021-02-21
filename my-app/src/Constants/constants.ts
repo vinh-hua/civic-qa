@@ -17,6 +17,12 @@ export const Overdue = "Overdue";
 // chart
 export const ChartTitle = "Today's trends";
 
+// chart dropdown menu options
+export const AllEmails = "All Emails";
+export const UnreadEmails = "Unread Emails";
+export const ResponseTime = "Response Time";
+export const Topics = "Topics";
+
 // chart stat cards
 export const Total = "Total";
 export const Today = "Today";
