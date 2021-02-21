@@ -7,9 +7,9 @@ export type StatCardProps = {
 
 export function StatCard(props: StatCardProps) {
     return (
-        <div className="stat-card">
+        <button className="stat-card">
             <h1 className="stat-card-title">{props.title}</h1>
             <p className="stat-card-data">{props.stat}</p>
-        </div>
+        </button>
     );
 }

@@ -1,5 +1,6 @@
 .stat-card {
-    box-shadow: 0 0 1px 0 #9FA2B4;
+    border: 1px solid #DFE0EB;
+    background-color: white;
     text-align: center;
     width: 225px;
 }

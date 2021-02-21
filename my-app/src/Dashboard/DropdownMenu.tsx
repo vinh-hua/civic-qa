@@ -1,5 +1,4 @@
 import { useState, Dispatch, SetStateAction } from 'react';
-import { filterProps } from 'recharts/types/util/types';
 import * as Constants from '../Constants/constants';
 import './DropdownMenu.css';
 
