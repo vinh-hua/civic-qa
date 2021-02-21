@@ -22,6 +22,7 @@ export function Dashboard() {
     const [overdue, setOverdue] = useState(0);
     const [total, setTotal] = useState(0);
     const [today, setToday] = useState(0);
+    const [chartView, setChartView] = useState(Constants.AllEmails);
 
     // make randomize chart data
     const test_data = randomChartData();
@@ -38,7 +39,7 @@ export function Dashboard() {
                 <div className="chart-heading">
                     <h2 className="chart-title">{Constants.ChartTitle}</h2>
                     <div className="dropdown-menu">
-                        <DropdownMenu></DropdownMenu>
+                        <DropdownMenu chartView={chartView} setChartView={setChartView}></DropdownMenu>
                     </div>
                 </div>
                 <div className="chart-stats">
