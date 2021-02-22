@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/google/uuid"
+
 	// sqlite drivers
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -68,11 +70,13 @@ func (s *SQLiteLogStore) Log(newEntry LogEntry) *LogError {
 // TODO: UNIMPLEMENTED
 func (s *SQLiteLogStore) Query(query LogQuery) ([]LogEntry, *QueryError) {
 
+	// generate SQL based on the LogQuery
 	stmt, args, err := s.generateSQL(query)
 	if err != nil {
 		return nil, &QueryError{Err: err, Code: http.StatusInternalServerError}
 	}
 
+	// Execute the query
 	results, err := stmt.Query(args...)
 	if err != nil {
 		return nil, &QueryError{Err: err, Code: http.StatusInternalServerError}
@@ -80,6 +84,7 @@ func (s *SQLiteLogStore) Query(query LogQuery) ([]LogEntry, *QueryError) {
 
 	entries := make([]LogEntry, 0)
 
+	// Scan the query results into a slice of LogEntry
 	for results.Next() {
 		var entry LogEntry
 		err = results.Scan(
@@ -98,17 +103,21 @@ func (s *SQLiteLogStore) Query(query LogQuery) ([]LogEntry, *QueryError) {
 	return entries, nil
 }
 
+// generateSQL returns a prepared SQL statement and a list of arguments
+// to execute against the Logs table based on a LogQuery
 func (s *SQLiteLogStore) generateSQL(query LogQuery) (*sql.Stmt, []interface{}, error) {
 
 	var argsList []interface{}
+	wheres := make([]string, 0)
 
 	// select all columns except logID
-	sel := "SELECT correlationID, timeUnix, service, statusCode, notes FROM Logs WHERE "
+	selectClause := "SELECT correlationID, timeUnix, service, statusCode, notes FROM Logs "
 
-	wheres := []string{"correlationID = ?"}
-	argsList = append(argsList, query.CorrelationID.String())
-
-	// Add predicates and args for all non-default LogQuery fields
+	// Add predicates and args for all LogQuery fields (that aren't default/nil)
+	if query.CorrelationID != uuid.Nil {
+		wheres = append(wheres, "correlationID = ?")
+		argsList = append(argsList, query.CorrelationID.String())
+	}
 	if query.TimeUnixStart != 0 {
 		wheres = append(wheres, "timeUnix >= ?")
 		argsList = append(argsList, query.TimeUnixStart)
@@ -133,9 +142,14 @@ func (s *SQLiteLogStore) generateSQL(query LogQuery) (*sql.Stmt, []interface{}, 
 	// any ordering or limit clauses
 	trailers := " ORDER BY timeUnix"
 
+	// Build where clauses
+	var whereClause string
+	if len(wheres) > 0 {
+		whereClause = "WHERE " + strings.Join(wheres, " AND ")
+	}
+
 	// Build the full query
-	allwhere := strings.Join(wheres, " AND ")
-	fullquery := sel + allwhere + trailers
+	fullquery := selectClause + whereClause + trailers
 
 	// prepare the statment and return
 	stmt, err := s.Prepare(fullquery)
@@ -163,7 +177,6 @@ func (s *SQLiteLogStore) initializeDB() {
 	if err != nil {
 		log.Fatalf("Error initializing DB: %v", err)
 	}
-
 	_, err = stmt.Exec()
 	if err != nil {
 		log.Fatalf("Error initializing DB: %v", err)

@@ -2,6 +2,8 @@ DOCKER_USER ?= rbayer
 IMAGE_NAME = logaggregator
 VERSION_TAG = v0.0.0
 
+FULL_IMAGE = $(DOCKER_USER)/$(IMAGE_NAME):$(VERSION_TAG)
+
 docker_cfg:
 	@echo "=== CONFIG ==="
 	@echo "docker user: $(DOCKER_USER)"
@@ -9,9 +11,11 @@ docker_cfg:
 
 build: docker_cfg
 	@echo "=== BUILD ==="
-	@echo "building and tagging $(IMAGE_NAME):$(VERSION_TAG)"
+	@echo "building and tagging: $(FULL_IMAGE)"
 
-	cd .. && docker build -t $(DOCKER_USER)/$(IMAGE_NAME):$(VERSION_TAG) .
+	cd .. && docker build -t $(FULL_IMAGE) .
+
+	docker push $(FULL_IMAGE)
 
 test:
 	@echo "=== TEST ==="

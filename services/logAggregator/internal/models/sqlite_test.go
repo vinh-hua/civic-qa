@@ -97,6 +97,18 @@ func TestQuery(t *testing.T) {
 				{CorrelationID: testUUID1, Service: "A"},
 			},
 		},
+		// 5 two log two out (no uuid)
+		{
+			data: []LogEntry{
+				{CorrelationID: testUUID1, Service: "A", TimeUnix: 1},
+				{CorrelationID: testUUID2, Service: "B", TimeUnix: 2},
+			},
+			query: LogQuery{},
+			out: []LogEntry{
+				{CorrelationID: testUUID1, Service: "A", TimeUnix: 1},
+				{CorrelationID: testUUID2, Service: "B", TimeUnix: 2},
+			},
+		},
 	}
 
 	for i, testCase := range cases {
@@ -132,7 +144,11 @@ func TestQuery(t *testing.T) {
 // Tests SQL generator cases
 func TestSQLGenerator(t *testing.T) {
 	cases := []LogQuery{
+		{},
 		{testUUID1, 0, 0, "", 0, 0},
+		{uuid.Nil, 1, 10, "", 0, 0},
+		{uuid.Nil, 0, 0, "A", 0, 0},
+		{uuid.Nil, 0, 0, "", 100, 500},
 		{testUUID1, time.Now().Unix(), 0, "test", 0, 399},
 		{testUUID1, time.Now().Unix(), time.Now().Unix() + 5, "test", 1, 399},
 	}

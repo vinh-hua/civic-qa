@@ -12,7 +12,7 @@ import (
 	"github.com/vivian-hua/civic-qa/services/common/environment"
 
 	// internal
-	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/handlercontext"
+	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/context"
 	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/models"
 )
 
@@ -37,7 +37,7 @@ func main() {
 
 	// Handler context
 	store := models.NewSQLiteLogStore("logs.db", true)
-	ctx := &handlercontext.Context{Store: store}
+	ctx := &context.Context{Store: store}
 
 	// Routes
 	api.HandleFunc("/log", ctx.HandleLog)
