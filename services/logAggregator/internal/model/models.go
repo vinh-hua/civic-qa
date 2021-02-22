@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	"github.com/google/uuid"
@@ -6,11 +6,12 @@ import (
 
 // LogEntry represents a logged event
 type LogEntry struct {
-	CorrelationID uuid.UUID `json:"correlationID"`
-	TimeUnix      int64     `json:"timeUnix"`
-	Service       string    `json:"service"`
-	StatusCode    int       `json:"statusCode"`
-	Notes         string    `json:"notes"`
+	ID            uint      `gorm:"primarykey"`
+	CorrelationID uuid.UUID `gorm:"column:correlationID;type:string" json:"correlationID"`
+	TimeUnix      int64     `gorm:"column:timeUnix" json:"timeUnix"`
+	Service       string    `gorm:"column:service" json:"service"`
+	StatusCode    int       `gorm:"column:statusCode" json:"statusCode"`
+	Notes         string    `gorm:"column:notes" json:"notes"`
 }
 
 // LogQuery represents a query against existing logs
@@ -21,16 +22,4 @@ type LogQuery struct {
 	Service         string    `json:"service"`
 	StatusCodeStart int       `json:"statusCodeStart"`
 	StatusCodeStop  int       `json:"statusCodeStop"`
-}
-
-// LogError represents an error creating a log
-type LogError struct {
-	Err  error
-	Code int
-}
-
-// QueryError represents and error querying logs
-type QueryError struct {
-	Err  error
-	Code int
 }

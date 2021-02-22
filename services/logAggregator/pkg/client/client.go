@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/models"
+	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/model"
 )
 
 const (
@@ -48,7 +48,7 @@ func (client *LogClient) logThread(correlationID string, service string, status 
 		return
 	}
 
-	entry := models.LogEntry{
+	entry := model.LogEntry{
 		CorrelationID: parsedUUID,
 		TimeUnix:      time.Now().Unix(),
 		Service:       service,

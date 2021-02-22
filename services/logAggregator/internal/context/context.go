@@ -5,12 +5,13 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/models"
+	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/model"
+	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/repository"
 )
 
 // Context stores handler context information for logAggregator
 type Context struct {
-	Store models.LogStore
+	Repo *repository.LogRepository
 }
 
 // HandleLog handles a Log request
@@ -21,7 +22,7 @@ func (ctx *Context) HandleLog(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Parse request
-	var logReq models.LogEntry
+	var logReq model.LogEntry
 	err := json.NewDecoder(r.Body).Decode(&logReq)
 	if err != nil {
 		log.Printf("Failed to parse Log request: %v\n", err)
@@ -30,7 +31,7 @@ func (ctx *Context) HandleLog(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create log entry
-	logErr := ctx.Store.Log(logReq)
+	logErr := ctx.Repo.Log(logReq)
 	if err != nil {
 		log.Printf("Failed to Log: %v\n", logErr.Err)
 		http.Error(w, "Failed to log", http.StatusInternalServerError)
@@ -48,7 +49,7 @@ func (ctx *Context) HandleQuery(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Parse request
-	var queryReq models.LogQuery
+	var queryReq model.LogQuery
 	err := json.NewDecoder(r.Body).Decode(&queryReq)
 	if err != nil {
 		log.Printf("Failed to parse query request: %v\n", err)
@@ -57,7 +58,7 @@ func (ctx *Context) HandleQuery(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Query
-	result, queryErr := ctx.Store.Query(queryReq)
+	result, queryErr := ctx.Repo.Query(queryReq)
 	if err != nil {
 		log.Printf("Failed to query: %v\n", queryErr.Err)
 		http.Error(w, "Failed to query", http.StatusBadRequest)
