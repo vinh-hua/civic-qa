@@ -31,8 +31,8 @@ li {
   margin-bottom: 40px;
 }
 
-.dashboard-sub-list {
-  margin-top: 0;
+.dashboard-sub-li {
+  margin-left: 15px;
 }
 
 .nav-link {

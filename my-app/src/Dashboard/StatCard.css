@@ -1,4 +1,5 @@
 .stat-card {
+    border-radius: 10px;
     border: 1px solid #DFE0EB;
     background-color: white;
     text-align: center;

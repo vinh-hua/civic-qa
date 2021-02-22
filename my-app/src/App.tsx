@@ -3,11 +3,12 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { ProfileHeader } from "./Profile/ProfileHeader";
 import { Dashboard } from './Views/Dashboard';
+import { General } from './Views/General';
+import { Casework } from './Views/Casework';
 import { Inbox } from './Views/Inbox';
 import { EngagementReports } from './Views/EngagementReports';
 import { Templates } from './Views/Templates';
-import { General } from './Dashboard/General';
-import { Casework } from './Dashboard/Casework';
+import { Settings } from './Views/Settings';
 import * as Constants from './Constants/constants';
 
 export default function App() {
@@ -21,16 +22,14 @@ export default function App() {
           <h1 className="title">{Constants.Title}</h1>
           <ul>
             <li><img src="./assets/icons/pie.png" /><Link className="nav-link" to="/dashboard">{Constants.Dashboard}</Link></li>
-            <ul className="dashboard-sub-list">
-              <li><Link className="nav-link" to="/general">{Constants.GeneralInquiries}</Link></li>
-              <li><Link className="nav-link" to="/casework">{Constants.Casework}</Link></li>
-            </ul>
+            <li className="dashboard-sub-li"><Link className="nav-link" to="/general">{Constants.GeneralInquiries}</Link></li>
+            <li className="dashboard-sub-li"><Link className="nav-link" to="/casework">{Constants.Casework}</Link></li>
             <li><img src="./assets/icons/inbox.png" /><Link className="nav-link" to="/inbox">{Constants.Inbox}</Link></li>
             <li><img src="./assets/icons/stats.png" /><Link className="nav-link" to="/engagement-reports">{Constants.EngagementReports}</Link></li>
             <li><img src="./assets/icons/layout.png" /><Link className="nav-link" to="/templates">{Constants.Templates}</Link></li>
           </ul>
           <div className="compose-email-btn-container">
-          <a href="mailto:"><button className="compose-email-btn">{Constants.ComposeEmail}</button></a>
+            <a href="mailto:"><button className="compose-email-btn">{Constants.ComposeEmail}</button></a>
             <hr className="solid" />
           </div>
           <ul>
@@ -45,6 +44,7 @@ export default function App() {
         <Route path="/inbox" component={Inbox}/>
         <Route path="/engagement-reports" component={EngagementReports}/>
         <Route path="/templates" component={Templates}/>
+        <Route path="/settings" component={Settings}/>
       </div>
     </Router>
   );

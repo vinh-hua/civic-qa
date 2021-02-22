@@ -1,3 +1,4 @@
+
 import './StatCard.css';
 
 export type StatCardProps = {
