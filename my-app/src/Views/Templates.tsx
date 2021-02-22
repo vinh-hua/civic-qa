@@ -1,9 +1,9 @@
-import React from 'react';
+import { SubHeader } from '../Components/SubHeader';
 
 export function Templates() {
     return (
         <div>
-            <h1>Templates</h1>
+            <SubHeader title="Templates"></SubHeader>
         </div>
     );
 }

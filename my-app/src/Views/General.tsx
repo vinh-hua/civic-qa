@@ -1,4 +1,5 @@
-import { SubDashboard, SubDashboardData, SubDashboardProps } from '../Dashboard/SubDashboard';
+import { SubHeader } from '../Components/SubHeader';
+import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 
 // TODO: will data be pre-sorted on back-end?
 function getSubDashboardData(): Array<SubDashboardData> {
@@ -17,7 +18,8 @@ export function General() {
 
     return (
         <div>
-            <SubDashboard title="General Inquiries" subTitle="TOPIC" data={test_data}></SubDashboard>
+            <SubHeader title="General Inquiries"></SubHeader>
+            <SubDashboard title="TOPIC" data={test_data}></SubDashboard>
         </div>
     );
 }

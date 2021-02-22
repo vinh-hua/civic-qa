@@ -1,7 +1,9 @@
+import { SubHeader } from '../Components/SubHeader';
+
 export function Casework() {
     return (
         <div>
-            <h1>Casework</h1>
+            <SubHeader title="Casework"></SubHeader>
         </div>
     );
 }

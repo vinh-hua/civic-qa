@@ -1,9 +1,9 @@
-import React from 'react';
+import { SubHeader } from '../Components/SubHeader';
 
 export function EngagementReports() {
     return (
         <div>
-            <h1>Engagement Reports</h1>
+            <SubHeader title="Engagement Reports"></SubHeader>
         </div>
     );
 }

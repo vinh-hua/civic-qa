@@ -8,7 +8,6 @@ export type SubDashboardData = {
 
 export type SubDashboardProps = {
     title: string;
-    subTitle: string;
     data: Array<SubDashboardData>;
 };
 
@@ -18,9 +17,8 @@ export function SubDashboard(props: SubDashboardProps) {
 
     return (
         <div>
-            <h1 className="sub-dash-title">{props.title}</h1>
             <div>
-                <h2 className="sub-dash-sub-title">{props.subTitle}</h2>
+                <h2 className="sub-dash-sub-title">{props.title}</h2>
                 <hr className="sub-dash-line" />
                 <div className="sub-dash-cards">
                     {cards}
