@@ -1,15 +1,12 @@
 package repository
 
 import (
-	"log"
-	"os"
 	"testing"
 	"time"
 
 	"github.com/google/uuid"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 
 	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/model"
 )
@@ -18,14 +15,6 @@ var (
 	// random test UUIDs
 	testUUID1 = uuid.MustParse("7ee5d007-a780-477c-988f-32faf595045f")
 	testUUID2 = uuid.MustParse("6aa4d006-a670-466c-877f-21faf484034f")
-	lgr       = logger.New(
-		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
-		logger.Config{
-			LogLevel:      logger.Silent, //
-			Colorful:      true,          //
-			SlowThreshold: 0 * time.Microsecond,
-		},
-	)
 )
 
 func logEqual(log1, log2 model.LogEntry) bool {
@@ -39,7 +28,7 @@ func logEqual(log1, log2 model.LogEntry) bool {
 
 func createRepo() *LogRepository {
 	// Handler context
-	repo, err := NewLogRepository(sqlite.Open(":memory:"), &gorm.Config{Logger: lgr})
+	repo, err := NewLogRepository(sqlite.Open(":memory:"), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
@@ -139,6 +128,17 @@ func TestQuery(t *testing.T) {
 			out: []model.LogEntry{
 				{CorrelationID: testUUID1, Service: "A", TimeUnix: 1},
 				{CorrelationID: testUUID2, Service: "B", TimeUnix: 2},
+			},
+		},
+		// 6 two log two one (timeUnix)
+		{
+			data: []model.LogEntry{
+				{CorrelationID: testUUID1, Service: "A", TimeUnix: 1},
+				{CorrelationID: testUUID2, Service: "B", TimeUnix: 5},
+			},
+			query: model.LogQuery{TimeUnixStart: 2},
+			out: []model.LogEntry{
+				{CorrelationID: testUUID2, Service: "B", TimeUnix: 5},
 			},
 		},
 	}

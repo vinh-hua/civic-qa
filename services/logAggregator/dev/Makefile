@@ -25,4 +25,4 @@ test:
 test_verbose: 
 	@echo "=== TEST ==="
 	@echo "Running all tests (verbose)"
-	go test ../... -v
+	go test ../... -v -cover

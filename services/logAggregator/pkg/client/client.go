@@ -37,19 +37,14 @@ func NewLogClient(address string) (*LogClient, error) {
 }
 
 // Log logs an event using the current UnixTime
-func (client *LogClient) Log(correlationID string, service string, status int, notes string) {
+func (client *LogClient) Log(correlationID uuid.UUID, service string, status int, notes string) {
 	go client.logThread(correlationID, service, status, notes)
 }
 
-func (client *LogClient) logThread(correlationID string, service string, status int, notes string) {
-	parsedUUID, err := uuid.Parse(correlationID)
-	if err != nil {
-		log.Printf("Invalid UUID: %v", correlationID)
-		return
-	}
+func (client *LogClient) logThread(correlationID uuid.UUID, service string, status int, notes string) {
 
 	entry := model.LogEntry{
-		CorrelationID: parsedUUID,
+		CorrelationID: correlationID,
 		TimeUnix:      time.Now().Unix(),
 		Service:       service,
 		StatusCode:    status,
