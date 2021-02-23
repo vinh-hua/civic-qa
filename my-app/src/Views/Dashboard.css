@@ -1,0 +1,40 @@
+.dashboard {
+    margin-left: 22.5%;
+    margin-right: 2.5%;
+}
+
+.trends, .itinerary {
+    border-radius: 10px;
+    box-shadow: 0 0 1px 0 #9FA2B4;
+    margin-top: 30px;
+}
+
+.chart-heading, .itinerary-heading {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 2.5%;
+    text-align: left;
+}
+
+.chart-title, .itinerary-title {
+    padding-top: 20px;
+}
+
+.chart {
+    padding-bottom: 20px;
+}
+
+.chart-stats {
+    display: flex;
+}
+
+.chart-stats-cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-left: 17.5%;
+}
+
+.itinerary {
+    margin-top: 30px;
+}
