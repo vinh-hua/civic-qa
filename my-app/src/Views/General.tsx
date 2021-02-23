@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
+import { SubHeaderLine } from '../Components/SubHeaderLine';
+import { StatCardRow } from '../Components/StatCardRow';
 
 // TODO: will data be pre-sorted on back-end?
 // currently using test data
@@ -20,10 +22,20 @@ export function General() {
     const [data, setData] = useState(test_data);
     const [onSpecificView, setSpecificView] = useState(false);
 
+    let statCards = [
+        {title: "New Today", stat: 288},
+        {title: "Follow-Ups", stat: 106},
+        {title: "Unanswered", stat: 934}
+    ];
+
     return (
-        <div>
+        <div className="dashboard sub-dashboard">
             <Header title="General Inquiries"></Header>
             <SubDashboard title="Top Subjects" data={data}></SubDashboard>
+            <div className="sub-summary">
+                <SubHeaderLine title="SUMMARY"></SubHeaderLine>
+                <StatCardRow cards={statCards}></StatCardRow>
+            </div>
         </div>
     );
 }

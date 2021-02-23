@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
+import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { StatCardRow } from '../Components/StatCardRow';
 
 // TODO: will data be pre-sorted on back-end?
@@ -27,10 +28,11 @@ export function Casework() {
     ];
 
     return (
-        <div>
-            <div className="dashboard">
-                <Header title="Casework"></Header>
-                <SubDashboard title="TOPIC" data={data}></SubDashboard>
+        <div className="dashboard sub-dashboard">
+            <Header title="Casework"></Header>
+            <SubDashboard title="TOPIC" data={data}></SubDashboard>
+            <div className="sub-summary">
+                <SubHeaderLine title="SUMMARY"></SubHeaderLine>
                 <StatCardRow cards={statCards}></StatCardRow>
             </div>
         </div>

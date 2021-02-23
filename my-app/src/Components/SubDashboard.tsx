@@ -1,4 +1,5 @@
 import { SubDashboardCard } from './SubDashboardCard';
+import { SubHeaderLine } from './SubHeaderLine';
 import './SubDashboard.css';
 
 export type SubDashboardData = {
@@ -18,8 +19,7 @@ export function SubDashboard(props: SubDashboardProps) {
     return (
         <div>
             <div>
-                <h2 className="sub-dash-sub-title">{props.title}</h2>
-                <hr className="sub-dash-line" />
+                <SubHeaderLine title={props.title}></SubHeaderLine>
                 <div className="sub-dash-cards">
                     {cards}
                 </div>

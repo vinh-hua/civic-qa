@@ -1,10 +1,14 @@
+.sub-dashboard {
+    margin-right: 5%;
+}
+
 .sub-dash-title {
     font-size: 40px;
     color: #9B51E0;
     font-weight: bold;
     position: absolute;
     margin-top: 2.5%;
-    margin-left: 50%;
+    margin-left: 25%;
 }
 
 .sub-dash-sub-title {
@@ -17,11 +21,14 @@
     width: 25%;
     border-top: 2px solid;
     color: #60626E;
+    margin-bottom: 30px;
 }
 
 .sub-dash-cards {
-    margin-top: 30px;
-    margin-right: 5%;
     display: flex;
     flex-direction: column;
+}
+
+.sub-summary {
+    margin-top: 30px;
 }
