@@ -30,7 +30,7 @@ export function Casework() {
     return (
         <div className="dashboard sub-dashboard">
             <Header title="Casework"></Header>
-            <SubDashboard title="TOPIC" data={data}></SubDashboard>
+            <SubDashboard title="TOPIC" data={data} setData={setData} hasRespondOption={false}></SubDashboard>
             <div className="sub-summary">
                 <SubHeaderLine title="SUMMARY"></SubHeaderLine>
                 <StatCardRow cards={statCards}></StatCardRow>
