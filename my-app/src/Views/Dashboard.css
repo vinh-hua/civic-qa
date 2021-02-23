@@ -3,17 +3,10 @@
     margin-right: 2.5%;
 }
 
-.stat-cards {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 30px;
-}
-
 .trends, .itinerary {
     border-radius: 10px;
     box-shadow: 0 0 1px 0 #9FA2B4;
-    padding-bottom: 30px;
+    margin-top: 30px;
 }
 
 .chart-heading, .itinerary-heading {

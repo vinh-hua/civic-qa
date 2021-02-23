@@ -8,12 +8,12 @@
 }
 
 .sub-dash-sub-title {
-    margin-right: 65%;
+    text-align: left;
     font-size: 28px;
 }
 
 .sub-dash-line {
-    margin-right: 50%;
+    margin-right: 75%;
     width: 25%;
     border-top: 2px solid;
     color: #60626E;
@@ -21,7 +21,6 @@
 
 .sub-dash-cards {
     margin-top: 30px;
-    margin-left: 25%;
     margin-right: 5%;
     display: flex;
     flex-direction: column;

@@ -24,8 +24,6 @@ export function SubDashboard(props: SubDashboardProps) {
                     {cards}
                 </div>
             </div>
-
-
         </div>
     );
 }

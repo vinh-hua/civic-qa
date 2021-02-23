@@ -1,7 +1,9 @@
-import { SubHeader } from '../Components/SubHeader';
+import React, { useState } from 'react';
+import { Header } from '../Components/Header';
 import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 
 // TODO: will data be pre-sorted on back-end?
+// currently using test data
 function getSubDashboardData(): Array<SubDashboardData> {
     var data = [];
     data.push({name: "SPD - Reform", value: 123});
@@ -15,11 +17,13 @@ function getSubDashboardData(): Array<SubDashboardData> {
 
 export function General() {
     const test_data = getSubDashboardData();
+    const [data, setData] = useState(test_data);
+    const [onSpecificView, setSpecificView] = useState(false);
 
     return (
         <div>
-            <SubHeader title="General Inquiries"></SubHeader>
-            <SubDashboard title="TOPIC" data={test_data}></SubDashboard>
+            <Header title="General Inquiries"></Header>
+            <SubDashboard title="Top Subjects" data={data}></SubDashboard>
         </div>
     );
 }

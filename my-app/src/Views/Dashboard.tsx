@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StatCard } from '../Components/StatCard';
+import { StatCardRow } from '../Components/StatCardRow';
 import { DashboardChartStats } from '../Dashboard/DashboardChartStats';
 import { Itinerary } from '../Dashboard/Itinerary';
 import * as Constants from '../Constants/constants';
@@ -14,14 +14,16 @@ export function Dashboard() {
     const [assigned, setAssigned] = useState(0);
     const [overdue, setOverdue] = useState(0);
 
+    let statCards = [
+        {title: Constants.General, stat: general},
+        {title: Constants.Casework, stat: casework},
+        {title: Constants.Assigned, stat: assigned},
+        {title: Constants.Overdue, stat: overdue}
+    ];
+
     return (
         <div className="dashboard">
-            <div className="stat-cards">
-                <StatCard title={Constants.General} stat={general}></StatCard>
-                <StatCard title={Constants.Casework} stat={casework}></StatCard>
-                <StatCard title={Constants.Assigned} stat={assigned}></StatCard>
-                <StatCard title={Constants.Overdue} stat={overdue}></StatCard>
-            </div>
+            <StatCardRow cards={statCards}></StatCardRow>
             <DashboardChartStats></DashboardChartStats>
             <Itinerary></Itinerary>
         </div>

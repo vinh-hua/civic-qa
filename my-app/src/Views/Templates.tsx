@@ -1,9 +1,9 @@
-import { SubHeader } from '../Components/SubHeader';
+import { Header } from '../Components/Header';
 
 export function Templates() {
     return (
         <div>
-            <SubHeader title="Templates"></SubHeader>
+            <Header title="Templates"></Header>
         </div>
     );
 }

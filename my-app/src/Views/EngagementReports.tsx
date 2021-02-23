@@ -1,9 +1,9 @@
-import { SubHeader } from '../Components/SubHeader';
+import { Header } from '../Components/Header';
 
 export function EngagementReports() {
     return (
         <div>
-            <SubHeader title="Engagement Reports"></SubHeader>
+            <Header title="Engagement Reports"></Header>
         </div>
     );
 }
