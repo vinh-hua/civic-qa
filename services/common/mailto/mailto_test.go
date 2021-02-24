@@ -2,6 +2,19 @@ package mailto
 
 import "testing"
 
+func TestGenerator(t *testing.T) {
+	cfg := ReplyConfig(
+		[]string{"easy0117@gmail.com"},
+		nil,
+		nil,
+		"subject1",
+		"body2",
+		"click",
+	)
+	o, _ := Generate(cfg)
+	t.Log(o)
+}
+
 func TestMailto(t *testing.T) {
 	cases := []struct {
 		config   Config
