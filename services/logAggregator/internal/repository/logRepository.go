@@ -59,8 +59,9 @@ func (l *LogRepository) Query(query model.LogQuery) ([]model.LogEntry, *QueryErr
 		sess = sess.Where(conds[i], params[i])
 	}
 
-	// execute the query
 	var entries []model.LogEntry
+
+	// execute the query
 	result := sess.Find(&entries).Order("timeUnix")
 
 	if result.Error != nil {
