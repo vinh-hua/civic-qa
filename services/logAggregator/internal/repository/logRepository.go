@@ -10,12 +10,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// LogStore is an interface for storing and querying logs
-// type LogStore interface {
-// 	Log(newEntry LogEntry) *LogError
-// 	Query(query LogQuery) ([]LogEntry, *QueryError)
-// }
-
 // LogRepository interacts with log storage
 type LogRepository struct {
 	db *gorm.DB

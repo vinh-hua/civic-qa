@@ -14,6 +14,11 @@ type LogEntry struct {
 	Notes         string    `gorm:"column:notes" json:"notes"`
 }
 
+// TableName overrides default gorm table naming
+func (LogEntry) TableName() string {
+	return "logs"
+}
+
 // LogQuery represents a query against existing logs
 type LogQuery struct {
 	CorrelationID   uuid.UUID `json:"correlationID"`
