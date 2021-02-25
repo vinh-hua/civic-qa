@@ -3,10 +3,13 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/vivian-hua/civic-qa/service/account/internal/context"
 	"github.com/vivian-hua/civic-qa/services/common/environment"
+
+	aggregator "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware"
 )
 
 const (
@@ -17,7 +20,8 @@ const (
 )
 
 var (
-	addr = environment.GetEnvOrFallback("ADDR", ":8080")
+	addr           = environment.GetEnvOrFallback("ADDR", ":8080")
+	aggregatorAddr = environment.GetEnvOrFallback("ADDR", ":8888")
 )
 
 func main() {
@@ -25,6 +29,15 @@ func main() {
 	router := mux.NewRouter()
 	api := router.PathPrefix(VersionBase).Subrouter()
 
+	// middleware
+	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
+		AggregatorAddress: aggregatorAddr,
+		ServiceName:       "account",
+		StdoutErrors:      true,
+		Timeout:           10 * time.Second,
+	}))
+
+	// handler context
 	ctx, err := context.BuildContext()
 	if err != nil {
 		log.Fatalf("Could not create handler context: %v", err)

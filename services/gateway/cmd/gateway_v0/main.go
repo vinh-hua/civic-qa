@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	// 3rd party
 	"github.com/gorilla/mux"
@@ -13,7 +14,7 @@ import (
 	// common
 	"github.com/vivian-hua/civic-qa/services/common/environment"
 	commonMiddleware "github.com/vivian-hua/civic-qa/services/common/middleware"
-	logClient "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/client"
+	aggregator "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware"
 
 	// internal
 	"github.com/vivian-hua/civic-qa/services/gateway/internal/middleware"
@@ -44,16 +45,15 @@ func main() {
 	// Middleware
 	router.Use(middleware.NewCorrelatorMiddleware)
 	router.Use(commonMiddleware.NewLoggingMiddleware(LoggingOutput))
-
-	// Handlers and clients
-	aggregator, err := logClient.NewLogClient(aggregatorAddr)
-	if err != nil {
-		log.Fatalf("Failed to create aggregator client: %v", err)
-	}
+	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
+		AggregatorAddress: aggregatorAddr,
+		ServiceName:       "gateway",
+		StdoutErrors:      true,
+		Timeout:           10 * time.Second,
+	}))
 
 	// Routes
 	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		aggregator.Log(r.Header.Get("X-Correlation-ID"), "Gateway", 200, "Hello!")
 		w.WriteHeader(http.StatusOK)
 		io.WriteString(w, "Hello world!")
 	})
