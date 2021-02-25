@@ -1,4 +1,4 @@
-package repository
+package session
 
 import (
 	"reflect"
@@ -9,7 +9,7 @@ import (
 	common "github.com/vivian-hua/civic-qa/services/common/model"
 )
 
-func TestSessionStore(t *testing.T) {
+func TestMemoryStore(t *testing.T) {
 	cases := []model.SessionState{
 		{},
 		{User: common.User{}, CreatedAt: time.Now()},
@@ -23,22 +23,37 @@ func TestSessionStore(t *testing.T) {
 		}, CreatedAt: time.Now()},
 	}
 
-	store := NewMemorySessionStore(0)
+	store := NewMemoryStore()
 
 	for _, state := range cases {
+		// Test create
 		token, err := store.Create(state)
 		if err != nil {
 			t.Fatal(err)
 		}
 
+		// Test Get
 		stateOut, err := store.Get(token)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		// not sure why we need reflect here but can't compile otherwise
+		// must use DeepEqual as state.User.PassHash is a byte slice,
+		// which doesn't implement operator ==
 		if !reflect.DeepEqual(state, *stateOut) {
 			t.Fatalf("State did not match: got %v, expected %v", stateOut, state)
+		}
+
+		// Test delete
+		err = store.Delete(token)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		// Make sure state was really deleted
+		_, err = store.Get(token)
+		if err != ErrStateNotFound {
+			t.Fatalf("State still found after delete for token: %s", token)
 		}
 	}
 }
