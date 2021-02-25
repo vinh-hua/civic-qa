@@ -1,11 +1,11 @@
 package main
 
 import (
-	"io"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/vivian-hua/civic-qa/service/account/internal/context"
 	"github.com/vivian-hua/civic-qa/services/common/environment"
 )
 
@@ -21,14 +21,22 @@ var (
 )
 
 func main() {
+	// routers
 	router := mux.NewRouter()
 	api := router.PathPrefix(VersionBase).Subrouter()
 
-	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		io.WriteString(w, "Hello world!")
-	})
+	ctx, err := context.BuildContext()
+	if err != nil {
+		log.Fatalf("Could not create handler context: %v", err)
+	}
 
+	// routes
+	api.Handle("/signup", http.HandlerFunc(ctx.HandleSignup))
+	api.Handle("/login", http.HandlerFunc(ctx.HandleLogin))
+	api.Handle("/logout", http.HandlerFunc(ctx.HandleLogout))
+	api.Handle("/getsession", http.HandlerFunc(ctx.HandleGetSession))
+
+	// start server
 	log.Printf("Server %s running on %s", APIVersion, addr)
 	log.Fatal(http.ListenAndServe(addr, router))
 }
