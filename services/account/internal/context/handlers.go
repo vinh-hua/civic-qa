@@ -11,6 +11,7 @@ import (
 	common "github.com/vivian-hua/civic-qa/services/common/model"
 
 	"github.com/vivian-hua/civic-qa/service/account/internal/model"
+	"github.com/vivian-hua/civic-qa/service/account/internal/repository/session"
 	"github.com/vivian-hua/civic-qa/service/account/internal/repository/user"
 )
 
@@ -57,6 +58,7 @@ func (ctx *Context) HandleSignup(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Failed to hash users password, error: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
 	}
 
 	// Create the User and insert into UserStore
@@ -148,13 +150,75 @@ func (ctx *Context) HandleLogin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "text/plain")
 	w.WriteHeader(http.StatusCreated)
 	io.WriteString(w, "Logged In!")
-
 }
 
+// HandleLogout handles a delete post to logout
 func (ctx *Context) HandleLogout(w http.ResponseWriter, r *http.Request) {
+	// check method, we don't care about content-type
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
+	// get the authorization token from the request header
+	token, err := getAuthorizationToken(r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+
+	// attempt to delete the session
+	err = ctx.SessionStore.Delete(token)
+	if err != nil {
+		if err == session.ErrStateNotFound {
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+		log.Printf("Error deleting session: %v", err)
+		http.Error(w, "Internal Server Errror", http.StatusInternalServerError)
+		return
+	}
+
+	// Send response
+	w.Header().Set("content-type", "text/plain")
+	w.WriteHeader(http.StatusOK)
+	io.WriteString(w, "Logged Out!")
 }
 
+// HandleGetSession handles a get request to retrieve a users SessionState
 func (ctx *Context) HandleGetSession(w http.ResponseWriter, r *http.Request) {
+	// check method, we don't care about content-type
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
+	// get the authorization token from the request header
+	token, err := getAuthorizationToken(r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+
+	// retrieve the session state
+	state, err := ctx.SessionStore.Get(token)
+	if err != nil {
+		if err == session.ErrStateNotFound {
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+		log.Printf("Error getting session: %v", err)
+		http.Error(w, "Internal Server Errror", http.StatusInternalServerError)
+		return
+	}
+
+	// Send response
+	w.Header().Set("content-type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	err = json.NewEncoder(w).Encode(state)
+	if err != nil {
+		log.Printf("Failed to encode user, error: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }

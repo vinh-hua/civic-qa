@@ -23,25 +23,27 @@ func NewMemoryStore() *MemoryStore {
 // Create begins a new session for a given SessionState, returning a new SessionToken
 func (s *MemoryStore) Create(state model.SessionState) (Token, error) {
 	s.lock.Lock()
+	defer s.lock.Unlock()
+
 	// generate a new token as the key for the state
 	token, err := generateToken()
 	if err != nil {
 		return InvalidSessionToken, err
 	}
 	s.data[token] = state
-	s.lock.Unlock()
 	return token, nil
 }
 
 // Get returns a SessionState for a given SessionToken if it exists
 func (s *MemoryStore) Get(token Token) (*model.SessionState, error) {
 	s.lock.RLock()
+	defer s.lock.RUnlock()
+
 	state, ok := s.data[token]
 	if !ok {
 		return nil, ErrStateNotFound
 	}
 
-	s.lock.RUnlock()
 	return &state, nil
 }
 
@@ -49,7 +51,8 @@ func (s *MemoryStore) Get(token Token) (*model.SessionState, error) {
 // error is always nil in this implementation
 func (s *MemoryStore) Delete(token Token) error {
 	s.lock.Lock()
+	defer s.lock.Unlock()
+
 	delete(s.data, token)
-	s.lock.Unlock()
 	return nil
 }

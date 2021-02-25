@@ -1,7 +1,9 @@
 package context
 
 import (
+	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/vivian-hua/civic-qa/service/account/internal/model"
 	"github.com/vivian-hua/civic-qa/service/account/internal/repository/session"
@@ -30,7 +32,7 @@ func hashPassword(password string) ([]byte, error) {
 }
 
 // checkPassword returns an error if Users password does not match LoginRequest
-func checkPassword(user common.User, login model.LoginRequest) error {
+func checkPassword(user *common.User, login model.LoginRequest) error {
 	return bcrypt.CompareHashAndPassword(user.PassHash, []byte(login.Password))
 }
 
@@ -38,4 +40,17 @@ func checkPassword(user common.User, login model.LoginRequest) error {
 // to a responses headers for a given session.Token
 func addAuthorizationHeader(w http.ResponseWriter, token session.Token) {
 	w.Header().Set(authorizationHeader, authorizationSchema+string(token))
+}
+
+func getAuthorizationToken(r *http.Request) (session.Token, error) {
+	header := r.Header.Get(authorizationHeader)
+	if !strings.HasPrefix(header, authorizationSchema) {
+		return session.InvalidSessionToken, errors.New("Unknown Authorization Schema")
+	}
+
+	// Get everything after authorizationSchema
+	tokenStr := strings.SplitAfter(header, authorizationSchema)[1]
+
+	// return the token
+	return session.Token(tokenStr), nil
 }

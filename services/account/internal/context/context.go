@@ -48,5 +48,4 @@ func BuildContext() (*Context, error) {
 	}
 
 	return &Context{SessionStore: sessionStore, UserStore: userStore}, nil
-
 }
