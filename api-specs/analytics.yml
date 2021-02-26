@@ -22,7 +22,7 @@ paths:
             minimum: 1
       responses:
         '200':
-          description: An object containg dashboard analytics.
+          description: An object containing dashboard analytics.
           content:
             application/json:
               schema:
@@ -57,7 +57,7 @@ paths:
             minimum: 1
       responses:
         '200':
-          description: An object containg general analytics.
+          description: An object containing general analytics.
           content:
             application/json:
               schema:
@@ -89,7 +89,7 @@ paths:
             minimum: 1
       responses:
         '200':
-          description: An object containing casewor analytics.
+          description: An object containing casework analytics.
           content:
             application/json:
               schema:
