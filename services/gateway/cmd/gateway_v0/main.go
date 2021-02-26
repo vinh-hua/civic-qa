@@ -12,8 +12,10 @@ import (
 	"github.com/gorilla/mux"
 
 	// common
-	"github.com/vivian-hua/civic-qa/services/common/environment"
+	"github.com/vivian-hua/civic-qa/services/common/config"
 	commonMiddleware "github.com/vivian-hua/civic-qa/services/common/middleware"
+
+	//pkg
 	aggregator "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware"
 
 	// internal
@@ -30,13 +32,11 @@ const (
 var (
 	// LoggingOutput is a file that recieves log outputs
 	LoggingOutput = os.Stdout
-
-	// Environment
-	addr           = environment.GetEnvOrFallback("ADDR", ":80")
-	aggregatorAddr = environment.GetEnvOrFallback("AGG_ADDR", "http://localhost:8888")
 )
 
 func main() {
+	// config
+	var cfg config.Provider = &config.EnvProvider{}
 
 	// Routers
 	router := mux.NewRouter()
@@ -46,7 +46,7 @@ func main() {
 	router.Use(middleware.NewCorrelatorMiddleware)
 	router.Use(commonMiddleware.NewLoggingMiddleware(LoggingOutput))
 	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
-		AggregatorAddress: aggregatorAddr,
+		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", "http://localhost:8888"),
 		ServiceName:       "gateway",
 		StdoutErrors:      true,
 		Timeout:           10 * time.Second,
@@ -59,6 +59,7 @@ func main() {
 	})
 
 	// Start Server
+	addr := cfg.GetOrFallback("ADDR", ":80")
 	log.Printf("Server %s running on %s", APIVersion, addr)
 	log.Fatal(http.ListenAndServe(addr, router))
 }
