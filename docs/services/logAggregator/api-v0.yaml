@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  title: logAggregator API
+  description: API specification for logAggregator
+  version: 0.0.0
+paths:
+  /log:
+    post:
+      summary: Log a new entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref : "#/components/schemas/logEntry"
+      responses:
+        '200':    # status code
+          description: success
+        '400':
+          description: bad request, malformed or illegal
+        '500':
+          description: internal server error
+  
+  /query:
+    post:
+      summary: Query existing entries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                correlationID:
+                  type: string
+                  format: uuid
+                timeStartUnix:
+                  type: integer
+                  format: int64
+                timeStopUnix:
+                  type: integer
+                  format: int64
+                service:
+                  type: string
+                statusCodeStart:
+                  type: integer
+                  minimum: 100
+                  maximum: 599
+                statusCodeStop:
+                  type: integer
+                  minimum: 100
+                  maximum: 599
+              required:
+                - correlationID
+      responses:
+        '200': 
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/logEntry"
+                
+components:
+  schemas:
+    logEntry:
+      type: object
+      properties:
+        correlationID:
+          type: string
+          format: uuid
+        timeUnix:
+          type: integer
+          format: int64
+        service:
+          type: string
+        statusCode:
+          type: integer
+          minimum: 100
+          maximum: 599
+        notes:
+          type: string
+      required:
+        - correlationID
+        - timeUnix
+        - service
+        - statusCode
