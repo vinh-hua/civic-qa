@@ -7,8 +7,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/vivian-hua/civic-qa/service/account/internal/context"
-	"github.com/vivian-hua/civic-qa/services/common/environment"
 
+	"github.com/vivian-hua/civic-qa/services/common/config"
 	aggregator "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware"
 )
 
@@ -19,26 +19,25 @@ const (
 	APIVersion = "v0.0.0"
 )
 
-var (
-	addr           = environment.GetEnvOrFallback("ADDR", ":8080")
-	aggregatorAddr = environment.GetEnvOrFallback("ADDR", ":8888")
-)
-
 func main() {
+	// config
+	var cfg config.Provider = &config.EnvProvider{}
+	cfg.SetVerbose(true)
+
 	// routers
 	router := mux.NewRouter()
 	api := router.PathPrefix(VersionBase).Subrouter()
 
 	// middleware
 	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
-		AggregatorAddress: aggregatorAddr,
+		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", ":8888"),
 		ServiceName:       "account",
 		StdoutErrors:      true,
 		Timeout:           10 * time.Second,
 	}))
 
 	// handler context
-	ctx, err := context.BuildContext()
+	ctx, err := context.BuildContext(cfg)
 	if err != nil {
 		log.Fatalf("Could not create handler context: %v", err)
 	}
@@ -50,6 +49,7 @@ func main() {
 	api.Handle("/getsession", http.HandlerFunc(ctx.HandleGetSession))
 
 	// start server
+	addr := cfg.GetOrFallback("ADDR", ":8080")
 	log.Printf("Server %s running on %s", APIVersion, addr)
 	log.Fatal(http.ListenAndServe(addr, router))
 }
