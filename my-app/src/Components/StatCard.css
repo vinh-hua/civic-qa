@@ -1,10 +1,9 @@
 .stat-card {
-    width: 250px;
-    height: 150px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 1px solid #DFE0EB;
+    background-color: white;
     text-align: center;
-    display: inline-block;
-    margin: 10px;
+    width: 200px;
 }
 
 .stat-card-title {

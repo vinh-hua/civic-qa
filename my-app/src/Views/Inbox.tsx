@@ -1,9 +1,8 @@
 import React from 'react';
 
-export function EngagementReports() {
+export function Inbox() {
     return (
         <div>
-            <h1>Engagement Reports</h1>
         </div>
     );
 }
