@@ -7,6 +7,10 @@ function getTemplatesData(): Array<SubDashboardData> {
     var data = [];
     data.push({name: "COVID-19 Vaccination", value: "Dear ____, Current COVID-19..."});
     data.push({name: "Voter Registration Info", value: "Dear ____, Instructions on how..."});
+    data.push({name: "Voter Registration Info", value: "Dear ____, Instructions on how..."});
+    data.push({name: "Voter Registration Info", value: "Dear ____, Instructions on how..."});
+    data.push({name: "Voter Registration Info", value: "Dear ____, Instructions on how..."});
+    data.push({name: "Voter Registration Info", value: "Dear ____, Instructions on how..."});
     return data as Array<SubDashboardData>;
 }
 
