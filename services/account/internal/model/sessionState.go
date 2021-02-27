@@ -8,6 +8,6 @@ import (
 
 // SessionState represents a user session
 type SessionState struct {
-	User      common.User
-	CreatedAt time.Time `json:"createdAt"`
+	User      common.User `json:"user"`
+	CreatedAt time.Time   `json:"createdAt"`
 }
