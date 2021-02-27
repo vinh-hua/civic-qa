@@ -6,7 +6,9 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"testing"
+	"time"
 
 	"github.com/vivian-hua/civic-qa/service/account/internal/model"
 	"github.com/vivian-hua/civic-qa/service/account/internal/repository/session"
@@ -166,7 +168,7 @@ func TestHandleSignup(t *testing.T) {
 	}{
 		{
 			// Valid user signup
-			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+			r: httptest.NewRequest(http.MethodPost, "/signup", newUserReader(&model.NewUserRequest{
 				Email:           "email@example.com",
 				Password:        "Password!",
 				PasswordConfirm: "Password!",
@@ -179,7 +181,7 @@ func TestHandleSignup(t *testing.T) {
 		},
 		{
 			// email in use
-			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+			r: httptest.NewRequest(http.MethodPost, "/signup", newUserReader(&model.NewUserRequest{
 				Email:           "email@example.com",
 				Password:        "Password!",
 				PasswordConfirm: "Password!",
@@ -192,7 +194,7 @@ func TestHandleSignup(t *testing.T) {
 		},
 		{
 			// Invalid email
-			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+			r: httptest.NewRequest(http.MethodPost, "/signup", newUserReader(&model.NewUserRequest{
 				Email:           "bad-email.com",
 				Password:        "Password!",
 				PasswordConfirm: "Password!",
@@ -205,7 +207,7 @@ func TestHandleSignup(t *testing.T) {
 		},
 		{
 			// Bad password
-			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+			r: httptest.NewRequest(http.MethodPost, "/signup", newUserReader(&model.NewUserRequest{
 				Email:           "email1@example.com",
 				Password:        "short",
 				PasswordConfirm: "short",
@@ -218,7 +220,7 @@ func TestHandleSignup(t *testing.T) {
 		},
 		{
 			// non-matching passwords
-			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+			r: httptest.NewRequest(http.MethodPost, "/signup", newUserReader(&model.NewUserRequest{
 				Email:           "email2@example.com",
 				Password:        "ValidPassword!",
 				PasswordConfirm: "DifferentSecret!",
@@ -231,7 +233,7 @@ func TestHandleSignup(t *testing.T) {
 		},
 		{
 			// Bad Method
-			r: httptest.NewRequest("GET", "/signup", newUserReader(&model.NewUserRequest{
+			r: httptest.NewRequest(http.MethodGet, "/signup", newUserReader(&model.NewUserRequest{
 				Email:           "email3@example.com",
 				Password:        "Password!",
 				PasswordConfirm: "Password!",
@@ -244,7 +246,7 @@ func TestHandleSignup(t *testing.T) {
 		},
 		{
 			// Bad content-type
-			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+			r: httptest.NewRequest(http.MethodPost, "/signup", newUserReader(&model.NewUserRequest{
 				Email:           "email4@example.com",
 				Password:        "Password!",
 				PasswordConfirm: "Password!",
@@ -312,7 +314,7 @@ func TestHandleLogin(t *testing.T) {
 	}{
 		{
 			// valid login for first pre-created
-			r: httptest.NewRequest("POST", "/login", loginReader(&model.LoginRequest{
+			r: httptest.NewRequest(http.MethodPost, "/login", loginReader(&model.LoginRequest{
 				Email:    "email@example.com",
 				Password: "validpassword",
 			})),
@@ -322,7 +324,7 @@ func TestHandleLogin(t *testing.T) {
 		},
 		{
 			// valid login for second pre-created user
-			r: httptest.NewRequest("POST", "/login", loginReader(&model.LoginRequest{
+			r: httptest.NewRequest(http.MethodPost, "/login", loginReader(&model.LoginRequest{
 				Email:    "another@example.com",
 				Password: "validpassword",
 			})),
@@ -332,7 +334,7 @@ func TestHandleLogin(t *testing.T) {
 		},
 		{
 			// invalid email
-			r: httptest.NewRequest("POST", "/login", loginReader(&model.LoginRequest{
+			r: httptest.NewRequest(http.MethodPost, "/login", loginReader(&model.LoginRequest{
 				Email:    "invalid@example.com",
 				Password: "validpassword",
 			})),
@@ -342,7 +344,7 @@ func TestHandleLogin(t *testing.T) {
 		},
 		{
 			// invalid password
-			r: httptest.NewRequest("POST", "/login", loginReader(&model.LoginRequest{
+			r: httptest.NewRequest(http.MethodPost, "/login", loginReader(&model.LoginRequest{
 				Email:    "another@example.com",
 				Password: "bad-password",
 			})),
@@ -352,7 +354,7 @@ func TestHandleLogin(t *testing.T) {
 		},
 		{
 			// invalid method
-			r: httptest.NewRequest("GET", "/login", loginReader(&model.LoginRequest{
+			r: httptest.NewRequest(http.MethodGet, "/login", loginReader(&model.LoginRequest{
 				Email:    "another@example.com",
 				Password: "validpassword",
 			})),
@@ -362,7 +364,7 @@ func TestHandleLogin(t *testing.T) {
 		},
 		{
 			// Invalid content type
-			r: httptest.NewRequest("POST", "/login", loginReader(&model.LoginRequest{
+			r: httptest.NewRequest(http.MethodPost, "/login", loginReader(&model.LoginRequest{
 				Email:    "email@example.com",
 				Password: "validpassword",
 			})),
@@ -381,7 +383,7 @@ func TestHandleLogin(t *testing.T) {
 
 	// precreate users
 	for i, newUser := range preCreatedUsers {
-		r := httptest.NewRequest("POST", "/signup", newUserReader(newUser))
+		r := httptest.NewRequest(http.MethodPost, "/signup", newUserReader(newUser))
 		r.Header.Add("content-type", "application/json")
 		w := httptest.NewRecorder()
 		ctx.HandleSignup(w, r)
@@ -411,6 +413,201 @@ func loginReader(login *model.LoginRequest) io.Reader {
 	}
 
 	return bytes.NewBuffer(bodyBytes)
+}
+
+func TestHandleLogout(t *testing.T) {
+	preCreatedUsers := []*model.NewUserRequest{
+		{
+			Email:           "email@example.com",
+			Password:        "validpassword",
+			PasswordConfirm: "validpassword",
+			FirstName:       "firstname",
+			LastName:        "lastname",
+		},
+	}
+
+	// create handler context
+	cfg := &config.MapProvider{Data: map[string]string{"DB_DSN": ":memory:"}}
+	ctx, err := BuildContext(cfg)
+	if err != nil {
+		t.Fatalf("Failed to build handler context: %v", err)
+	}
+
+	// Authorization headers from precreated users
+	sessions := make([]string, len(preCreatedUsers))
+
+	// precreate users
+	for i, newUser := range preCreatedUsers {
+		r := httptest.NewRequest(http.MethodPost, "/signup", newUserReader(newUser))
+		r.Header.Add("content-type", "application/json")
+		w := httptest.NewRecorder()
+		ctx.HandleSignup(w, r)
+		if w.Result().StatusCode != http.StatusCreated {
+			t.Fatalf("Failed to pre-create user %d: status %d", i, w.Result().StatusCode)
+		}
+
+		// save session token
+		sessions[i] = w.Header().Get("Authorization")
+	}
+
+	cases := []struct {
+		r              *http.Request
+		headers        map[string]string
+		w              *httptest.ResponseRecorder
+		expectedStatus int
+	}{
+		{
+			// valid logout for precreated user 1
+			r:              httptest.NewRequest("POST", "/logout", nil),
+			headers:        map[string]string{"Authorization": sessions[0]},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusOK,
+		},
+		{
+			// logging out of same session, no longer exists
+			r:              httptest.NewRequest("POST", "/logout", nil),
+			headers:        map[string]string{"Authorization": sessions[0]},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusNotFound,
+		},
+		{
+			// no auth header
+			r:              httptest.NewRequest("POST", "/logout", nil),
+			headers:        nil,
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusUnauthorized,
+		},
+		{
+			// malformed auth header
+			r:              httptest.NewRequest("POST", "/logout", nil),
+			headers:        map[string]string{"Authorization": "malformed"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusUnauthorized,
+		},
+		{
+			// wrong method
+			r:              httptest.NewRequest("DELETE", "/logout", nil),
+			headers:        map[string]string{"Authorization": sessions[0]},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusMethodNotAllowed,
+		},
+	}
+
+	// test logout
+	for i, testCase := range cases {
+		// add request headers
+		for k, v := range testCase.headers {
+			testCase.r.Header.Set(k, v)
+		}
+		// test the handler
+		ctx.HandleLogout(testCase.w, testCase.r)
+		if status := testCase.w.Result().StatusCode; status != testCase.expectedStatus {
+			t.Fatalf("Case %d Unexpected status code: got %d, expected %d", i, status, testCase.expectedStatus)
+		}
+	}
+}
+
+func TestHandleGetSession(t *testing.T) {
+	preCreatedSessions := []model.SessionState{
+		{
+			CreatedAt: time.Now().Round(0),
+			User: common.User{
+				ID:        1,
+				Email:     "valid@example.com",
+				PassHash:  nil,
+				FirstName: "firstname",
+				LastName:  "lastname",
+				CreatedOn: time.Now().Round(0).Add(-time.Hour),
+			},
+		},
+	}
+
+	ctx, err := BuildContext(&config.MapProvider{Data: map[string]string{
+		"DB_DSB": ":memory:",
+	}})
+
+	if err != nil {
+		panic(err)
+	}
+
+	// Authorization headers from precreated sessions
+	sessions := make([]string, len(preCreatedSessions))
+
+	// precreate sessions
+	for i, sess := range preCreatedSessions {
+		token, err := ctx.SessionStore.Create(sess)
+		if err != nil {
+			panic(err)
+		}
+		sessions[i] = string(token)
+	}
+
+	cases := []struct {
+		r              *http.Request
+		headers        map[string]string
+		w              *httptest.ResponseRecorder
+		expectedStatus int
+		expectedState  model.SessionState
+	}{
+		{
+			// valid get session
+			r:              httptest.NewRequest(http.MethodGet, "/session", nil),
+			headers:        map[string]string{"Authorization": "Bearer " + sessions[0]},
+			w:              httptest.NewRecorder(),
+			expectedStatus: 200,
+			expectedState:  preCreatedSessions[0],
+		},
+		{
+			// no auth
+			r:              httptest.NewRequest(http.MethodGet, "/session", nil),
+			headers:        nil,
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusUnauthorized,
+			expectedState:  model.SessionState{},
+		},
+		{
+			// invalid token
+			r:              httptest.NewRequest(http.MethodGet, "/session", nil),
+			headers:        map[string]string{"Authorization": "Bearer " + "INVALIDTOKEN"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusNotFound,
+			expectedState:  model.SessionState{},
+		},
+		{
+			// Wrong method
+			r:              httptest.NewRequest(http.MethodPost, "/session", nil),
+			headers:        map[string]string{"Authorization": "Bearer " + sessions[0]},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusMethodNotAllowed,
+			expectedState:  model.SessionState{},
+		},
+	}
+
+	// test get session
+	for i, testCase := range cases {
+		// add request headers
+		for k, v := range testCase.headers {
+			testCase.r.Header.Set(k, v)
+		}
+		// test the handler
+		ctx.HandleGetSession(testCase.w, testCase.r)
+		if status := testCase.w.Result().StatusCode; status != testCase.expectedStatus {
+			t.Fatalf("Case %d Unexpected status code: got %d, expected %d", i, status, testCase.expectedStatus)
+		}
+
+		// check if the states match if valid
+		if testCase.w.Result().StatusCode == http.StatusOK {
+			var stateOut model.SessionState
+			err = json.NewDecoder(testCase.w.Body).Decode(&stateOut)
+			if err != nil {
+				t.Fatalf("Case %d could not parse response: %v", i, err)
+			}
+
+			if !reflect.DeepEqual(stateOut, testCase.expectedState) {
+				t.Fatalf("Case %d Unexpected state: got \n\t%v \nexpected \n\t%v", i, stateOut, testCase.expectedState)
+			}
+		}
+	}
 }
 
 //===============================
