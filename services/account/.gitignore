@@ -1,0 +1,2 @@
+# ignore SQLite databases
+*.db
