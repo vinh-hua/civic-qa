@@ -1,3 +1,5 @@
+// Package context defines the Context struct, which holds handler context
+// information for each request
 package context
 
 import (
@@ -36,6 +38,8 @@ func BuildContext(cfg config.Provider) (*Context, error) {
 	return &Context{SessionStore: sessionStore, UserStore: userStore}, nil
 }
 
+// getSessionStoreImpl returns a session.Store given a config.Provider
+// or returns an error if one cannot be created with the given config
 func getSessionStoreImpl(cfg config.Provider) (session.Store, error) {
 	// Initialize SessionStore based on environment variables
 	sessImpl := cfg.GetOrFallback("SESS_IMPL", "memory")
@@ -47,6 +51,8 @@ func getSessionStoreImpl(cfg config.Provider) (session.Store, error) {
 	}
 }
 
+// getUserStoreImpl returns a User.Store given a config.Provider
+// or returns an error if one cannot be created with the given config
 func getUserStoreImpl(cfg config.Provider) (user.Store, error) {
 	// Initialize UserStore based on environment variables
 	dbImpl := cfg.GetOrFallback("DB_IMPL", "sqlite")

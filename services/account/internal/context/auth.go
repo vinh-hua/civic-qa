@@ -42,6 +42,9 @@ func addAuthorizationHeader(w http.ResponseWriter, token session.Token) {
 	w.Header().Set(authorizationHeader, authorizationSchema+string(token))
 }
 
+// getAuthorizationToken returns the authorization token
+// found in a given requests header, or returns an error
+// if a token could not be found/parsed
 func getAuthorizationToken(r *http.Request) (session.Token, error) {
 	header := r.Header.Get(authorizationHeader)
 	if !strings.HasPrefix(header, authorizationSchema) {

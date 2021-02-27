@@ -1,3 +1,5 @@
+// Package user defines the user.Store interface
+// as well as its implementations.
 package user
 
 import (

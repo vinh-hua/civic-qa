@@ -1,3 +1,4 @@
+// Package model defines data models used by account
 package model
 
 // NewUserRequest represents a json POST
