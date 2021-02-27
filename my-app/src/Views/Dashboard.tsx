@@ -25,7 +25,6 @@ export function Dashboard() {
         <div className="dashboard">
             <StatCardRow cards={statCards}></StatCardRow>
             <DashboardChartStats></DashboardChartStats>
-            <Itinerary></Itinerary>
         </div>
     );
 }

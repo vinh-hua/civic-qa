@@ -13,6 +13,9 @@ function getSubDashboardData(): Array<SubDashboardData> {
     data.push({name: "Homelessness- Shelter", value: 77});
     data.push({name: "Investments in BIPOC Communities", value: 62});
     data.push({name: "SPD - Accountability", value: 36});
+    data.push({name: "SPD - Accountability", value: 36});
+    data.push({name: "SPD - Accountability", value: 36});
+    data.push({name: "SPD - Accountability", value: 36});
     data.push({name: "Other", value: 52});
     return data as Array<SubDashboardData>;
 }
