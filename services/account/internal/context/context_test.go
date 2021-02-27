@@ -42,8 +42,9 @@ func TestCheckPassword(t *testing.T) {
 		shouldPass bool
 	}{
 		{&common.User{PassHash: mustHash("password")}, model.LoginRequest{Password: "password"}, true},
+		// no match
 		{&common.User{PassHash: mustHash("password")}, model.LoginRequest{Password: "wrong"}, false},
-		{&common.User{PassHash: mustHash("")}, model.LoginRequest{Password: ""}, true},
+		{&common.User{PassHash: mustHash("     ")}, model.LoginRequest{Password: "     "}, true},
 	}
 
 	for i, testCase := range cases {
@@ -91,9 +92,13 @@ func TestGetAuthorizationToken(t *testing.T) {
 		{testReqWHeaders(map[string]string{"Authorization": "Bearer 12345"}), session.Token("12345"), true},
 		{testReqWHeaders(map[string]string{"Authorization": "Bearer mytoken"}), session.Token("mytoken"), true},
 		{testReqWHeaders(map[string]string{"Authorization": "Bearer "}), session.Token(""), true},
+		// missing token/incomplete schema
 		{testReqWHeaders(map[string]string{"Authorization": "Bearer"}), session.InvalidSessionToken, false},
+		// wrong schema
 		{testReqWHeaders(map[string]string{"Authorization": "Plain token"}), session.InvalidSessionToken, false},
+		// missing header
 		{testReqWHeaders(nil), session.InvalidSessionToken, false},
+		// wrong header
 		{testReqWHeaders(map[string]string{"Auth": "bad"}), session.InvalidSessionToken, false},
 	}
 
@@ -111,6 +116,7 @@ func TestGetAuthorizationToken(t *testing.T) {
 	}
 }
 
+// testReqHeaders creates a test request with headers from a given map
 func testReqWHeaders(headers map[string]string) *http.Request {
 	req := httptest.NewRequest(http.MethodPost, "/test/url", nil)
 	for k, v := range headers {
@@ -131,7 +137,9 @@ func TestBuildContext(t *testing.T) {
 		{&config.MapProvider{Data: map[string]string{"DB_DSN": ":memory:"}}, true},
 		{&config.MapProvider{Data: map[string]string{"DB_IMPL": "sqlite", "DB_DSN": ":memory:"}}, true},
 		{&config.MapProvider{Data: map[string]string{"SESS_IMPL": "memory", "DB_DSN": ":memory:"}}, true},
+		// invalid session implementation
 		{&config.MapProvider{Data: map[string]string{"SESS_IMPL": "** unknown **", "DB_DSN": ":memory:"}}, false},
+		// invalid db implementation
 		{&config.MapProvider{Data: map[string]string{"DB_IMPL": "** unknown **", "DB_DSN": ":memory:"}}, false},
 	}
 
@@ -414,10 +422,15 @@ func TestValidateNewUser(t *testing.T) {
 		newUser    model.NewUserRequest
 		shouldPass bool
 	}{
+		// empty struct
 		{model.NewUserRequest{}, false},
+		// invalid email/missing pw
 		{model.NewUserRequest{Email: "mail"}, false},
+		// missing pw
 		{model.NewUserRequest{Email: "email@mail.com"}, false},
+		// invalid pw
 		{model.NewUserRequest{Email: "email@mail.com", Password: "A", PasswordConfirm: "A"}, false},
+		// non-matching pws
 		{model.NewUserRequest{Email: "email@mail.com", Password: "abcdefgh", PasswordConfirm: "123456678"}, false},
 		{model.NewUserRequest{Email: "email@mail.com", Password: "Password", PasswordConfirm: "Password"}, true},
 	}
