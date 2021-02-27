@@ -1,0 +1,9 @@
+.templates-btn {
+    font-size: 24px;
+    border: none;
+    border-radius: 8px;
+    width: 200px;
+    height: 50px;
+    color: white;
+    background-color: rgb(179, 103, 255);
+}
