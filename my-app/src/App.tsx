@@ -55,7 +55,7 @@ export default function App() {
                 </div>
                 <ul>
                 <li><img src="./assets/icons/settings.png"/><Link className="nav-link" to="/settings">{Constants.Settings}</Link></li>
-                  <li><img src="./assets/icons/logout.png"/><button onClick={UserLogout}>{Constants.Logout}</button></li>
+                  <li><img src="./assets/icons/logout.png"/><button className="logout-btn" onClick={UserLogout}>{Constants.Logout}</button></li>
                 </ul>
               </nav>
             </div>
