@@ -48,11 +48,18 @@ func (s *MemoryStore) Get(token Token) (*model.SessionState, error) {
 }
 
 // Delete removes a SessionState given a SessionToken.
-// error is always nil in this implementation
 func (s *MemoryStore) Delete(token Token) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
+	// check if the session exists
+	// Note: this is not needed, but added for consistency with other implementations
+	_, ok := s.data[token]
+	if !ok {
+		return ErrStateNotFound
+	}
+
+	// delete the session
 	delete(s.data, token)
 	return nil
 }
