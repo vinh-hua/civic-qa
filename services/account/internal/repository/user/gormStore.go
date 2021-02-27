@@ -59,7 +59,7 @@ func (g *GormStore) GetByID(id uint) (*model.User, error) {
 // returns an error if they cannot be found
 func (g *GormStore) GetByEmail(email string) (*model.User, error) {
 	var user model.User
-	result := g.db.Take("email = ?", email).First(&user)
+	result := g.db.Where("email = ?", email).First(&user)
 	if result.Error != nil {
 		// return user not found
 		if result.Error == gorm.ErrRecordNotFound {
@@ -69,4 +69,17 @@ func (g *GormStore) GetByEmail(email string) (*model.User, error) {
 		return nil, result.Error
 	}
 	return &user, nil
+}
+
+// EmailInUse returns true if the passed email is already in use
+// false otherwise
+func (g *GormStore) EmailInUse(email string) (bool, error) {
+	var count int64
+	result := g.db.Model(&model.User{}).Where("email = ?", email).Count(&count)
+	if result.Error != nil {
+		return true, result.Error
+	}
+
+	return count > 0, nil
+
 }

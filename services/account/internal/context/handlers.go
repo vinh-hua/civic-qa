@@ -39,17 +39,15 @@ func (ctx *Context) HandleSignup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if email is already in use
-	_, err = ctx.UserStore.GetByEmail(newUser.Email)
-	if err != user.ErrUserNotFound {
-		// if we had no error at all, email is in use
-		if err == nil {
-			http.Error(w, "Email already in use", http.StatusConflict)
-			return
-		}
-		// otherwise, unknow error
-		log.Printf("Could not GetByEmail: %v", err)
+	// check if the email is already being used
+	inUse, err := ctx.UserStore.EmailInUse(newUser.Email)
+	if err != nil {
+		log.Printf("Could not query EmailInUse: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	if inUse {
+		http.Error(w, "Email already in use", http.StatusConflict)
 		return
 	}
 
@@ -148,7 +146,7 @@ func (ctx *Context) HandleLogin(w http.ResponseWriter, r *http.Request) {
 
 	// Send response
 	w.Header().Set("content-type", "text/plain")
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	io.WriteString(w, "Logged In!")
 }
 

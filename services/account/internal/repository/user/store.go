@@ -17,4 +17,5 @@ type Store interface {
 	Create(user *model.User) error
 	GetByID(id uint) (*model.User, error)
 	GetByEmail(email string) (*model.User, error)
+	EmailInUse(email string) (bool, error)
 }

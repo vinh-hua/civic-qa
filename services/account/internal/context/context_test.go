@@ -1,6 +1,9 @@
 package context
 
 import (
+	"bytes"
+	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -148,8 +151,258 @@ func TestBuildContext(t *testing.T) {
 
 func TestHandleSignup(t *testing.T) {
 	cases := []struct {
-		r *http.Request
-	}{}
+		r              *http.Request
+		headers        map[string]string
+		w              *httptest.ResponseRecorder
+		expectedStatus int
+	}{
+		{
+			// Valid user signup
+			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+				Email:           "email@example.com",
+				Password:        "Password!",
+				PasswordConfirm: "Password!",
+				FirstName:       "testfname",
+				LastName:        "testlname",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusCreated,
+		},
+		{
+			// email in use
+			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+				Email:           "email@example.com",
+				Password:        "Password!",
+				PasswordConfirm: "Password!",
+				FirstName:       "testfname",
+				LastName:        "testlname",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusConflict,
+		},
+		{
+			// Invalid email
+			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+				Email:           "bad-email.com",
+				Password:        "Password!",
+				PasswordConfirm: "Password!",
+				FirstName:       "testfname",
+				LastName:        "testlname",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusBadRequest,
+		},
+		{
+			// Bad password
+			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+				Email:           "email1@example.com",
+				Password:        "short",
+				PasswordConfirm: "short",
+				FirstName:       "testfname",
+				LastName:        "testlname",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusBadRequest,
+		},
+		{
+			// non-matching passwords
+			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+				Email:           "email2@example.com",
+				Password:        "ValidPassword!",
+				PasswordConfirm: "DifferentSecret!",
+				FirstName:       "testfname",
+				LastName:        "testlname",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusBadRequest,
+		},
+		{
+			// Bad Method
+			r: httptest.NewRequest("GET", "/signup", newUserReader(&model.NewUserRequest{
+				Email:           "email3@example.com",
+				Password:        "Password!",
+				PasswordConfirm: "Password!",
+				FirstName:       "testfname",
+				LastName:        "testlname",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusMethodNotAllowed,
+		},
+		{
+			// Bad content-type
+			r: httptest.NewRequest("POST", "/signup", newUserReader(&model.NewUserRequest{
+				Email:           "email4@example.com",
+				Password:        "Password!",
+				PasswordConfirm: "Password!",
+				FirstName:       "testfname",
+				LastName:        "testlname",
+			})),
+			headers:        map[string]string{"content-type": "something/else"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusUnsupportedMediaType,
+		},
+	}
+
+	cfg := &config.MapProvider{Data: map[string]string{"DB_DSN": ":memory:"}}
+	ctx, err := BuildContext(cfg)
+	if err != nil {
+		t.Fatalf("Failed to build handler context: %v", err)
+	}
+
+	for i, testCase := range cases {
+		// add request headers
+		for k, v := range testCase.headers {
+			testCase.r.Header.Set(k, v)
+		}
+		// test the handler
+		ctx.HandleSignup(testCase.w, testCase.r)
+		if status := testCase.w.Result().StatusCode; status != testCase.expectedStatus {
+			t.Fatalf("Case %d Unexpected status code: got %d, expected %d", i, status, testCase.expectedStatus)
+		}
+	}
+}
+
+// newUserReader returns a io.Reader over a NewUserRequest,
+// panics on failure
+func newUserReader(newUser *model.NewUserRequest) io.Reader {
+	bodyBytes, err := json.Marshal(newUser)
+	if err != nil {
+		panic(err)
+	}
+	return bytes.NewReader(bodyBytes)
+}
+
+func TestHandleLogin(t *testing.T) {
+	preCreatedUsers := []*model.NewUserRequest{
+		{
+			Email:           "email@example.com",
+			Password:        "validpassword",
+			PasswordConfirm: "validpassword",
+			FirstName:       "firstname",
+			LastName:        "lastname",
+		},
+		{
+			Email:           "another@example.com",
+			Password:        "validpassword",
+			PasswordConfirm: "validpassword",
+			FirstName:       "firstname",
+			LastName:        "lastname",
+		},
+	}
+
+	cases := []struct {
+		r              *http.Request
+		headers        map[string]string
+		w              *httptest.ResponseRecorder
+		expectedStatus int
+	}{
+		{
+			// valid login for first pre-created
+			r: httptest.NewRequest("POST", "/login", loginReader(&model.LoginRequest{
+				Email:    "email@example.com",
+				Password: "validpassword",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusOK,
+		},
+		{
+			// valid login for second pre-created user
+			r: httptest.NewRequest("POST", "/login", loginReader(&model.LoginRequest{
+				Email:    "another@example.com",
+				Password: "validpassword",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusOK,
+		},
+		{
+			// invalid email
+			r: httptest.NewRequest("POST", "/login", loginReader(&model.LoginRequest{
+				Email:    "invalid@example.com",
+				Password: "validpassword",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusUnauthorized,
+		},
+		{
+			// invalid password
+			r: httptest.NewRequest("POST", "/login", loginReader(&model.LoginRequest{
+				Email:    "another@example.com",
+				Password: "bad-password",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusUnauthorized,
+		},
+		{
+			// invalid method
+			r: httptest.NewRequest("GET", "/login", loginReader(&model.LoginRequest{
+				Email:    "another@example.com",
+				Password: "validpassword",
+			})),
+			headers:        map[string]string{"content-type": "application/json"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusMethodNotAllowed,
+		},
+		{
+			// Invalid content type
+			r: httptest.NewRequest("POST", "/login", loginReader(&model.LoginRequest{
+				Email:    "email@example.com",
+				Password: "validpassword",
+			})),
+			headers:        map[string]string{"content-type": "something/else"},
+			w:              httptest.NewRecorder(),
+			expectedStatus: http.StatusUnsupportedMediaType,
+		},
+	}
+
+	// create handler context
+	cfg := &config.MapProvider{Data: map[string]string{"DB_DSN": ":memory:"}}
+	ctx, err := BuildContext(cfg)
+	if err != nil {
+		t.Fatalf("Failed to build handler context: %v", err)
+	}
+
+	// precreate users
+	for i, newUser := range preCreatedUsers {
+		r := httptest.NewRequest("POST", "/signup", newUserReader(newUser))
+		r.Header.Add("content-type", "application/json")
+		w := httptest.NewRecorder()
+		ctx.HandleSignup(w, r)
+		if w.Result().StatusCode != http.StatusCreated {
+			t.Fatalf("Failed to pre-create user %d: status %d", i, w.Result().StatusCode)
+		}
+	}
+
+	// test logins
+	for i, testCase := range cases {
+		// add request headers
+		for k, v := range testCase.headers {
+			testCase.r.Header.Set(k, v)
+		}
+		// test the handler
+		ctx.HandleLogin(testCase.w, testCase.r)
+		if status := testCase.w.Result().StatusCode; status != testCase.expectedStatus {
+			t.Fatalf("Case %d Unexpected status code: got %d, expected %d", i, status, testCase.expectedStatus)
+		}
+	}
+}
+
+func loginReader(login *model.LoginRequest) io.Reader {
+	bodyBytes, err := json.Marshal(login)
+	if err != nil {
+		panic(err)
+	}
+
+	return bytes.NewBuffer(bodyBytes)
 }
 
 //===============================
