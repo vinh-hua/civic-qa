@@ -67,3 +67,15 @@ hr.solid {
   color: #A4A6B3;
   opacity: 30%;
 }
+
+.logout-btn {
+  margin-left: 15px;
+  font-size: 16px;
+  background: none;
+  border: none;
+  color: #A4A6B3;
+}
+
+.logout-btn:active, .logout-btn:hover {
+  color: #DDE2FF;
+}

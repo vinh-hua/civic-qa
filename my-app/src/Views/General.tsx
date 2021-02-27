@@ -13,6 +13,9 @@ function getSubDashboardData(): Array<SubDashboardData> {
     data.push({name: "Homelessness- Shelter", value: 77});
     data.push({name: "Investments in BIPOC Communities", value: 62});
     data.push({name: "SPD - Accountability", value: 36});
+    data.push({name: "SPD - Accountability", value: 36});
+    data.push({name: "SPD - Accountability", value: 36});
+    data.push({name: "SPD - Accountability", value: 36});
     data.push({name: "Other", value: 52});
     return data as Array<SubDashboardData>;
 }
@@ -31,7 +34,7 @@ export function General() {
     return (
         <div className="dashboard sub-dashboard">
             <Header title="General Inquiries"></Header>
-            <SubDashboard title="Top Subjects" data={data}></SubDashboard>
+            <SubDashboard title="Top Subjects" data={data} setData={setData} hasRespondOption={true}></SubDashboard>
             <div className="sub-summary">
                 <SubHeaderLine title="SUMMARY"></SubHeaderLine>
                 <StatCardRow cards={statCards}></StatCardRow>
