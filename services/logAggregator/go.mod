@@ -11,3 +11,7 @@ require (
 	gorm.io/driver/sqlite v1.1.4
 	gorm.io/gorm v1.20.12
 )
+
+replace (
+	github.com/vivian-hua/civic-qa/services/common v0.0.0-20210217005008-848fa3bc0399 => ../common
+)

@@ -11,7 +11,7 @@ import (
 	"gorm.io/gorm"
 
 	// common
-	"github.com/vivian-hua/civic-qa/services/common/environment"
+	"github.com/vivian-hua/civic-qa/services/common/config"
 
 	// internal
 	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/context"
@@ -25,20 +25,18 @@ const (
 	APIVersion = "v0.0.0"
 )
 
-var (
-	// Environment
-	addr   = environment.GetEnvOrFallback("ADDR", ":8888")
-	dbPath = environment.GetEnvOrFallback("DBPATH", "logs.db")
-)
-
 func main() {
+
+	// config
+	var cfg config.Provider = &config.EnvProvider{}
+	cfg.SetVerbose(true)
 
 	// Routers
 	router := mux.NewRouter()
 	api := router.PathPrefix(VersionBase).Subrouter()
 
 	// Handler context
-	repo, err := repository.NewLogRepository(sqlite.Open(dbPath), &gorm.Config{})
+	repo, err := repository.NewLogRepository(sqlite.Open(cfg.GetOrFallback("DB_DSN", "logs.db")), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Failed to create log repository: %v", err)
 	}
@@ -49,6 +47,7 @@ func main() {
 	api.HandleFunc("/query", ctx.HandleQuery)
 
 	// Start Server
+	addr := cfg.GetOrFallback("ADDR", ":8888")
 	log.Printf("Server %s running on %s", APIVersion, addr)
 	log.Fatal(http.ListenAndServe(addr, router))
 }
