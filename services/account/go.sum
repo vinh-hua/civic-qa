@@ -14,6 +14,10 @@ github.com/mattn/go-sqlite3 v1.14.6/go.mod h1:NyWgC/yNuGj7Q9rpYnZvas74GogHl5/Z4A
 github.com/urfave/negroni v1.0.0 h1:kIimOitoypq34K7TG7DUaJ9kq/N4Ofuwi1sjz0KipXc=
 github.com/urfave/negroni v1.0.0/go.mod h1:Meg73S6kFm/4PpbYdq35yYWoCZ9mS/YSx+lKnmiohz4=
 github.com/vivian-hua/civic-qa/services/common v0.0.0-20210217005008-848fa3bc0399/go.mod h1:JQKJyp3Xi6UUICplQpjiAI0SoeZm7D+YoNumsgxEiLA=
+github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f h1:cgSafvK8SUG2VJOVgtfjOAIE5DJlN8oYE+JUa6TBXgI=
+github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f/go.mod h1:M1d7kDdIWVmgwNAL/rH13Nm+4KHaGt4Rb1aI8qV9DxQ=
+github.com/vivian-hua/civic-qa/services/logAggregator v0.0.0-20210227211936-aef745c47c5f h1:s3bTHmya8SOjgXIWX+Fk88D0X+17DcgwOaK3FgBY71E=
+github.com/vivian-hua/civic-qa/services/logAggregator v0.0.0-20210227211936-aef745c47c5f/go.mod h1:VX3Kf0LEnMBJ9GW6eQ1c1XZHPLrjlaI2rv8iBeya8dE=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 h1:/ZScEX8SfEmUGRHs0gxpqteO5nfNW6axyZbBdw9A12g=
 golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83/go.mod h1:jdWPYTVW3xRLrWPugEBEK3UY2ZEsg3UU495nc5E+M+I=
