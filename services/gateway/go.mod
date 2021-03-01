@@ -9,7 +9,7 @@ require (
 	github.com/vivian-hua/civic-qa/services/logAggregator v0.0.0-20210227211936-aef745c47c5f
 )
 
-// replace (
-// 	github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f => ../common
-// 	github.com/vivian-hua/civic-qa/services/logAggregator v0.0.0-20210227211936-aef745c47c5f
-// )
+replace (
+	github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f => ../common
+	github.com/vivian-hua/civic-qa/services/logAggregator v0.0.0-20210227211936-aef745c47c5f => ../logAggregator
+)

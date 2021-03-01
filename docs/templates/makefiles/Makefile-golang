@@ -1,29 +1,41 @@
-# things to replace:
-#	<YOUR DOCKER USER (e.g. rbayer)>
-#	<OUTPUT IMAGE NAME (e.g. myservice)>
-#	<OUTPUT TAG (e.g. v0.0.0)>
+# things to change:
+# <YOUR DOCKER USERNAME>
+# <IMAGE SERVICE NAME> 
+# <SERVICE VERSION TAG>
 
-DOCKER_USER ?= <YOUR DOCKER USER (e.g. rbayer)>
-IMAGE_NAME = <OUTPUT IMAGE NAME (e.g. myservice)>
-VERSION_TAG = <OUTPUT TAG (e.g. v0.0.0)>
+DOCKER_USER ?= <YOUR DOCKER USERNAME>
+IMAGE_NAME = <IMAGE SERVICE NAME> 
+VERSION_TAG = <SERVICE VERSION TAG>
 
 FULL_IMAGE = $(DOCKER_USER)/$(IMAGE_NAME):$(VERSION_TAG)
+ 
 
 docker_cfg:
 	@echo "=== CONFIG ==="
 	@echo "docker user: $(DOCKER_USER)"
 	@echo "set env DOCKER_USER=<YOUR USER> on your system to change"
+	@echo $(FULL_IMAGE)
+
 
 build: docker_cfg
 	@echo "=== BUILD ==="
-	@echo "building and tagging $(FULL_IMAGE)"
+	@echo "building and tagging $(IMAGE_NAME):$(VERSION_TAG)"
 
+	@echo "Vendoring Dependencies"
+	go mod vendor
+
+	@echo "Building Image"
 	cd .. && docker build -t $(FULL_IMAGE) .
+
+	@echo "Pushing Image"
+	docker push $(FULL_IMAGE)
+
 
 test:
 	@echo "=== TEST ==="
 	@echo "Running all tests"
 	go test ../...
+
 
 test_verbose: 
 	@echo "=== TEST ==="
