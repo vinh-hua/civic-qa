@@ -6,10 +6,9 @@ services:
     environment:
       - ADDR=:80
       - AGG_ADDR=http://logaggregator:8888
+      - ACCOUNT_SVC=http://account:8080/v0
   account:
     build: ./account
-    ports:
-      - "8080:8080"
     environment:
       - ADDR=:8080
       - AGG_ADDR=http://logaggregator:8888
@@ -19,8 +18,6 @@ services:
       - ./account/database:/database
   logaggregator:
     build: ./logAggregator
-    ports:
-      - "8888:8888"
     environment:
       - ADDR=:8888
       - DB_DSN=/database/logs.db

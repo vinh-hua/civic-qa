@@ -7,4 +7,5 @@ RUN cd /src/cmd/account_v0 && go build -o goapp
 FROM  golang:latest
 WORKDIR /app
 COPY --from=build-env /src/cmd/account_v0/goapp /app/
+EXPOSE 8080
 ENTRYPOINT ["./goapp"]

@@ -20,6 +20,7 @@ import (
 
 	// internal
 	"github.com/vivian-hua/civic-qa/services/gateway/internal/middleware"
+	"github.com/vivian-hua/civic-qa/services/gateway/internal/proxy"
 )
 
 const (
@@ -37,6 +38,7 @@ var (
 func main() {
 	// config
 	var cfg config.Provider = &config.EnvProvider{}
+	cfg.SetVerbose(true)
 
 	// Routers
 	router := mux.NewRouter()
@@ -53,6 +55,12 @@ func main() {
 	}))
 
 	// Routes
+	accountService := cfg.GetOrFallback("ACCOUNT_SVC", "http://localhost:8080/v0")
+	api.Handle("/signup", proxy.NewProxy(proxy.MustParse(accountService+"/signup")))
+	api.Handle("/login", proxy.NewProxy(proxy.MustParse(accountService+"/login")))
+	api.Handle("/logout", proxy.NewProxy(proxy.MustParse(accountService+"/logout")))
+	api.Handle("/getsession", proxy.NewProxy(proxy.MustParse(accountService+"/getsession")))
+
 	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		io.WriteString(w, "Hello world!")
