@@ -3,9 +3,9 @@
 #	<OUTPUT IMAGE NAME (e.g. myservice)>
 #	<OUTPUT TAG (e.g. v0.0.0)>
 
-DOCKER_USER ?= <YOUR DOCKER USER (e.g. rbayer)>
-IMAGE_NAME = <OUTPUT IMAGE NAME (e.g. myservice)>
-VERSION_TAG = <OUTPUT TAG (e.g. v0.0.0)>
+DOCKER_USER ?= rbayer
+IMAGE_NAME = gateway
+VERSION_TAG = v0.0.0
 
 FULL_IMAGE = $(DOCKER_USER)/$(IMAGE_NAME):$(VERSION_TAG)
 

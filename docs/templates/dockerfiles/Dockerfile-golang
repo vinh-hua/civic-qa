@@ -6,7 +6,7 @@ ADD . /src
 RUN cd /src/<PATH TO main.go> && go build -o goapp
 
 # run stage
-FROM alpine
+FROM golang:latest
 WORKDIR /app
 COPY --from=build-env /src/<PATH TO main.go>/goapp /app/
 ENTRYPOINT ["./goapp"]
