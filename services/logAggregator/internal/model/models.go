@@ -9,6 +9,7 @@ type LogEntry struct {
 	ID            uint      `gorm:"primarykey" json:"-"`
 	CorrelationID uuid.UUID `gorm:"column:correlationID;type:string" json:"correlationID"`
 	TimeUnix      int64     `gorm:"column:timeUnix" json:"timeUnix"`
+	RequestPath   string    `gorm:"column:requestPath" json:"requestPath"`
 	Service       string    `gorm:"column:service" json:"service"`
 	StatusCode    int       `gorm:"column:statusCode" json:"statusCode"`
 	Notes         string    `gorm:"column:notes" json:"notes"`
