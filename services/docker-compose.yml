@@ -15,12 +15,12 @@ services:
       - DB_IMPL=sqlite
       - DB_DSN=/database/accounts.db
     volumes:
-      - ./account/database:/database
+      - ./test_databases:/database
   logaggregator:
     build: ./logAggregator
     environment:
       - ADDR=:8888
       - DB_DSN=/database/logs.db
     volumes:
-      - ./logAggregator/database:/database
+      - ./test_databases:/database
     
