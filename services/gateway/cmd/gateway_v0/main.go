@@ -40,8 +40,9 @@ func main() {
 	var cfg config.Provider = &config.EnvProvider{}
 	cfg.SetVerbose(true)
 
-	// Routes
+	// subservices
 	accountService := cfg.GetOrFallback("ACCOUNT_SVC", "http://localhost:8080/v0")
+	formService := cfg.GetOrFallback("FORM_SVC", "http://localhost:7070/v0")
 
 	// Routers
 	// base router
@@ -70,6 +71,7 @@ func main() {
 	api.Handle("/login", proxy.NewProxy(proxy.MustParse(accountService+"/login")))
 	apiAuth.Handle("/logout", proxy.NewProxy(proxy.MustParse(accountService+"/logout")))
 	apiAuth.Handle("/getsession", proxy.NewProxy(proxy.MustParse(accountService+"/getsession")))
+	apiAuth.Handle("/forms", proxy.NewProxy(proxy.MustParse(formService+"/forms")))
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

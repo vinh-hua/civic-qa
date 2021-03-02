@@ -1,0 +1,61 @@
+openapi: '3.0.2'
+info:
+  title: Form API
+  description: API specification for form service
+  version: '0.0.0'
+
+paths:
+  /forms:
+    get:
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/form"
+        '401':
+          description: Unauthorized
+    post:
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        description: New Form
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newForm"
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/form"
+components:
+  schemas:
+    form:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        userID:
+          type: integer
+    newForm:
+      properties:
+         name:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer 
+      bearerFormat: token

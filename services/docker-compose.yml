@@ -7,13 +7,23 @@ services:
       - ADDR=:80
       - AGG_ADDR=http://logaggregator:8888
       - ACCOUNT_SVC=http://account:8080/v0
+      - FORM_SVC=http://form:7070/v0
   account:
     build: ./account
     environment:
       - ADDR=:8080
       - AGG_ADDR=http://logaggregator:8888
       - DB_IMPL=sqlite
-      - DB_DSN=/database/accounts.db
+      - DB_DSN=/database/database.db
+    volumes:
+      - ./test_databases:/database
+  form:
+    build: ./form
+    environment:
+      - ADDR=:7070
+      - AGG_ADDR=http://logaggregator:8888
+      - DB_IMPL=sqlite
+      - DB_DSN=/database/database.db
     volumes:
       - ./test_databases:/database
   logaggregator:
@@ -23,4 +33,5 @@ services:
       - DB_DSN=/database/logs.db
     volumes:
       - ./test_databases:/database
+
     

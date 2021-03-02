@@ -9,7 +9,7 @@ const (
 
 // User represents a user of CivicQA
 type User struct {
-	ID        uint      `gorm:"primarykey;column:id" json:"id"`
+	ID        uint      `gorm:"primaryKey;column:id" json:"id"`
 	Email     string    `gorm:"column:email;unique;not null" json:"email"`
 	PassHash  []byte    `gorm:"column:passHash;not null" json:"-"`
 	FirstName string    `gorm:"column:firstName;not null" json:"firstName"`

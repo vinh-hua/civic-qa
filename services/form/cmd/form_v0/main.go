@@ -8,6 +8,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/vivian-hua/civic-qa/services/common/config"
+	"github.com/vivian-hua/civic-qa/services/form/internal/context"
 	aggregator "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware"
 )
 
@@ -34,6 +35,16 @@ func main() {
 		StdoutErrors:      true,
 		Timeout:           10 * time.Second,
 	}))
+
+	// request context
+	ctx, err := context.BuildContext(cfg)
+	if err != nil {
+		log.Fatalf("Failed to create handler context: %v", err)
+	}
+
+	//routes
+	api.HandleFunc("/forms", ctx.HandleGetForms).Methods("GET")
+	api.HandleFunc("/forms", ctx.HandleCreateForm).Methods("POST")
 
 	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
