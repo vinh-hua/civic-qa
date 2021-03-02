@@ -24,7 +24,7 @@ export function Responses() {
     return (
         <div className="dashboard sub-dashboard">
             <Header title="Form Responses"></Header>
-            <SubDashboard title="CURRENT RESPONSES" data={data} setData={setData} emailTemplates={false} formResponses={true} hasRespondOption={false}></SubDashboard>
+            <SubDashboard title="CURRENT RESPONSES" data={data} setData={setData} emailTemplates={false} formResponses={true} hasRespondOption={false} viewButton={false}></SubDashboard>
         </div>
     );
 }

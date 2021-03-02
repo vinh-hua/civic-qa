@@ -6,6 +6,7 @@ export type SubDashboardCardProps = {
     name: string;
     value: number;
     setData: Dispatch<SetStateAction<SubDashboardData[]>>;
+    viewButton: boolean;
     hasRespondOption: boolean;
 }
 
@@ -27,10 +28,12 @@ function getSubDashboardData(): Array<SubDashboardData> {
 export function SubDashboardCard(props: SubDashboardCardProps) {
     let test_data = getSubDashboardData();
 
+    const buttonName = props.viewButton ? "View" : "Respond";
+
     return (
         <div className="sub-dash-card">
             <p className="sub-dash-card-name">{props.name}</p>
-            <button className="sub-dash-card-btn" onClick={() => props.setData(test_data)}>View</button>
+            <button className="sub-dash-card-btn" onClick={() => props.setData(test_data)}>{buttonName}</button>
             <p className="sub-dash-card-value">{props.value}</p>
             {props.hasRespondOption ? <button className="write-btn"><img src="./assets/icons/write.png"></img></button> : null}
         </div>

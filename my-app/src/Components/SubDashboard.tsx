@@ -16,6 +16,7 @@ export type SubDashboardProps = {
     emailTemplates: boolean;
     formResponses: boolean;
     hasRespondOption: boolean;
+    viewButton: boolean;
 };
 
 export function SubDashboard(props: SubDashboardProps) {
@@ -23,7 +24,7 @@ export function SubDashboard(props: SubDashboardProps) {
     if (props.emailTemplates) {
         props.data.forEach(d => cards.push(<EmailTemplateCard name={d.name} value={d.value}></EmailTemplateCard>))
     } else {
-        props.data.forEach(d => cards.push(<SubDashboardCard name={d.name} value={d.value} setData={props.setData} hasRespondOption={props.hasRespondOption}></SubDashboardCard>));
+        props.data.forEach(d => cards.push(<SubDashboardCard name={d.name} value={d.value} setData={props.setData} viewButton={props.viewButton} hasRespondOption={props.hasRespondOption}></SubDashboardCard>));
     }
 
     return (
