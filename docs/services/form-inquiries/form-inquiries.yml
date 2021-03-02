@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: Form Inquiries API
+  description: Retreive form inqueries
+  version: 0.1.0
+
+servers:
+  -url: https://_.com/v1
+
+paths:
+  /form-inquiries/{userId}:
+    get
+      summary: Returns a list of form inquiries.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: User ID.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: List of form inquiries.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: 
+                      type: integer
+                      format: int64
+                    senderEmail:
+                      type: string
+                    senderName:
+                      type: string
+                    subject:
+                      type: string
+                    body:
+                      type: string
+                    tags:
+                      type: array
