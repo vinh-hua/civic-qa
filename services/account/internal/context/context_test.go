@@ -523,7 +523,7 @@ func TestHandleGetSession(t *testing.T) {
 	}
 
 	ctx, err := BuildContext(&config.MapProvider{Data: map[string]string{
-		"DB_DSB": ":memory:",
+		"DB_DSN": ":memory:",
 	}})
 
 	if err != nil {

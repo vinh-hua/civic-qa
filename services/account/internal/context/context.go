@@ -59,7 +59,7 @@ func getUserStoreImpl(cfg config.Provider) (user.Store, error) {
 	dbDsn := cfg.GetOrFallback("DB_DSN", "accounts.db")
 	switch dbImpl {
 	case "sqlite":
-		store, err := user.NewGormStore(sqlite.Open(dbDsn), &gorm.Config{})
+		store, err := user.NewGormStore(sqlite.Open(dbDsn), &gorm.Config{}, "PRAGMA foreign_keys = ON;")
 		if err != nil {
 			return nil, err
 		}
