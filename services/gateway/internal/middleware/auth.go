@@ -37,6 +37,12 @@ func NewAuthMiddleware(config *Config) func(http.Handler) http.Handler {
 			// delete existing auth headers (sent by user)
 			r.Header.Del(xAuthUserIDHeader)
 
+			// check that the request has an authorization header
+			if r.Header.Get(authorizationHeader) == "" {
+				http.Error(w, "Missing Authorization Header", http.StatusUnauthorized)
+				return
+			}
+
 			// authenticate the request
 			state, authErr := authenticate(r, config)
 			if authErr != nil {
