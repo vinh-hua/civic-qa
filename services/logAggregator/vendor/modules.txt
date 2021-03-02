@@ -14,7 +14,7 @@ github.com/mattn/go-sqlite3
 # github.com/urfave/negroni v1.0.0
 ## explicit
 github.com/urfave/negroni
-# github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f
+# github.com/vivian-hua/civic-qa/services/common v0.0.0-20210301202124-142c59451b9f
 ## explicit
 github.com/vivian-hua/civic-qa/services/common/config
 # gorm.io/driver/sqlite v1.1.4
@@ -29,3 +29,4 @@ gorm.io/gorm/logger
 gorm.io/gorm/migrator
 gorm.io/gorm/schema
 gorm.io/gorm/utils
+# github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f => ../common

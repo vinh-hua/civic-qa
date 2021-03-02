@@ -26,12 +26,12 @@ type Provider interface {
 
 func verboseGet(provider Provider, key, value string) {
 	if provider.verbose() {
-		log.Printf("[Provider %s]: key %s set to %s", provider.Name(), key, value)
+		log.Printf("Provider %s: key %s set to %s", provider.Name(), key, value)
 	}
 }
 
 func verboseFallback(provider Provider, key, fallback string) {
 	if provider.verbose() {
-		log.Printf("[Provider %s] (FALLBACK): key %s not set, fallback: %s", provider.Name(), key, fallback)
+		log.Printf("Provider %s: key %s not set, fallback: %s", provider.Name(), key, fallback)
 	}
 }

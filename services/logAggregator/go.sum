@@ -19,6 +19,8 @@ github.com/vivian-hua/civic-qa/services/common v0.0.0-20210217005008-848fa3bc039
 github.com/vivian-hua/civic-qa/services/common v0.0.0-20210217005008-848fa3bc0399/go.mod h1:JQKJyp3Xi6UUICplQpjiAI0SoeZm7D+YoNumsgxEiLA=
 github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f h1:cgSafvK8SUG2VJOVgtfjOAIE5DJlN8oYE+JUa6TBXgI=
 github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f/go.mod h1:M1d7kDdIWVmgwNAL/rH13Nm+4KHaGt4Rb1aI8qV9DxQ=
+github.com/vivian-hua/civic-qa/services/common v0.0.0-20210301202124-142c59451b9f h1:iwOKXhaOzuAZkhXU+oqTa7F/CIkEzw079Eg3EXhRHWI=
+github.com/vivian-hua/civic-qa/services/common v0.0.0-20210301202124-142c59451b9f/go.mod h1:M1d7kDdIWVmgwNAL/rH13Nm+4KHaGt4Rb1aI8qV9DxQ=
 gorm.io/driver/sqlite v1.1.4 h1:PDzwYE+sI6De2+mxAneV9Xs11+ZyKV6oxD3wDGkaNvM=
 gorm.io/driver/sqlite v1.1.4/go.mod h1:mJCeTFr7+crvS+TRnWc5Z3UvwxUN1BGBLMrf5LA9DYw=
 gorm.io/gorm v1.20.7/go.mod h1:0HFTzE/SqkGTzK6TlDPPQbAYCluiVvhzoA1+aVyzenw=

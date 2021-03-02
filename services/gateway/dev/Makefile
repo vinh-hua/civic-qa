@@ -1,8 +1,3 @@
-# things to replace:
-#	<YOUR DOCKER USER (e.g. rbayer)>
-#	<OUTPUT IMAGE NAME (e.g. myservice)>
-#	<OUTPUT TAG (e.g. v0.0.0)>
-
 DOCKER_USER ?= rbayer
 IMAGE_NAME = gateway
 VERSION_TAG = v0.0.0
@@ -22,7 +17,6 @@ build: docker_cfg
 	go mod vendor
 
 	cd .. && docker build -t $(FULL_IMAGE) .
-	docker push $(FULL_IMAGE)
 
 
 test:

@@ -19,7 +19,6 @@ build: docker_cfg
 	go mod vendor
 
 	cd .. && docker build -t $(FULL_IMAGE) .
-	docker push $(FULL_IMAGE)
 
 
 test:

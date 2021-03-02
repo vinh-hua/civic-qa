@@ -29,6 +29,7 @@ type Config struct {
 type newLogEntry struct {
 	CorrelationID string `json:"correlationID"`
 	TimeUnix      int64  `json:"timeUnix"`
+	HTTPMethod    string `json:"httpMethod"`
 	RequestPath   string `json:"requestPath"`
 	Service       string `json:"service"`
 	StatusCode    int    `json:"statusCode"`
@@ -49,7 +50,8 @@ func NewAggregatorMiddleware(config *Config) func(http.Handler) http.Handler {
 			entry := &newLogEntry{
 				CorrelationID: r.Header.Get("X-Correlation-ID"),
 				TimeUnix:      time.Now().Unix(),
-				RequestPath:   r.URL.RawPath,
+				HTTPMethod:    r.Method,
+				RequestPath:   r.URL.String(),
 				Service:       config.ServiceName,
 				StatusCode:    wrapped.Status(),
 			}

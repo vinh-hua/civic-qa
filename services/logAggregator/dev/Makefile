@@ -1,6 +1,6 @@
 DOCKER_USER ?= rbayer
 IMAGE_NAME = logaggregator
-VERSION_TAG = v0.0.0
+VERSION_TAG = v0.0.1
 
 FULL_IMAGE = $(DOCKER_USER)/$(IMAGE_NAME):$(VERSION_TAG)
 
@@ -17,7 +17,6 @@ build: docker_cfg
 	go mod vendor
 
 	cd .. && docker build -t $(FULL_IMAGE) .
-	docker push $(FULL_IMAGE)
 
 
 test:

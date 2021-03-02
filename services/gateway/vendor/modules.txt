@@ -10,10 +10,11 @@ github.com/gorilla/handlers
 github.com/gorilla/mux
 # github.com/urfave/negroni v1.0.0
 github.com/urfave/negroni
-# github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f => ../common
+# github.com/vivian-hua/civic-qa/services/common v0.0.0-20210301202124-142c59451b9f
 ## explicit
 github.com/vivian-hua/civic-qa/services/common/config
 github.com/vivian-hua/civic-qa/services/common/middleware
 # github.com/vivian-hua/civic-qa/services/logAggregator v0.0.0-20210227211936-aef745c47c5f => ../logAggregator
 ## explicit
 github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware
+# github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f => ../common
