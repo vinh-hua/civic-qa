@@ -85,6 +85,10 @@ func (l *LogRepository) generateWheres(query model.LogQuery) (conds, params []in
 		conds = append(conds, "timeUnix <= ?")
 		params = append(params, query.TimeUnixStop)
 	}
+	if query.HTTPMethod != "" {
+		conds = append(conds, "httpMethod = ?")
+		params = append(params, query.HTTPMethod)
+	}
 	if query.Service != "" {
 		conds = append(conds, "service = ?")
 		params = append(params, query.Service)

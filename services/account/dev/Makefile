@@ -11,18 +11,21 @@ docker_cfg:
 	@echo "set env DOCKER_USER=<YOUR USER> on your system to change"
 	@echo $(FULL_IMAGE)
 
+
 build: docker_cfg
 	@echo "=== BUILD ==="
 	@echo "building and tagging $(IMAGE_NAME):$(VERSION_TAG)"
 
+	go mod vendor
+
 	cd .. && docker build -t $(FULL_IMAGE) .
 
-	docker push $(FULL_IMAGE)
 
 test:
 	@echo "=== TEST ==="
 	@echo "Running all tests"
 	go test ../...
+
 
 test_verbose: 
 	@echo "=== TEST ==="

@@ -1,8 +1,3 @@
-# things to replace:
-#	<YOUR DOCKER USER (e.g. rbayer)>
-#	<OUTPUT IMAGE NAME (e.g. myservice)>
-#	<OUTPUT TAG (e.g. v0.0.0)>
-
 DOCKER_USER ?= rbayer
 IMAGE_NAME = gateway
 VERSION_TAG = v0.0.0
@@ -14,16 +9,21 @@ docker_cfg:
 	@echo "docker user: $(DOCKER_USER)"
 	@echo "set env DOCKER_USER=<YOUR USER> on your system to change"
 
+
 build: docker_cfg
 	@echo "=== BUILD ==="
 	@echo "building and tagging $(FULL_IMAGE)"
 
+	go mod vendor
+
 	cd .. && docker build -t $(FULL_IMAGE) .
+
 
 test:
 	@echo "=== TEST ==="
 	@echo "Running all tests"
 	go test ../...
+
 
 test_verbose: 
 	@echo "=== TEST ==="

@@ -9,6 +9,7 @@ type LogEntry struct {
 	ID            uint      `gorm:"primarykey" json:"-"`
 	CorrelationID uuid.UUID `gorm:"column:correlationID;type:string" json:"correlationID"`
 	TimeUnix      int64     `gorm:"column:timeUnix" json:"timeUnix"`
+	HTTPMethod    string    `gorm:"column:httpMethod" json:"httpMethod"`
 	RequestPath   string    `gorm:"column:requestPath" json:"requestPath"`
 	Service       string    `gorm:"column:service" json:"service"`
 	StatusCode    int       `gorm:"column:statusCode" json:"statusCode"`
@@ -25,6 +26,7 @@ type LogQuery struct {
 	CorrelationID   uuid.UUID `json:"correlationID"`
 	TimeUnixStart   int64     `json:"timeUnixStart"`
 	TimeUnixStop    int64     `json:"timeUnixStop"`
+	HTTPMethod      string    `json:"httpMethod"`
 	Service         string    `json:"service"`
 	StatusCodeStart int       `json:"statusCodeStart"`
 	StatusCodeStop  int       `json:"statusCodeStop"`

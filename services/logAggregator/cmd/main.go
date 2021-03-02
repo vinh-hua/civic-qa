@@ -22,7 +22,7 @@ const (
 	// VersionBase is the API route base
 	VersionBase = "/v0"
 	// APIVersion is the API semantic version
-	APIVersion = "v0.0.0"
+	APIVersion = "v0.0.1"
 )
 
 func main() {
