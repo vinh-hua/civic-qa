@@ -2,7 +2,6 @@
 export const Title = "Civic QA";
 export const Dashboard = "Dashboard";
 export const GeneralInquiries = "General Inquiries";
-export const Inbox = "Inbox";
 export const EngagementReports = "Engagement Reports";
 export const Templates = "Your Templates";
 export const ComposeEmail = "Compose Email";
@@ -12,16 +11,12 @@ export const Logout = "Logout";
 // stat cards
 export const General = "General";
 export const Casework = "Casework";
-export const Assigned = "Assigned";
-export const Overdue = "Overdue";
 
 // chart
 export const ChartTitle = "Today's trends";
 
 // chart dropdown menu options
-export const AllEmails = "All Emails";
-export const UnreadEmails = "Unread Emails";
-export const ResponseTime = "Response Time";
+export const Responses = "Form Responses";
 export const Topics = "Topics";
 
 // chart stat cards

@@ -25,9 +25,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
             </button>
             {showMenu ? 
                 <div className="menu">
-                    <button onClick={() => SetChartViewAndToggleMenu(Constants.AllEmails)} className="dropdown-menu-btn"><p className="dropdown-menu-btn-text">{Constants.AllEmails}</p></button>
-                    <button onClick={() => SetChartViewAndToggleMenu(Constants.UnreadEmails)} className="dropdown-menu-btn"><p className="dropdown-menu-btn-text">{Constants.UnreadEmails}</p></button>
-                    <button onClick={() => SetChartViewAndToggleMenu(Constants.ResponseTime)} className="dropdown-menu-btn"><p className="dropdown-menu-btn-text">{Constants.ResponseTime}</p></button>
+                    <button onClick={() => SetChartViewAndToggleMenu(Constants.Responses)} className="dropdown-menu-btn"><p className="dropdown-menu-btn-text">{Constants.Responses}</p></button>
                     <button onClick={() => SetChartViewAndToggleMenu(Constants.Topics)} className="dropdown-menu-btn"><p className="dropdown-menu-btn-text">{Constants.Topics}</p></button>
                 </div> : <div />}
         </div>

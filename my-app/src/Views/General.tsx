@@ -27,8 +27,8 @@ export function General() {
 
     let statCards = [
         {title: "New Today", stat: 288},
-        {title: "Follow-Ups", stat: 106},
-        {title: "Unanswered", stat: 934}
+        {title: "This Week", stat: 106},
+        {title: "Topics", stat: 24}
     ];
 
     return (

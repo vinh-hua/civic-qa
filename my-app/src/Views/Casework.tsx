@@ -23,8 +23,8 @@ export function Casework() {
 
     let statCards = [
         {title: "New Today", stat: 9},
-        {title: "Pending", stat: 23},
-        {title: "Unanswered", stat: 55}
+        {title: "This Week", stat: 23},
+        {title: "Topics", stat: 10}
     ];
 
     return (

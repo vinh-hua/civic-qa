@@ -15,7 +15,7 @@ function randomChartData(): Array<ChartData> {
 export function DashboardChartStats() {
     const [total, setTotal] = useState(0);
     const [today, setToday] = useState(0);
-    const [chartView, setChartView] = useState(Constants.AllEmails);
+    const [chartView, setChartView] = useState(Constants.Responses);
 
     // make randomize chart data
     const test_data = randomChartData();

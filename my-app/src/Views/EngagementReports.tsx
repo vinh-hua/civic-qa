@@ -1,6 +1,5 @@
 import { Header } from '../Components/Header';
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
-import { SubHeaderLine } from '../Components/SubHeaderLine';
 
 export type EngagementReportBarChartData = {
     name: string;
