@@ -7,3 +7,14 @@
 
 ## ERD
 ![erd](https://lucid.app/publicSegments/view/6885381e-a569-47dc-9792-8b3df2ca0193/image.png)
+
+## Backend
+### Run locally
+- Requirements:
+    - Go 1.15
+    - Docker
+    - GNU Make
+- Steps:
+    - Set `$DOCKER_USER` to your docker username
+    - Navigate to `/services`
+    - Run `$make up`

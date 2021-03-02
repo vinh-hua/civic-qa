@@ -1,0 +1,26 @@
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - "80:80"
+    environment:
+      - ADDR=:80
+      - AGG_ADDR=http://logaggregator:8888
+      - ACCOUNT_SVC=http://account:8080/v0
+  account:
+    build: ./account
+    environment:
+      - ADDR=:8080
+      - AGG_ADDR=http://logaggregator:8888
+      - DB_IMPL=sqlite
+      - DB_DSN=/database/accounts.db
+    volumes:
+      - ./test_databases:/database
+  logaggregator:
+    build: ./logAggregator
+    environment:
+      - ADDR=:8888
+      - DB_DSN=/database/logs.db
+    volumes:
+      - ./test_databases:/database
+    

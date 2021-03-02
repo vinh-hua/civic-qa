@@ -69,10 +69,10 @@ paths:
                   newToday:
                     type: integer
                     format: int64
-                  followups:
+                  thisWeek:
                     type: integer
                     format: int64
-                  unanswered:
+                  topics:
                     type: integer
                     format: int64
   /analytics/casework/{userId}:
@@ -101,9 +101,9 @@ paths:
                   newToday:
                     type: integer
                     format: int64
-                  pending:
+                  thisWeek:
                     type: integer
                     format: int64
-                  unanswered:
+                  topics:
                     type: integer
                     format: int64

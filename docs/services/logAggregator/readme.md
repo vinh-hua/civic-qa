@@ -7,6 +7,10 @@ This service is used to aggregate logs in a common format from many sources.
 - Log: store a new log
 - Query: query existing logs
 
+## Usage:
+- Middleware: `pkg/middleware` defines `NewAggregatorMiddleware` which returns middleware compatible with `gorilla/mux` routers
+to automatically log all incoming requests. 
+
 ## API:
 OpenAPI: `api-v0.yaml`
             
@@ -20,5 +24,5 @@ navigate to `/dev/`, execute `$make test` or `$make test_verbose`
 env:
 - ADDR (default = :8888)
     - server port
-- dbPath (default = logs.db)
+- DN_DSN (default = logs.db)
     - path to sqlite database file

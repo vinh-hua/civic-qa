@@ -6,17 +6,21 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	// 3rd party
 	"github.com/gorilla/mux"
 
 	// common
-	"github.com/vivian-hua/civic-qa/services/common/environment"
+	"github.com/vivian-hua/civic-qa/services/common/config"
 	commonMiddleware "github.com/vivian-hua/civic-qa/services/common/middleware"
-	logClient "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/client"
+
+	//pkg
+	aggregator "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware"
 
 	// internal
 	"github.com/vivian-hua/civic-qa/services/gateway/internal/middleware"
+	"github.com/vivian-hua/civic-qa/services/gateway/internal/proxy"
 )
 
 const (
@@ -29,13 +33,12 @@ const (
 var (
 	// LoggingOutput is a file that recieves log outputs
 	LoggingOutput = os.Stdout
-
-	// Environment
-	addr           = environment.GetEnvOrFallback("ADDR", ":80")
-	aggregatorAddr = environment.GetEnvOrFallback("AGG_ADDR", "http://localhost:8888")
 )
 
 func main() {
+	// config
+	var cfg config.Provider = &config.EnvProvider{}
+	cfg.SetVerbose(true)
 
 	// Routers
 	router := mux.NewRouter()
@@ -44,21 +47,27 @@ func main() {
 	// Middleware
 	router.Use(middleware.NewCorrelatorMiddleware)
 	router.Use(commonMiddleware.NewLoggingMiddleware(LoggingOutput))
-
-	// Handlers and clients
-	aggregator, err := logClient.NewLogClient(aggregatorAddr)
-	if err != nil {
-		log.Fatalf("Failed to create aggregator client: %v", err)
-	}
+	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
+		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", "http://localhost:8888"),
+		ServiceName:       "gateway",
+		StdoutErrors:      true,
+		Timeout:           10 * time.Second,
+	}))
 
 	// Routes
+	accountService := cfg.GetOrFallback("ACCOUNT_SVC", "http://localhost:8080/v0")
+	api.Handle("/signup", proxy.NewProxy(proxy.MustParse(accountService+"/signup")))
+	api.Handle("/login", proxy.NewProxy(proxy.MustParse(accountService+"/login")))
+	api.Handle("/logout", proxy.NewProxy(proxy.MustParse(accountService+"/logout")))
+	api.Handle("/getsession", proxy.NewProxy(proxy.MustParse(accountService+"/getsession")))
+
 	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		aggregator.Log(r.Header.Get("X-Correlation-ID"), "Gateway", 200, "Hello!")
 		w.WriteHeader(http.StatusOK)
 		io.WriteString(w, "Hello world!")
 	})
 
 	// Start Server
+	addr := cfg.GetOrFallback("ADDR", ":80")
 	log.Printf("Server %s running on %s", APIVersion, addr)
 	log.Fatal(http.ListenAndServe(addr, router))
 }

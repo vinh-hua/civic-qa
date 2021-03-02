@@ -10,12 +10,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// LogStore is an interface for storing and querying logs
-// type LogStore interface {
-// 	Log(newEntry LogEntry) *LogError
-// 	Query(query LogQuery) ([]LogEntry, *QueryError)
-// }
-
 // LogRepository interacts with log storage
 type LogRepository struct {
 	db *gorm.DB
@@ -90,6 +84,10 @@ func (l *LogRepository) generateWheres(query model.LogQuery) (conds, params []in
 	if query.TimeUnixStop != 0 {
 		conds = append(conds, "timeUnix <= ?")
 		params = append(params, query.TimeUnixStop)
+	}
+	if query.HTTPMethod != "" {
+		conds = append(conds, "httpMethod = ?")
+		params = append(params, query.HTTPMethod)
 	}
 	if query.Service != "" {
 		conds = append(conds, "service = ?")
