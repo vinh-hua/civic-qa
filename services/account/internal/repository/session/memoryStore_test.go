@@ -5,16 +5,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vivian-hua/civic-qa/service/account/internal/model"
-	common "github.com/vivian-hua/civic-qa/services/common/model"
+	"github.com/vivian-hua/civic-qa/services/common/model"
 )
 
 func TestMemoryStore(t *testing.T) {
 	cases := []model.SessionState{
 		{},
-		{User: common.User{}, CreatedAt: time.Now()},
-		{User: common.User{ID: 1, Email: "test@mail.com"}, CreatedAt: time.Now()},
-		{User: common.User{
+		{User: model.User{}, CreatedAt: time.Now()},
+		{User: model.User{ID: 1, Email: "test@mail.com"}, CreatedAt: time.Now()},
+		{User: model.User{
 			ID:        1,
 			Email:     "test@mail.com",
 			PassHash:  []byte{},

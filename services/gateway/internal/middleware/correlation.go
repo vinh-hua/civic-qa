@@ -8,7 +8,8 @@ import (
 )
 
 const (
-	correlationHeader = "X-Correlation-ID"
+	// CorrelationHeader is the http header where the correlation ID will be set
+	CorrelationHeader = "X-Correlation-ID"
 	noCorrelationID   = "NO-CORRELATION-ID"
 )
 
@@ -30,7 +31,7 @@ func NewCorrelatorMiddleware(next http.Handler) http.Handler {
 		if err != nil {
 			log.Printf("Error generating correlationID: %v", err)
 		} else {
-			r.Header.Set(correlationHeader, correlationID)
+			r.Header.Set(CorrelationHeader, correlationID)
 		}
 		next.ServeHTTP(w, r)
 	})

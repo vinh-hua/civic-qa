@@ -40,28 +40,38 @@ func main() {
 	var cfg config.Provider = &config.EnvProvider{}
 	cfg.SetVerbose(true)
 
+	// Routes
+	accountService := cfg.GetOrFallback("ACCOUNT_SVC", "http://localhost:8080/v0")
+
 	// Routers
+	// base router
 	router := mux.NewRouter()
+	// API routers
 	api := router.PathPrefix(VersionBase).Subrouter()
+	// API routes requiring auth
+	apiAuth := router.PathPrefix(VersionBase).Subrouter()
 
 	// Middleware
 	router.Use(middleware.NewCorrelatorMiddleware)
 	router.Use(commonMiddleware.NewLoggingMiddleware(LoggingOutput))
 	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
-		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", "http://localhost:8888"),
+		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", "http://localhost:8888/v0"),
 		ServiceName:       "gateway",
 		StdoutErrors:      true,
 		Timeout:           10 * time.Second,
 	}))
 
-	// Routes
-	accountService := cfg.GetOrFallback("ACCOUNT_SVC", "http://localhost:8080/v0")
+	apiAuth.Use(middleware.NewAuthMiddleware(&middleware.Config{
+		AccountServiceURL: accountService,
+	}))
+
+	// routes
 	api.Handle("/signup", proxy.NewProxy(proxy.MustParse(accountService+"/signup")))
 	api.Handle("/login", proxy.NewProxy(proxy.MustParse(accountService+"/login")))
-	api.Handle("/logout", proxy.NewProxy(proxy.MustParse(accountService+"/logout")))
-	api.Handle("/getsession", proxy.NewProxy(proxy.MustParse(accountService+"/getsession")))
+	apiAuth.Handle("/logout", proxy.NewProxy(proxy.MustParse(accountService+"/logout")))
+	apiAuth.Handle("/getsession", proxy.NewProxy(proxy.MustParse(accountService+"/getsession")))
 
-	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		io.WriteString(w, "Hello world!")
 	})
