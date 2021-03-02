@@ -1,16 +1,16 @@
 openapi: 3.0.0
 info:
-  title: Form Inquiries API
-  description: Retreive form inqueries
+  title: Form Responses API
+  description: Retreive form responses
   version: 0.1.0
 
 servers:
   -url: https://_.com/v1
 
 paths:
-  /form-inquiries/{userId}:
+  /form-responses/{userId}:
     get
-      summary: Returns a list of form inquiries.
+      summary: Returns a list of form responses.
       parameters:
         - name: userId
           in: path
@@ -22,7 +22,7 @@ paths:
             minimum: 1
       responses:
         '200':
-          description: List of form inquiries.
+          description: List of form responses.
           content:
             application/json:
               schema:
