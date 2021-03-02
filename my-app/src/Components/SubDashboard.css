@@ -6,9 +6,9 @@
     font-size: 40px;
     color: #9B51E0;
     font-weight: bold;
-    position: absolute;
+    position: absolute; 
     margin-top: 2.5%;
-    margin-left: 25%;
+    left: 50%;
 }
 
 .sub-dash-sub-title {
@@ -24,8 +24,15 @@
     margin-bottom: 30px;
 }
 
-.sub-dash-cards {
+.sub-dash-cards-400 {
     height: 400px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.sub-dash-cards-700 {
+    height: 700px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;

@@ -14,6 +14,7 @@ export type SubDashboardProps = {
     data: Array<SubDashboardData>;
     setData: Dispatch<SetStateAction<SubDashboardData[]>>;
     emailTemplates: boolean;
+    formResponses: boolean;
     hasRespondOption: boolean;
 };
 
@@ -29,9 +30,15 @@ export function SubDashboard(props: SubDashboardProps) {
         <div>
             <div>
                 <SubHeaderLine title={props.title}></SubHeaderLine>
-                <div className="sub-dash-cards">
+                {props.formResponses ? 
+                <div className="sub-dash-cards-700">
+                    {cards}
+                </div> :
+                <div className="sub-dash-cards-400">
                     {cards}
                 </div>
+                }
+
             </div>
         </div>
     );

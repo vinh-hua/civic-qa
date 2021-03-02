@@ -34,7 +34,7 @@ export function General() {
     return (
         <div className="dashboard sub-dashboard">
             <Header title="General Inquiries"></Header>
-            <SubDashboard title="Top Subjects" data={data} setData={setData} emailTemplates={false} hasRespondOption={true}></SubDashboard>
+            <SubDashboard title="Top Subjects" data={data} setData={setData} emailTemplates={false} formResponses={false} hasRespondOption={true}></SubDashboard>
             <div className="sub-summary">
                 <SubHeaderLine title="SUMMARY"></SubHeaderLine>
                 <StatCardRow cards={statCards}></StatCardRow>

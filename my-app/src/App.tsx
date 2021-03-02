@@ -5,7 +5,7 @@ import { ProfileHeader } from "./Profile/ProfileHeader";
 import { Dashboard } from './Views/Dashboard';
 import { General } from './Views/General';
 import { Casework } from './Views/Casework';
-import { Inbox } from './Views/Inbox';
+import { Responses } from './Views/Responses';
 import { EngagementReports } from './Views/EngagementReports';
 import { Templates } from './Views/Templates';
 import { Settings } from './Views/Settings';
@@ -62,7 +62,7 @@ export default function App() {
             <Route path="/dashboard" component={Dashboard}></Route>
             <Route path="/general" component={General}></Route>
             <Route path="/casework" component={Casework}></Route>
-            <Route path="/responses" component={Inbox}/>
+            <Route path="/responses" component={Responses}/>
             <Route path="/engagement-reports" component={EngagementReports}/>
             <Route path="/templates" component={Templates}/>
             <Route path="/settings" component={Settings}/>
