@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	getSessionPath      = "/getsession"
+	getSessionPath      = "/v0/getsession"
 	authorizationHeader = "Authorization"
 	xAuthUserIDHeader   = "X-AuthUser-ID"
 )

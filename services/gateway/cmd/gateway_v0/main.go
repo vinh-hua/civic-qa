@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/http/httputil"
 	"os"
 	"time"
 
@@ -41,8 +42,8 @@ func main() {
 	cfg.SetVerbose(true)
 
 	// subservices
-	accountService := cfg.GetOrFallback("ACCOUNT_SVC", "http://localhost:8080/v0")
-	formService := cfg.GetOrFallback("FORM_SVC", "http://localhost:7070/v0")
+	accountService := cfg.GetOrFallback("ACCOUNT_SVC", "http://localhost:8080")
+	formService := cfg.GetOrFallback("FORM_SVC", "http://localhost:7070")
 
 	// Routers
 	// base router
@@ -67,11 +68,20 @@ func main() {
 	}))
 
 	// routes
-	api.Handle("/signup", proxy.NewProxy(proxy.MustParse(accountService+"/signup")))
-	api.Handle("/login", proxy.NewProxy(proxy.MustParse(accountService+"/login")))
-	apiAuth.Handle("/logout", proxy.NewProxy(proxy.MustParse(accountService+"/logout")))
-	apiAuth.Handle("/getsession", proxy.NewProxy(proxy.MustParse(accountService+"/getsession")))
-	apiAuth.Handle("/forms", proxy.NewProxy(proxy.MustParse(formService+"/forms")))
+	accountProxy := httputil.NewSingleHostReverseProxy(proxy.MustParse(accountService))
+	formProxy := httputil.NewSingleHostReverseProxy(proxy.MustParse(formService))
+
+	api.Handle("/signup", accountProxy)
+	api.Handle("/login", accountProxy)
+	api.Handle("/form/{formID:[0-9]+}", formProxy)
+
+	apiAuth.Handle("/logout", accountProxy)
+	apiAuth.Handle("/getsession", accountProxy)
+
+	apiAuth.Handle("/forms", formProxy)
+	apiAuth.Handle("/forms/{formID:[0-9]+}", formProxy)
+	apiAuth.Handle("/forms/{formID:[0-9]+}/responses", formProxy)
+	apiAuth.Handle("/responses/{responseID:[0-9]+}", formProxy)
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
