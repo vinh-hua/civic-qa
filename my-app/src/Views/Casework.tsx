@@ -18,7 +18,6 @@ function getSubDashboardData(): Array<SubDashboardData> {
 
 export function Casework() {
     const test_data = getSubDashboardData();
-    const [data, setData] = useState(test_data);
     const [onSpecificView, setSpecificView] = useState(false);
 
     let statCards = [
@@ -30,7 +29,7 @@ export function Casework() {
     return (
         <div className="dashboard sub-dashboard">
             <Header title="Casework"></Header>
-            <SubDashboard title="TOPIC" data={data} setData={setData} emailTemplates={false} formResponses={false} hasRespondOption={false} viewButton={false}></SubDashboard>
+            <SubDashboard title="TOPIC" data={test_data} setSpecificView={setSpecificView} emailTemplates={false} fullPageView={false} hasRespondOption={false} viewButton={false}></SubDashboard>
             <div className="sub-summary">
                 <SubHeaderLine title="SUMMARY"></SubHeaderLine>
                 <StatCardRow cards={statCards}></StatCardRow>

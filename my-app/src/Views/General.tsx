@@ -22,7 +22,6 @@ function getSubDashboardData(): Array<SubDashboardData> {
 
 export function General() {
     const test_data = getSubDashboardData();
-    const [data, setData] = useState(test_data);
     const [onSpecificView, setSpecificView] = useState(false);
 
     let statCards = [
@@ -33,12 +32,15 @@ export function General() {
 
     return (
         <div className="dashboard sub-dashboard">
-            <Header title="General Inquiries"></Header>
-            <SubDashboard title="TOP SUBJECTS" data={data} setData={setData} emailTemplates={false} formResponses={false} hasRespondOption={true} viewButton={true}></SubDashboard>
-            <div className="sub-summary">
-                <SubHeaderLine title="SUMMARY"></SubHeaderLine>
-                <StatCardRow cards={statCards}></StatCardRow>
-            </div>
+            {onSpecificView ? <div></div> :
+            <div>
+                <Header title="General Inquiries"></Header>
+                <SubDashboard title="TOP SUBJECTS" data={test_data} setSpecificView={setSpecificView} emailTemplates={false} fullPageView={false} hasRespondOption={true} viewButton={true}></SubDashboard>
+                <div className="sub-summary">
+                    <SubHeaderLine title="SUMMARY"></SubHeaderLine>
+                    <StatCardRow cards={statCards}></StatCardRow>
+                </div>
+            </div>}
         </div>
     );
 }

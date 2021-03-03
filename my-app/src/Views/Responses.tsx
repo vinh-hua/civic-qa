@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
+import { SpecificView } from '../Components/SpecificView'; 
 
 // currently using test data
 function getSubDashboardData(): Array<SubDashboardData> {
@@ -20,11 +21,15 @@ function getSubDashboardData(): Array<SubDashboardData> {
 
 export function Responses() {
     const test_data = getSubDashboardData();
-    const [data, setData] = useState(test_data);
+    const [onSpecificView, setSpecificView] = useState(false);
+
     return (
         <div className="dashboard sub-dashboard">
-            <Header title="Form Responses"></Header>
-            <SubDashboard title="CURRENT RESPONSES" data={data} setData={setData} emailTemplates={false} formResponses={true} hasRespondOption={false} viewButton={false} subHeaderNumber={342}></SubDashboard>
+            {onSpecificView ? <SpecificView title="Form Responses" subject={"subject"} body={"body"} subHeaderNumber={342} setSpecificView={() => setSpecificView(false)}></SpecificView> :
+            <div>
+                <Header title="Form Responses"></Header>
+                <SubDashboard title="CURRENT RESPONSES" data={test_data} setSpecificView={() => setSpecificView(true)} emailTemplates={false} fullPageView={true} hasRespondOption={false} viewButton={false} subHeaderNumber={342}></SubDashboard>
+            </div>}
         </div>
     );
 }
