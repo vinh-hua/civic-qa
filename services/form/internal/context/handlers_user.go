@@ -12,6 +12,7 @@ import (
 )
 
 // HandleGetForm GET /form/{formID}
+// Allows a user to get the HTML for a specific form (meant for iFrame)
 func (ctx *Context) HandleGetForm(w http.ResponseWriter, r *http.Request) {
 	// parse the URL parameter
 	vars := mux.Vars(r)
@@ -53,6 +54,7 @@ func (ctx *Context) HandleGetForm(w http.ResponseWriter, r *http.Request) {
 }
 
 // HandlePostForm POST /form/{formID}
+// Allows a user to respond to a specific form
 func (ctx *Context) HandlePostForm(w http.ResponseWriter, r *http.Request) {
 	// parse the URL parameter
 	vars := mux.Vars(r)
@@ -90,5 +92,4 @@ func (ctx *Context) HandlePostForm(w http.ResponseWriter, r *http.Request) {
 	// respond
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Thank you!"))
-
 }

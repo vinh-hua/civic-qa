@@ -14,32 +14,38 @@ import (
 )
 
 const (
+	// xAuthUserIDHeader is the header where authenticated userID should be
 	xAuthUserIDHeader = "X-AuthUser-ID"
 )
 
+// authError contains information about
+// a missing or invalid xAuthUserIDHeader
 type authError struct {
-	Message string
-	Code    int
+	message string
+	code    int
 }
 
+// getAuthUserID returns the userID of a requests authenticated user if present,
+// or returns an authError
 func getAuthUserID(r *http.Request) (uint, *authError) {
 	// check that the user is authenticated
 	authUserStr := r.Header.Get(xAuthUserIDHeader)
 	if authUserStr == "" {
-		return 0, &authError{Message: "No Authorization Found", Code: http.StatusUnauthorized}
+		return 0, &authError{message: "No Authorization Found", code: http.StatusUnauthorized}
 	}
 
 	// parse userID
 	userID, err := strconv.ParseUint(authUserStr, 10, 64)
 	if err != nil {
 		log.Printf("Error parsing userID: %v", err)
-		return 0, &authError{Message: "Internal Server Error", Code: http.StatusInternalServerError}
+		return 0, &authError{message: "Invalid Authorization", code: http.StatusUnauthorized}
 	}
 
 	return uint(userID), nil
 }
 
 // HandleCreateForm POST /forms
+// Allows an authenticated user to create a new form
 func (ctx *Context) HandleCreateForm(w http.ResponseWriter, r *http.Request) {
 	// check content type
 	if r.Header.Get("content-type") != "application/json" {
@@ -50,7 +56,7 @@ func (ctx *Context) HandleCreateForm(w http.ResponseWriter, r *http.Request) {
 	// get the auth user
 	userID, authErr := getAuthUserID(r)
 	if authErr != nil {
-		http.Error(w, authErr.Message, authErr.Code)
+		http.Error(w, authErr.message, authErr.code)
 		return
 	}
 
@@ -88,12 +94,13 @@ func (ctx *Context) HandleCreateForm(w http.ResponseWriter, r *http.Request) {
 }
 
 // HandleGetForms GET /forms
+// Allows an authenticated user to view all their forms
 func (ctx *Context) HandleGetForms(w http.ResponseWriter, r *http.Request) {
 
 	// get the auth user
 	userID, authErr := getAuthUserID(r)
 	if authErr != nil {
-		http.Error(w, authErr.Message, authErr.Code)
+		http.Error(w, authErr.message, authErr.code)
 		return
 	}
 
@@ -116,6 +123,7 @@ func (ctx *Context) HandleGetForms(w http.ResponseWriter, r *http.Request) {
 }
 
 // HandleGetSpecificForm GET /forms/{formID}
+// Allows an authenticated user to see a specific form
 func (ctx *Context) HandleGetSpecificForm(w http.ResponseWriter, r *http.Request) {
 	// parse the URL parameter
 	vars := mux.Vars(r)
@@ -128,7 +136,7 @@ func (ctx *Context) HandleGetSpecificForm(w http.ResponseWriter, r *http.Request
 	// get the auth user
 	userID, authErr := getAuthUserID(r)
 	if authErr != nil {
-		http.Error(w, authErr.Message, authErr.Code)
+		http.Error(w, authErr.message, authErr.code)
 		return
 	}
 
@@ -162,6 +170,7 @@ func (ctx *Context) HandleGetSpecificForm(w http.ResponseWriter, r *http.Request
 }
 
 // HandleGetFormResponses GET /form/{formID}/responses
+// Allows an authenticated user to see response to a specific form
 func (ctx *Context) HandleGetFormResponses(w http.ResponseWriter, r *http.Request) {
 	// parse the URL parameter
 	vars := mux.Vars(r)
@@ -174,7 +183,7 @@ func (ctx *Context) HandleGetFormResponses(w http.ResponseWriter, r *http.Reques
 	// get the auth user
 	userID, authErr := getAuthUserID(r)
 	if authErr != nil {
-		http.Error(w, authErr.Message, authErr.Code)
+		http.Error(w, authErr.message, authErr.code)
 		return
 	}
 
@@ -216,6 +225,7 @@ func (ctx *Context) HandleGetFormResponses(w http.ResponseWriter, r *http.Reques
 }
 
 // HandleGetSpecificResponse GET /responses/{responseID}
+// Allows an authenticated user to view a specific response
 func (ctx *Context) HandleGetSpecificResponse(w http.ResponseWriter, r *http.Request) {
 	// parse the URL parameter
 	vars := mux.Vars(r)
@@ -228,7 +238,7 @@ func (ctx *Context) HandleGetSpecificResponse(w http.ResponseWriter, r *http.Req
 	// get the auth user
 	userID, authErr := getAuthUserID(r)
 	if authErr != nil {
-		http.Error(w, authErr.Message, authErr.Code)
+		http.Error(w, authErr.message, authErr.code)
 		return
 	}
 

@@ -7,6 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// GormStore is a gorm implementation
+// of form.Store
 type GormStore struct {
 	db *gorm.DB
 }

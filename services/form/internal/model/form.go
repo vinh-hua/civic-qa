@@ -11,6 +11,7 @@ const (
 	FormTableName = "forms"
 )
 
+// Form is a model for a generated HTML form
 type Form struct {
 	ID        uint        `gorm:"primarykey;column:id" json:"id"`
 	Name      string      `gorm:"NOT NULL;column:name" json:"name"`

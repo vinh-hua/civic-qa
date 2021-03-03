@@ -10,11 +10,13 @@ import (
 	"gorm.io/gorm"
 )
 
+// Context stores request handler context
 type Context struct {
 	FormStore     form.Store
 	ResponseStore response.Store
 }
 
+// BuildContext returns a handler Context given a config Provider
 func BuildContext(cfg config.Provider) (*Context, error) {
 	formStore, err := getFormStoreImpl(cfg)
 	if err != nil {
@@ -29,6 +31,8 @@ func BuildContext(cfg config.Provider) (*Context, error) {
 	return &Context{FormStore: formStore, ResponseStore: respStore}, nil
 }
 
+// getFormStoreImpl returns a form.Store implementation based on
+// a given config Provider
 func getFormStoreImpl(cfg config.Provider) (form.Store, error) {
 	dbImpl := cfg.GetOrFallback("DB_IMPL", "sqlite")
 	dbDsn := cfg.GetOrFallback("DB_DSN", "database.db")
@@ -45,6 +49,8 @@ func getFormStoreImpl(cfg config.Provider) (form.Store, error) {
 
 }
 
+// getResponseStoreImpl returns a response.Store implementation based on
+// a given config Provider
 func getResponseStoreImpl(cfg config.Provider) (response.Store, error) {
 	dbImpl := cfg.GetOrFallback("DB_IMPL", "sqlite")
 	dbDsn := cfg.GetOrFallback("DB_DSN", "database.db")
