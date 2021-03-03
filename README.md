@@ -3,7 +3,7 @@
 
 
 ## Architecture
-![arch](https://lucid.app/publicSegments/view/3b94b1a5-60ef-40cf-a499-41a6d1cbd504/image.png)
+![arch](https://lucid.app/publicSegments/view/02744f1b-bda1-41eb-8c9a-0b9c2d66a532/image.png)
 
 ## ERD
 ![erd](https://lucid.app/publicSegments/view/6885381e-a569-47dc-9792-8b3df2ca0193/image.png)
