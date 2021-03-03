@@ -269,10 +269,38 @@ func (ctx *Context) HandleGetSpecificResponse(w http.ResponseWriter, r *http.Req
 	}
 
 	// return the response
-	// return the responses
 	w.Header().Set("content-type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(&respData)
+	if err != nil {
+		log.Printf("Error encoding forms: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+}
+
+// HandleGetResponses GET /responses
+// Allows an authenticated user to get responses to all their forms
+func (ctx *Context) HandleGetResponses(w http.ResponseWriter, r *http.Request) {
+	// get the auth user
+	userID, authErr := getAuthUserID(r)
+	if authErr != nil {
+		http.Error(w, authErr.message, authErr.code)
+		return
+	}
+
+	// get the associated responses
+	responses, err := ctx.ResponseStore.GetByUserID(userID)
+	if err != nil {
+		log.Printf("Error retrieving responses by userID: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// return the responses
+	w.Header().Set("content-type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	err = json.NewEncoder(w).Encode(&responses)
 	if err != nil {
 		log.Printf("Error encoding forms: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

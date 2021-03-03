@@ -1,14 +1,19 @@
 package response
 
 import (
+	common "github.com/vivian-hua/civic-qa/services/common/model"
+
 	"github.com/vivian-hua/civic-qa/services/form/internal/model"
 	"gorm.io/gorm"
 )
 
+// GormStore implements response.Store
 type GormStore struct {
 	db *gorm.DB
 }
 
+// NewGormStore returns a GormStore based on a given gorm.Dialector, config, and a list
+// of additional statements to execute after migration (useful for sqlite PRAGMAS or testing)
 func NewGormStore(dialector gorm.Dialector, config *gorm.Config, exec ...string) (*GormStore, error) {
 	// Open database with gorm
 	db, err := gorm.Open(dialector, config)
@@ -17,7 +22,7 @@ func NewGormStore(dialector gorm.Dialector, config *gorm.Config, exec ...string)
 	}
 
 	// perform schema migration
-	err = db.AutoMigrate(&model.Form{}, &model.FormResponse{})
+	err = db.AutoMigrate(&model.Form{}, &model.FormResponse{}, &common.User{})
 	if err != nil {
 		return nil, err
 	}
@@ -34,6 +39,7 @@ func NewGormStore(dialector gorm.Dialector, config *gorm.Config, exec ...string)
 	return &GormStore{db}, nil
 }
 
+// Create stores a new FormResponse
 func (g *GormStore) Create(response *model.FormResponse) error {
 	result := g.db.Create(response)
 	if result.Error != nil {
@@ -42,21 +48,35 @@ func (g *GormStore) Create(response *model.FormResponse) error {
 	return nil
 }
 
+// GetByID retrieves a new FormResponse by its ID
 func (g *GormStore) GetByID(responseID uint) (*model.FormResponse, error) {
 	var response model.FormResponse
 	result := g.db.Take(&response, responseID)
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
-			return nil, ErrFormNotFound
+			return nil, ErrResponseNotFound
 		}
 		return nil, result.Error
 	}
 	return &response, nil
 
 }
+
+// GetByFormID returns all FormResponses for a given Form by its ID
 func (g *GormStore) GetByFormID(formID uint) ([]*model.FormResponse, error) {
 	responses := make([]*model.FormResponse, 0)
 	result := g.db.Where("formID = ?", formID).Find(&responses)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return responses, nil
+}
+
+// GetByUserID returns all FormResponses for a given user by their userID
+func (g *GormStore) GetByUserID(userID uint) ([]*model.FormResponse, error) {
+	responses := make([]*model.FormResponse, 0)
+	result := g.db.Joins("JOIN forms ON formResponses.formID = forms.id").Joins("JOIN Users ON Users.id = forms.userID AND users.id = ?", userID).Find(&responses)
 	if result.Error != nil {
 		return nil, result.Error
 	}

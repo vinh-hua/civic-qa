@@ -71,7 +71,7 @@ def get_form(URL, auth_header, form_id):
 
     return resp.json()
 
-def get_form_user(URL, form_id):
+def get_form_client(URL, form_id):
     resp = requests.get(URL+"/form/"+str(form_id), headers={"content-type": "application/json"})
     if resp.status_code != 200:
         raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
@@ -101,6 +101,13 @@ def get_responses(URL, form_id, auth_header):
 
 def get_response(URL, resp_id, auth_header):
     resp = requests.get(URL+"/responses/"+str(resp_id), headers={"Authorization": auth_header})
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.json()
+
+def get_responses_user(URL, auth_header):
+    resp = requests.get(URL+"/responses", headers={"Authorization": auth_header})
     if resp.status_code != 200:
         raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
 

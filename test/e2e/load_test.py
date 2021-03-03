@@ -49,10 +49,10 @@ class TestLoad(unittest.TestCase):
 
         N = 100
 
-        @timeit(f"test_get_form_user {N=}")
+        @timeit(f"test_get_form_client {N=}")
         def run():
             for _ in range(N):
-                common.get_form_user(GATEWAY_URL, form["id"])
+                common.get_form_client(GATEWAY_URL, form["id"])
 
         run()
 

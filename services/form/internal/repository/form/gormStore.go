@@ -13,6 +13,8 @@ type GormStore struct {
 	db *gorm.DB
 }
 
+// NewGormStore returns a GormStore based on a given gorm.Dialector, config, and a list
+// of additional statements to execute after migration (useful for sqlite PRAGMAS or testing)
 func NewGormStore(dialector gorm.Dialector, config *gorm.Config, exec ...string) (*GormStore, error) {
 	// Open database with gorm
 	db, err := gorm.Open(dialector, config)
@@ -38,13 +40,17 @@ func NewGormStore(dialector gorm.Dialector, config *gorm.Config, exec ...string)
 	return &GormStore{db}, nil
 }
 
+// Create stores a new Form
 func (g *GormStore) Create(form *model.Form) error {
 	result := g.db.Create(form)
 	if result.Error != nil {
 		return result.Error
 	}
+
 	return nil
 }
+
+// GetByID returns a form given its ID
 func (g *GormStore) GetByID(formID uint) (*model.Form, error) {
 	var form model.Form
 	result := g.db.Take(&form, formID)
@@ -58,6 +64,7 @@ func (g *GormStore) GetByID(formID uint) (*model.Form, error) {
 	return &form, nil
 }
 
+// GetByUserID returns all Forms of a given userID
 func (g *GormStore) GetByUserID(userID uint) ([]*model.Form, error) {
 	forms := make([]*model.Form, 0)
 	result := g.db.Where("userID = ?", userID).Find(&forms)

@@ -3,8 +3,8 @@ package model
 import "time"
 
 const (
-	// TableName used by TableName() to set SQL table name by Gorm
-	TableName = "Users"
+	// UserTableName used by TableName() to set SQL table name by Gorm
+	UserTableName = "Users"
 )
 
 // User represents a user of CivicQA
@@ -20,5 +20,5 @@ type User struct {
 // TableName implements Tabler interface
 // https://gorm.io/docs/conventions.html#TableName
 func (User) TableName() string {
-	return TableName
+	return UserTableName
 }

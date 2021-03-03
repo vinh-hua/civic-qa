@@ -67,7 +67,7 @@ class TestForm(unittest.TestCase):
         auth = common.make_user(GATEWAY_URL, common.generate_user())
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
 
-        common.get_form_user(GATEWAY_URL, form["id"])
+        common.get_form_client(GATEWAY_URL, form["id"])
 
     def test_post_form_user(self):
         print("Testing post form: user")
@@ -77,7 +77,7 @@ class TestForm(unittest.TestCase):
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
 
     def test_get_responses(self):
-        print("Testing get responses")
+        print("Testing get responses from form")
         auth = common.make_user(GATEWAY_URL, common.generate_user())
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
 
@@ -97,6 +97,23 @@ class TestForm(unittest.TestCase):
 
         resp_id = resps[0]["id"]
         common.get_response(GATEWAY_URL, resp_id, auth)
+
+    def test_get_responses_user(self):
+        print("Testing get response")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+        common.post_form_user(GATEWAY_URL, form2["id"], common.generate_response())
+        common.post_form_user(GATEWAY_URL, form2["id"], common.generate_response())
+
+        common.get_responses_user(GATEWAY_URL, auth)
+
+
 
 
 if __name__ == '__main__':

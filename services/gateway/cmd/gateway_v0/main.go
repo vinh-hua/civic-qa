@@ -71,16 +71,18 @@ func main() {
 	accountProxy := httputil.NewSingleHostReverseProxy(proxy.MustParse(accountService))
 	formProxy := httputil.NewSingleHostReverseProxy(proxy.MustParse(formService))
 
+	// Session/Account
 	api.Handle("/signup", accountProxy)
 	api.Handle("/login", accountProxy)
-	api.Handle("/form/{formID:[0-9]+}", formProxy)
-
 	apiAuth.Handle("/logout", accountProxy)
 	apiAuth.Handle("/getsession", accountProxy)
 
+	// Forms/Management
+	api.Handle("/form/{formID:[0-9]+}", formProxy)
 	apiAuth.Handle("/forms", formProxy)
 	apiAuth.Handle("/forms/{formID:[0-9]+}", formProxy)
 	apiAuth.Handle("/forms/{formID:[0-9]+}/responses", formProxy)
+	apiAuth.Handle("/responses", formProxy)
 	apiAuth.Handle("/responses/{responseID:[0-9]+}", formProxy)
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
