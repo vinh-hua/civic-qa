@@ -7,5 +7,6 @@ RUN cd /src/cmd/form_v0 && go build -o goapp
 FROM  golang:latest
 WORKDIR /app
 COPY --from=build-env /src/cmd/form_v0/goapp /app/
+COPY --from=build-env /src/templates /templates/
 EXPOSE 7070
 ENTRYPOINT ["./goapp"]

@@ -43,9 +43,9 @@ func (g *GormStore) Create(form *model.Form) error {
 	}
 	return nil
 }
-func (g *GormStore) GetByID(id uint) (*model.Form, error) {
+func (g *GormStore) GetByID(formID uint) (*model.Form, error) {
 	var form model.Form
-	result := g.db.Take(&form, id)
+	result := g.db.Take(&form, formID)
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
 			return nil, ErrFormNotFound

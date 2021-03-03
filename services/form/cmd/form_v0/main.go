@@ -45,6 +45,13 @@ func main() {
 	//routes
 	api.HandleFunc("/forms", ctx.HandleGetForms).Methods("GET")
 	api.HandleFunc("/forms", ctx.HandleCreateForm).Methods("POST")
+	api.HandleFunc("/forms/{formID:[0-9]+}", ctx.HandleGetSpecificForm).Methods("GET")
+	api.HandleFunc("/forms/{formID:[0-9]+}/responses", ctx.HandleGetFormResponses).Methods("GET")
+	api.HandleFunc("/responses/{responseID:[0-9]+}", ctx.HandleGetSpecificResponse).Methods("GET")
+	api.HandleFunc("/form/{formID:[0-9]+}", ctx.HandleGetForm).Methods("GET")
+
+	api.HandleFunc("/form/{formID:[0-9]+}", ctx.HandleGetForm).Methods("GET")
+	api.HandleFunc("/form/{formID:[0-9]+}", ctx.HandlePostForm).Methods("POST")
 
 	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

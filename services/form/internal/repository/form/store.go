@@ -13,6 +13,6 @@ var (
 
 type Store interface {
 	Create(form *model.Form) error
-	GetByID(id uint) (*model.Form, error)
+	GetByID(formID uint) (*model.Form, error)
 	GetByUserID(userID uint) ([]*model.Form, error)
 }

@@ -7,12 +7,12 @@ import (
 )
 
 var (
-	ErrFormNotFound = errors.New("Form Does Not Exist")
-	ErrUserNotFound = errors.New("User Does Not Exist")
+	ErrResponseNotFound = errors.New("Response Does Not Exist")
+	ErrFormNotFound     = errors.New("Form Does Not Exist")
 )
 
 type Store interface {
-	Create(form *model.Form) error
-	GetByID(id uint) (*model.FormResponse, error)
+	Create(response *model.FormResponse) error
+	GetByID(responseID uint) (*model.FormResponse, error)
 	GetByFormID(formID uint) ([]*model.FormResponse, error)
 }

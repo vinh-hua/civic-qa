@@ -5,12 +5,14 @@ import (
 
 	"github.com/vivian-hua/civic-qa/services/common/config"
 	"github.com/vivian-hua/civic-qa/services/form/internal/repository/form"
+	"github.com/vivian-hua/civic-qa/services/form/internal/repository/response"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 type Context struct {
-	FormStore form.Store
+	FormStore     form.Store
+	ResponseStore response.Store
 }
 
 func BuildContext(cfg config.Provider) (*Context, error) {
@@ -19,7 +21,12 @@ func BuildContext(cfg config.Provider) (*Context, error) {
 		return nil, err
 	}
 
-	return &Context{FormStore: formStore}, nil
+	respStore, err := getResponseStoreImpl(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Context{FormStore: formStore, ResponseStore: respStore}, nil
 }
 
 func getFormStoreImpl(cfg config.Provider) (form.Store, error) {
@@ -36,4 +43,19 @@ func getFormStoreImpl(cfg config.Provider) (form.Store, error) {
 		return nil, fmt.Errorf("Unknown DB_IMPL: %s", dbImpl)
 	}
 
+}
+
+func getResponseStoreImpl(cfg config.Provider) (response.Store, error) {
+	dbImpl := cfg.GetOrFallback("DB_IMPL", "sqlite")
+	dbDsn := cfg.GetOrFallback("DB_DSN", "database.db")
+	switch dbImpl {
+	case "sqlite":
+		respStore, err := response.NewGormStore(sqlite.Open(dbDsn), &gorm.Config{}, "PRAGMA foreign_keys = ON;")
+		if err != nil {
+			return nil, err
+		}
+		return respStore, nil
+	default:
+		return nil, fmt.Errorf("Unknown DB_IMPL: %s", dbImpl)
+	}
 }
