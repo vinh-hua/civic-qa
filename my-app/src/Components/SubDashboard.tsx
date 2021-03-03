@@ -17,6 +17,7 @@ export type SubDashboardProps = {
     formResponses: boolean;
     hasRespondOption: boolean;
     viewButton: boolean;
+    subHeaderNumber?: number;
 };
 
 export function SubDashboard(props: SubDashboardProps) {
@@ -30,7 +31,7 @@ export function SubDashboard(props: SubDashboardProps) {
     return (
         <div>
             <div>
-                <SubHeaderLine title={props.title}></SubHeaderLine>
+                <SubHeaderLine title={props.title} subHeaderNumber={props.subHeaderNumber ? props.subHeaderNumber : undefined}></SubHeaderLine>
                 {props.formResponses ? 
                 <div className="sub-dash-cards-700">
                     {cards}
