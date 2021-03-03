@@ -2,6 +2,7 @@ import random
 import requests
 import string
 
+
 def randstr(n):
         return "".join(random.choice(string.ascii_lowercase) for _ in range(n))
 
@@ -58,6 +59,48 @@ def make_form(URL, auth_header, form_dict):
 
 def get_forms(URL, auth_header):
     resp = requests.get(URL+"/forms", headers={"content-type": "application/json", "Authorization": auth_header})
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.json()
+
+def get_form(URL, auth_header, form_id):
+    resp = requests.get(URL+"/forms/"+str(form_id), headers={"content-type": "application/json", "Authorization": auth_header})
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.json()
+
+def get_form_user(URL, form_id):
+    resp = requests.get(URL+"/form/"+str(form_id), headers={"content-type": "application/json"})
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.text
+
+def generate_response():
+    return { 
+        "email": f"{randstr(6)}@example.com",
+        "subject": randstr(10),
+        "body": randstr(25)
+    }
+
+def post_form_user(URL, form_id, form_dict):
+    resp = requests.post(URL+"/form/"+str(form_id), data=form_dict)
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.text
+
+def get_responses(URL, form_id, auth_header):
+    resp = requests.get(URL+"/forms/"+str(form_id)+"/responses", headers={"Authorization": auth_header})
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.json()
+
+def get_response(URL, resp_id, auth_header):
+    resp = requests.get(URL+"/responses/"+str(resp_id), headers={"Authorization": auth_header})
     if resp.status_code != 200:
         raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
 

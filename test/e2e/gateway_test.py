@@ -53,5 +53,51 @@ class TestForm(unittest.TestCase):
         common.make_form(GATEWAY_URL, auth, common.generate_form())
         common.get_forms(GATEWAY_URL, auth)
 
+    def test_get_form(self):
+        print("Testing get form")
+
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        common.get_form(GATEWAY_URL, auth, form["id"])
+
+    def test_get_form_user(self):
+        print("Testing get form: user")
+
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        common.get_form_user(GATEWAY_URL, form["id"])
+
+    def test_post_form_user(self):
+        print("Testing post form: user")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+
+    def test_get_responses(self):
+        print("Testing get responses")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+
+        common.get_responses(GATEWAY_URL, form["id"], auth)
+
+    def test_get_response(self):
+        print("Testing get response")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+        resps = common.get_responses(GATEWAY_URL, form["id"], auth)
+
+        resp_id = resps[0]["id"]
+        common.get_response(GATEWAY_URL, resp_id, auth)
+
+
 if __name__ == '__main__':
     unittest.main()
