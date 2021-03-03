@@ -6,8 +6,8 @@ services:
     environment:
       - ADDR=:80
       - AGG_ADDR=http://logaggregator:8888
-      - ACCOUNT_SVC=http://account:8080/v0
-      - FORM_SVC=http://form:7070/v0
+      - ACCOUNT_SVC=http://account:8080
+      - FORM_SVC=http://form:7070
   account:
     build: ./account
     environment:
