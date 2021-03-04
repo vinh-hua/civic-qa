@@ -8,6 +8,10 @@
 ## ERD
 ![erd](https://lucid.app/publicSegments/view/6885381e-a569-47dc-9792-8b3df2ca0193/image.png)
 
+## Documentation
+Gateway API: `docs/services/gateway.yml`  
+Services: `docs/services/{service-name}/api-v{major-version}.yml`
+
 ## Backend
 ### Run locally
 - Requirements:
