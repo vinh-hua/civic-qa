@@ -1,0 +1,76 @@
+openapi: '3.0.2'
+info:
+  title: Account API
+  description: Account/authorization API
+  version: 0.0.0
+
+paths:
+  /signup:
+    $ref: '../gateway.yml#/paths/~1signup'
+  /login:
+    $ref: '../gateway.yml#/paths/~1login'
+  /logout:
+    $ref: '../gateway.yml#/paths/~1logout'
+  
+  /getsession:
+    post:
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: success
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    newUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 55
+        passwordConfirm:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 55
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+        - email
+        - password
+        - passwordConfirm
+
+    loginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 55
+      required:
+        - email
+        - password
+
+    sessionState:
+      type: object
+      properties:
+        user:
+          $ref: '../gateway.yml#/components/schemas/user'
+        createdAt:
+          type: string
+          format: date-time
