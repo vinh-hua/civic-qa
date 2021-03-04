@@ -76,7 +76,7 @@ func (g *GormStore) GetByFormID(formID uint) ([]*model.FormResponse, error) {
 // GetByUserID returns all FormResponses for a given user by their userID
 func (g *GormStore) GetByUserID(userID uint) ([]*model.FormResponse, error) {
 	responses := make([]*model.FormResponse, 0)
-	result := g.db.Joins("JOIN forms ON formResponses.formID = forms.id").Joins("JOIN Users ON Users.id = forms.userID AND users.id = ?", userID).Find(&responses)
+	result := g.db.Joins("JOIN forms ON forms.ID = formResponses.formID").Where("forms.userID = ?", userID).Find(&responses)
 	if result.Error != nil {
 		return nil, result.Error
 	}
