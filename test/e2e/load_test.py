@@ -6,18 +6,21 @@ GATEWAY_URL = "http://localhost/v0"
 
 
 def timeit(name):
-    def decor(f):
+    """Return a function decorator that prints the time
+       taken for execution, with a given name
 
+    Args:
+        name (str): test/method name
+    """
+    def decor(f):
         def inner(*args, **kwargs):
             t_start = time.perf_counter()
             f(*args, **kwargs)
-            print(f"{name} executed in {time.perf_counter()} seconds")
-
+            print(f"{name} executed in {time.perf_counter() - t_start} seconds")
         return inner
     return decor
 
 class TestLoad(unittest.TestCase):
-
     
     def test_signup(self):
         N = 100
@@ -55,6 +58,31 @@ class TestLoad(unittest.TestCase):
                 common.get_form_client(GATEWAY_URL, form["id"])
 
         run()
+
+    def test_get_responses(self):
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form3 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_form())
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_form())
+        common.post_form_user(GATEWAY_URL, form2["id"], common.generate_form())
+        common.post_form_user(GATEWAY_URL, form2["id"], common.generate_form())
+        common.post_form_user(GATEWAY_URL, form3["id"], common.generate_form())
+        common.post_form_user(GATEWAY_URL, form3["id"], common.generate_form())
+
+
+        N = 100
+
+        @timeit(f"test_get_responses {N=}")
+        def run():
+            for _ in range(N):
+                common.get_responses_user(GATEWAY_URL, auth)
+
+        run()
+
 
         
 

@@ -51,7 +51,8 @@ class TestForm(unittest.TestCase):
         auth = common.make_user(GATEWAY_URL, common.generate_user())
         common.make_form(GATEWAY_URL, auth, common.generate_form())
         common.make_form(GATEWAY_URL, auth, common.generate_form())
-        common.get_forms(GATEWAY_URL, auth)
+        
+        assert len(common.get_forms(GATEWAY_URL, auth)) == 2
 
     def test_get_form(self):
         print("Testing get form")
@@ -85,7 +86,7 @@ class TestForm(unittest.TestCase):
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
 
-        common.get_responses(GATEWAY_URL, form["id"], auth)
+        assert len(common.get_responses(GATEWAY_URL, form["id"], auth)) == 3
 
     def test_get_response(self):
         print("Testing get response")
@@ -94,12 +95,12 @@ class TestForm(unittest.TestCase):
 
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
         resps = common.get_responses(GATEWAY_URL, form["id"], auth)
-
         resp_id = resps[0]["id"]
+        
         common.get_response(GATEWAY_URL, resp_id, auth)
 
     def test_get_responses_user(self):
-        print("Testing get response")
+        print("Testing get responses by user")
         auth = common.make_user(GATEWAY_URL, common.generate_user())
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
         form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
@@ -111,7 +112,7 @@ class TestForm(unittest.TestCase):
         common.post_form_user(GATEWAY_URL, form2["id"], common.generate_response())
         common.post_form_user(GATEWAY_URL, form2["id"], common.generate_response())
 
-        common.get_responses_user(GATEWAY_URL, auth)
+        assert len(common.get_responses_user(GATEWAY_URL, auth)) == 5
 
 
 
