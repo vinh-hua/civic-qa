@@ -169,7 +169,7 @@ func (ctx *Context) HandleGetSpecificForm(w http.ResponseWriter, r *http.Request
 	}
 }
 
-// HandleGetFormResponses GET /form/{formID}/responses
+// HandleGetFormResponses GET /forms/{formID}/responses
 // Allows an authenticated user to see response to a specific form
 func (ctx *Context) HandleGetFormResponses(w http.ResponseWriter, r *http.Request) {
 	// parse the URL parameter
@@ -306,4 +306,69 @@ func (ctx *Context) HandleGetResponses(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
+}
+
+// HandlePatchResponse PATCH /responses/{responseID}
+// Allows an authenticated user to update a responses 'open' state
+func (ctx *Context) HandlePatchResponse(w http.ResponseWriter, r *http.Request) {
+
+	// parse the URL parameter
+	vars := mux.Vars(r)
+	responseID, err := strconv.ParseUint(vars["responseID"], 10, 64)
+	if err != nil {
+		http.Error(w, "Invalid response ID", http.StatusBadRequest)
+		return
+	}
+
+	// get the auth user
+	userID, authErr := getAuthUserID(r)
+	if authErr != nil {
+		http.Error(w, authErr.message, authErr.code)
+		return
+	}
+
+	// parse the request
+	var patchResponse model.PatchResponse
+	err = json.NewDecoder(r.Body).Decode(&patchResponse)
+	if err != nil {
+		http.Error(w, "Malformed Request", http.StatusBadRequest)
+		return
+	}
+
+	// retrieve the response
+	respData, err := ctx.ResponseStore.GetByID(uint(responseID))
+	if err != nil {
+		if err == response.ErrResponseNotFound {
+			http.Error(w, "Response not found", http.StatusNotFound)
+			return
+		}
+		log.Printf("Error retrieving response: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// get the associated form
+	formData, err := ctx.FormStore.GetByID(respData.FormID)
+	if err != nil {
+		log.Printf("Error retrieving form: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// ensure the form belongs to the user
+	if formData.UserID != userID {
+		http.Error(w, "This response does not belong to you", http.StatusForbidden)
+		return
+	}
+
+	// update the state
+	err = ctx.ResponseStore.PatchByID(uint(responseID), patchResponse.Open)
+	if err != nil {
+		log.Printf("Error updating FormResponse Open State: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// respond
+	w.WriteHeader(http.StatusOK)
 }

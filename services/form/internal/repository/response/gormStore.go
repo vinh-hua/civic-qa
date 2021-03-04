@@ -65,6 +65,7 @@ func (g *GormStore) GetByID(responseID uint) (*model.FormResponse, error) {
 // GetByFormID returns all FormResponses for a given Form by its ID
 func (g *GormStore) GetByFormID(formID uint) ([]*model.FormResponse, error) {
 	responses := make([]*model.FormResponse, 0)
+	// result := g.db.Model(&model.FormResponse{}).Preload("Form").Where("formID = ?", formID).Find(&responses)
 	result := g.db.Where("formID = ?", formID).Find(&responses)
 	if result.Error != nil {
 		return nil, result.Error
@@ -82,4 +83,17 @@ func (g *GormStore) GetByUserID(userID uint) ([]*model.FormResponse, error) {
 	}
 
 	return responses, nil
+}
+
+// PatchByID updates the 'open' state of a FormResponse by its ID
+func (g *GormStore) PatchByID(responseID uint, state bool) error {
+	result := g.db.Model(&model.FormResponse{}).Where("id = ?", responseID).Update("open", state)
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			return ErrResponseNotFound
+		}
+		return result.Error
+	}
+
+	return nil
 }

@@ -59,6 +59,7 @@ func main() {
 	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
 		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", "http://localhost:8888/v0"),
 		ServiceName:       "gateway",
+		SkipSuccesses:     true,
 		StdoutErrors:      true,
 		Timeout:           10 * time.Second,
 	}))

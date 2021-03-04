@@ -32,6 +32,7 @@ func main() {
 	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
 		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", "http://localhost:8888"),
 		ServiceName:       "form",
+		SkipSuccesses:     true,
 		StdoutErrors:      true,
 		Timeout:           10 * time.Second,
 	}))
@@ -47,11 +48,10 @@ func main() {
 	api.HandleFunc("/forms", ctx.HandleCreateForm).Methods("POST")
 	api.HandleFunc("/forms/{formID:[0-9]+}", ctx.HandleGetSpecificForm).Methods("GET")
 	api.HandleFunc("/forms/{formID:[0-9]+}/responses", ctx.HandleGetFormResponses).Methods("GET")
-	api.HandleFunc("/responses/{responseID:[0-9]+}", ctx.HandleGetSpecificResponse).Methods("GET")
 
 	api.HandleFunc("/responses", ctx.HandleGetResponses).Methods("GET")
-
-	api.HandleFunc("/form/{formID:[0-9]+}", ctx.HandleGetForm).Methods("GET")
+	api.HandleFunc("/responses/{responseID:[0-9]+}", ctx.HandlePatchResponse).Methods("PATCH")
+	api.HandleFunc("/responses/{responseID:[0-9]+}", ctx.HandleGetSpecificResponse).Methods("GET")
 
 	api.HandleFunc("/form/{formID:[0-9]+}", ctx.HandleGetForm).Methods("GET")
 	api.HandleFunc("/form/{formID:[0-9]+}", ctx.HandlePostForm).Methods("POST")

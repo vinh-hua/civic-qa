@@ -18,4 +18,5 @@ type Store interface {
 	GetByID(responseID uint) (*model.FormResponse, error)
 	GetByFormID(formID uint) ([]*model.FormResponse, error)
 	GetByUserID(userID uint) ([]*model.FormResponse, error)
+	PatchByID(responseID uint, state bool) error
 }
