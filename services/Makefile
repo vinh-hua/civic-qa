@@ -12,7 +12,6 @@ test: vendor
 	cd logAggregator && go test ./... && cd ..
 
 
-
 up: vendor
 	@echo "==== Building / Starting ===="
 	docker-compose up --build
@@ -31,6 +30,7 @@ vendor_account:
 	@echo "==== Vendor: Account ===="
 	cd ./account && go mod vendor
 	
+
 vendor_form:
 	@echo "==== Vendor: Form ===="
 	cd ./form && go mod vendor
