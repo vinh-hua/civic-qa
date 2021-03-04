@@ -1,4 +1,17 @@
 
+test: vendor
+	@echo Testing: Account
+	cd account && go test ./... && cd ..
+	@echo Testing: Common
+	cd common && go test ./... && cd ..
+	@echo Testing: form
+	cd form && go test ./... && cd ..
+	@echo Testing: gateway
+	cd gateway && go test ./... && cd ..
+	@echo Testing: logAggregator
+	cd logAggregator && go test ./... && cd ..
+
+
 
 up: vendor
 	@echo "==== Building / Starting ===="
