@@ -112,3 +112,12 @@ def get_responses_user(URL, auth_header):
         raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
 
     return resp.json()
+
+def patch_response(URL, resp_id, new_state, auth_header):
+    body = {"open": new_state}
+    resp = requests.patch(URL+"/responses/"+str(resp_id), headers={"Authorization": auth_header}, json=body)
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.status_code
+

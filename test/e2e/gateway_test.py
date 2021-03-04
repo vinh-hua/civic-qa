@@ -114,6 +114,19 @@ class TestForm(unittest.TestCase):
 
         assert len(common.get_responses_user(GATEWAY_URL, auth)) == 5
 
+    def test_patch_response(self):
+        print("Testing patch response")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+
+        resp = common.get_responses(GATEWAY_URL, form["id"], auth)[0]
+
+        common.patch_response(GATEWAY_URL, resp["id"], False, auth)
+
+        updated = common.get_response(GATEWAY_URL, resp["id"], auth)
+        assert updated["open"] == False
+
 
 
 
