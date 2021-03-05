@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/vivian-hua/civic-qa/services/form/internal/generator"
@@ -77,6 +78,7 @@ func (ctx *Context) HandlePostForm(w http.ResponseWriter, r *http.Request) {
 		EmailAddress: responseFormData.Get("email"),
 		Subject:      responseFormData.Get("subject"),
 		Body:         responseFormData.Get("body"),
+		CreatedAt:    time.Now().UTC(),
 		Open:         true,
 		FormID:       uint(formID),
 	}
@@ -91,5 +93,5 @@ func (ctx *Context) HandlePostForm(w http.ResponseWriter, r *http.Request) {
 
 	// respond
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Thank you!"))
+	w.Write([]byte("Thank you!")) // TODO: replace with html, maybe include correlationID
 }
