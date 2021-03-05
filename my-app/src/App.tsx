@@ -50,7 +50,6 @@ export default function App() {
                   <li><img src="./assets/icons/layout.png"/><Link className="nav-link" to="/templates">{Constants.Templates}</Link></li>
                 </ul>
                 <div className="compose-email-btn-container">
-                  <a href="mailto:"><button className="compose-email-btn">{Constants.ComposeEmail}</button></a>
                   <hr className="solid"/>
                 </div>
                 <ul>

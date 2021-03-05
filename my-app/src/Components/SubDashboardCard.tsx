@@ -4,7 +4,7 @@ import './SubDashboardCard.css';
 export type SubDashboardCardProps = {
     name: string;
     value: number;
-    setSpecificView: Dispatch<SetStateAction<boolean>>;
+    setSpecificView: Function;
     viewButton: boolean;
     hasRespondOption: boolean;
 }
@@ -15,7 +15,7 @@ export function SubDashboardCard(props: SubDashboardCardProps) {
     return (
         <div className="sub-dash-card">
             <p className="sub-dash-card-name">{props.name}</p>
-            <button className="sub-dash-card-btn" onClick={() => props.setSpecificView(true)}>{buttonName}</button>
+            <button className="sub-dash-card-btn" onClick={() => props.setSpecificView(props.name)}>{buttonName}</button>
             <p className="sub-dash-card-value">{props.value}</p>
             {props.hasRespondOption ? <button className="write-btn"><img src="./assets/icons/write.png"></img></button> : null}
         </div>

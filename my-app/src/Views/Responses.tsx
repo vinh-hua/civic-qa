@@ -21,14 +21,23 @@ function getSubDashboardData(): Array<SubDashboardData> {
 
 export function Responses() {
     const test_data = getSubDashboardData();
-    const [onSpecificView, setSpecificView] = useState(false);
+    const test_body = "Dear WA 36th Legislative Staff, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam maximus diam egestas augue dignissim, quis accumsan tortor pulvinar. Suspendisse mattis quam magna, ut dapibus leo volutpat non. Donec sapien mauris, semper non odio at, gravida posuere massa. Sed mattis diam id sapien semper sodales. Nam in justo ultrices, facilisis arcu vitae, ornare velit. Nam vitae aliquam...";
+    const [onResponseView, setResponseView] = useState(false);
+    const [responseSubject, setResponseSubject] = useState("");
+    const [responseBody, setResponseBody] = useState("");
 
+    function setResponseContent(subject: string) {
+        setResponseView(true);
+        setResponseSubject(subject);
+        setResponseBody(test_body);
+    }
+    
     return (
         <div className="dashboard sub-dashboard">
-            {onSpecificView ? <SpecificView title="Form Responses" subject={"subject"} body={"body"} subHeaderNumber={342} setSpecificView={() => setSpecificView(false)}></SpecificView> :
+            {onResponseView? <SpecificView title="Form Responses" subject={responseSubject} body={responseBody} subHeaderNumber={342} setSpecificView={() => setResponseView(false)}></SpecificView> :
             <div>
                 <Header title="Form Responses"></Header>
-                <SubDashboard title="CURRENT RESPONSES" data={test_data} setSpecificView={() => setSpecificView(true)} emailTemplates={false} fullPageView={true} hasRespondOption={false} viewButton={false} subHeaderNumber={342}></SubDashboard>
+                <SubDashboard title="CURRENT RESPONSES" data={test_data} setSpecificView={setResponseContent} emailTemplates={false} fullPageView={true} hasRespondOption={false} viewButton={false} subHeaderNumber={342}></SubDashboard>
             </div>}
         </div>
     );

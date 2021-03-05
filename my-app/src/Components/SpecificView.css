@@ -1,3 +1,28 @@
 .exit-button {
     float: left;
 }
+
+.form-response {
+    background-color: rgb(196, 196, 196, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.form-response-body {
+    font-size: 24px;
+}
+
+.form-response-message {
+    height: 30vh;
+}
+
+.send-btn {
+    margin-top: 30px;
+    font-size: 24px;
+    border: none;
+    border-radius: 8px;
+    width: 170px;
+    height: 50px;
+    color: white;
+    background-color: rgb(179, 103, 255);
+}

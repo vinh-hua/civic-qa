@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Header } from '../Components/Header';
 import { SubHeaderLine } from './SubHeaderLine';
+import "./SpecificView.css";
 
 export type SpecificViewProps = {
     title: string;
@@ -14,11 +15,12 @@ export function SpecificView(props: SpecificViewProps) {
     return(
         <div>
             <Header title={props.title}></Header>
-            <SubHeaderLine title={props.title} subHeaderNumber={props.subHeaderNumber}></SubHeaderLine>
-            <div>
-                <button className="exit-button" onClick={() => props.setSpecificView(false)}></button>
-                <p>{props.subject}</p>
-                <p>{props.body}</p>
+            <SubHeaderLine title={props.subject}></SubHeaderLine>
+            <button className="exit-button" onClick={() => props.setSpecificView(false)}>X</button>
+            <div className="form-response">
+                <p className="form-response-body">{props.body}</p>
+                <textarea className="form-response-message"></textarea>
+                <button className="send-btn" placeholder="Message">Send</button>
             </div>
         </div>
     );

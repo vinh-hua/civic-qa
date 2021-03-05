@@ -12,7 +12,7 @@ export type SubDashboardData = {
 export type SubDashboardProps = {
     title: string;
     data: Array<SubDashboardData>;
-    setSpecificView: Dispatch<SetStateAction<boolean>>;
+    setSpecificView: Function;
     emailTemplates: boolean;
     fullPageView: boolean;
     hasRespondOption: boolean;
@@ -25,7 +25,7 @@ export function SubDashboard(props: SubDashboardProps) {
     if (props.emailTemplates) {
         props.data.forEach(d => cards.push(<EmailTemplateCard name={d.name} value={d.value}></EmailTemplateCard>))
     } else {
-        props.data.forEach(d => cards.push(<SubDashboardCard name={d.name} value={d.value} setSpecificView={() => props.setSpecificView(true)} viewButton={props.viewButton} hasRespondOption={props.hasRespondOption}></SubDashboardCard>));
+        props.data.forEach(d => cards.push(<SubDashboardCard name={d.name} value={d.value} setSpecificView={props.setSpecificView} viewButton={props.viewButton} hasRespondOption={props.hasRespondOption}></SubDashboardCard>));
     }
 
     return (
