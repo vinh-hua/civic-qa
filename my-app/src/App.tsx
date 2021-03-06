@@ -13,25 +13,33 @@ import { Login } from './Views/Login';
 import * as Constants from './Constants/Constants';
 
 export default function App() {
-  const authToken = localStorage.getItem("user");
+  const authToken = localStorage.getItem("Authorization");
   const [auth, setAuth] = useState((authToken != "") && (authToken != null));
 
-  function userLogout() {
-      setAuth(false);
-      localStorage.setItem("user", "");
-      return(<Redirect to="/login"></Redirect>);
+  const userLogout = async(e: any) => {
+    e.preventDefault();
+    var authToken = localStorage.getItem("Authorization") || "";
+    const response = await fetch("http://localhost/v0/logout", {
+      method: "POST",
+      headers: new Headers({
+          "Authorization": authToken
+      })
+    });
+    localStorage.removeItem("Authorization");
+    setAuth(false);
+    return(<Redirect to="/login"></Redirect>);
   }
 
-  function userLogin() {
+  function userLogin(authToken: string) {
     setAuth(true);
-    localStorage.setItem("user", "success");
+    localStorage.setItem("Authorization", authToken);
     return(<Redirect to="/dashboard"></Redirect>);
   }
 
   return (
     <Router>
       <div className="App">
-        <Route path="/login" component={() => <Login login={userLogin}/>}></Route>
+        <Route path="/login" component={() => <Login userLogin={userLogin}/>}></Route>
         {auth ? <Redirect to="/dashboard"/> : <Redirect to="/login"/>}
         {auth ?
           <div>

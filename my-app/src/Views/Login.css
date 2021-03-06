@@ -32,7 +32,7 @@
 }
 
 input:-webkit-autofill::first-line {
-    font-size: 28px
+    font-size: 24px
 }
 
 .login-form-text {
