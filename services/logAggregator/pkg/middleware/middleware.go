@@ -21,6 +21,7 @@ const (
 type Config struct {
 	AggregatorAddress string
 	ServiceName       string
+	SkipSuccesses     bool
 	StdoutErrors      bool
 	Timeout           time.Duration
 }
@@ -56,6 +57,10 @@ func NewAggregatorMiddleware(config *Config) func(http.Handler) http.Handler {
 				StatusCode:    wrapped.Status(),
 			}
 
+			// if SkipSuccesses, don't log unless this request failed
+			if config.SkipSuccesses && entry.StatusCode < 400 {
+				return
+			}
 			// perform the logging on a seperate thread
 			go logToAggregator(config, entry)
 		})

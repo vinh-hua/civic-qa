@@ -4,11 +4,14 @@ import (
 	// standard
 	"log"
 	"net/http"
+	"os"
+	"time"
 
 	// 3rd party
 	"github.com/gorilla/mux"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 
 	// common
 	"github.com/vivian-hua/civic-qa/services/common/config"
@@ -36,7 +39,12 @@ func main() {
 	api := router.PathPrefix(VersionBase).Subrouter()
 
 	// Handler context
-	repo, err := repository.NewLogRepository(sqlite.Open(cfg.GetOrFallback("DB_DSN", "logs.db")), &gorm.Config{})
+	repo, err := repository.NewLogRepository(sqlite.Open(cfg.GetOrFallback("DB_DSN", "logs.db")), &gorm.Config{
+		Logger: logger.New(log.New(os.Stdout, "\r\n", log.LstdFlags),
+			logger.Config{
+				SlowThreshold: time.Second,
+			}),
+	})
 	if err != nil {
 		log.Fatalf("Failed to create log repository: %v", err)
 	}

@@ -1,0 +1,256 @@
+openapi: '3.0.2'
+info:
+  title: Gateway API
+  version: 0.0.0
+paths:
+  # =================================  account  =================================
+  /signup:
+    post:
+      summary: Create a new account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'account/api-v0.yml#/components/schemas/newUserRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Authorization:
+              schema:
+                type: string
+                format: bearerAuth
+
+  /login:
+    post:
+      summary: Create a new account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'account/api-v0.yml#/components/schemas/loginRequest'
+      responses:
+        '200':
+          description: Logged in
+          headers:
+            Authorization:
+              schema:
+                type: string
+                format: bearerAuth
+              description: Auth Token
+
+  /logout:
+    post:
+      summary: logout
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: logged out
+  
+  /getsession:
+    get:
+      summary: get auth user sessionState
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Auth user sessionState
+          content:
+            application/json:
+              schema:
+                $ref: 'account/api-v0.yml#/components/schemas/sessionState'
+  
+  # =================================  form/management  =================================
+  /forms:
+    get:
+      summary: Get all forms
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Array of users forms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "form/api-v0.yml#/components/schemas/form"
+    post:
+      summary: Create a new form
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        description: New Form
+        content:
+          application/json:
+            schema:
+              $ref: "form/api-v0.yml#/components/schemas/newFormRequest"
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "form/api-v0.yml#/components/schemas/form"
+
+  /forms/{formID}:
+    get:
+      summary: Get a specific form by ID
+      parameters:
+        - in: path
+          name: formID
+          schema:
+            type: integer
+          required: true
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "form/api-v0.yml#/components/schemas/form"
+
+  /forms/{formID}/responses:
+    get:
+      summary: get all responses to a form by ID
+      parameters:
+        - in: path
+          name: formID
+          schema:
+            type: integer
+          required: true
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: form responses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "form/api-v0.yml#/components/schemas/formResponse"
+    
+  /responses:
+    get:
+      summary: get all responses to the auth users forms
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: form responses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "form/api-v0.yml#/components/schemas/formResponse"
+      
+  /responses/{responseID}:
+    get:
+      summary: get a specific responseID by id
+      parameters:
+        - in: path
+          name: formID
+          schema:
+            type: integer
+          required: true
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+            description: form response
+            content:
+              application/json:
+                schema:
+                  $ref: "form/api-v0.yml#/components/schemas/formResponse"
+    patch:
+      summary: update a responses 'open' property by ID
+      parameters:
+        - in: path
+          name: formID
+          schema:
+            type: integer
+          required: true
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "form/api-v0.yml#/components/schemas/patchResponse"
+      responses:
+        '200':
+          description: Update successful
+  # =================================  form/user  =================================
+  /form/{formID}:
+    get:
+      summary: get a forms HTML by ID
+      parameters:
+        - in: path
+          name: formID
+          schema:
+            type: integer
+          required: true 
+      responses:
+        '200':
+          description: form HTML for iFrame embedding
+          content:
+            text/html:
+              schema:
+                type: string
+                format: html
+    post:
+      summary: response to a HTML form byID
+      parameters:
+        - in: path
+          name: formID
+          schema:
+            type: integer
+          required: true 
+      requestBody:
+        required: true
+        content:
+          # don't ask, idk, just means a form
+          application/x-www-Form-urlencoded: 
+            schema:
+              $ref: "form/api-v0.yml#/components/schemas/formResponseURLEncodedForm"
+      responses:
+        '200':
+          description: Form recieved
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    user:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        firstName:
+          type: string
+        lastName:
+          type: string
+        createdOn:
+          type: string
+          format: date-time
+
+    
+
+
+  

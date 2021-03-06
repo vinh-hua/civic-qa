@@ -10,9 +10,10 @@ type GormStore struct {
 	db *gorm.DB
 }
 
-// NewGormStore returns a GormStore based on a given gorm Dialector and gorm Config
+// NewGormStore returns a GormStore based on a given gorm Dialector and gorm Config.
+// executes all statements in exec AFTER migration.
 // returns an error if the connection could not be opened or the migration fails
-func NewGormStore(dialector gorm.Dialector, config *gorm.Config) (*GormStore, error) {
+func NewGormStore(dialector gorm.Dialector, config *gorm.Config, exec ...string) (*GormStore, error) {
 	// Open database with gorm
 	db, err := gorm.Open(dialector, config)
 	if err != nil {
@@ -23,6 +24,14 @@ func NewGormStore(dialector gorm.Dialector, config *gorm.Config) (*GormStore, er
 	err = db.AutoMigrate(&model.User{})
 	if err != nil {
 		return nil, err
+	}
+
+	// perform execs
+	for _, stmt := range exec {
+		res := db.Exec(stmt)
+		if res.Error != nil {
+			return nil, res.Error
+		}
 	}
 
 	// return the GormUserStore
