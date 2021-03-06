@@ -56,10 +56,10 @@ func getSessionStoreImpl(cfg config.Provider) (session.Store, error) {
 func getUserStoreImpl(cfg config.Provider) (user.Store, error) {
 	// Initialize UserStore based on environment variables
 	dbImpl := cfg.GetOrFallback("DB_IMPL", "sqlite")
-	dbDsn := cfg.GetOrFallback("DB_DSN", "accounts.db")
+	dbDsn := cfg.GetOrFallback("DB_DSN", "database.db")
 	switch dbImpl {
 	case "sqlite":
-		store, err := user.NewGormStore(sqlite.Open(dbDsn), &gorm.Config{})
+		store, err := user.NewGormStore(sqlite.Open(dbDsn), &gorm.Config{}, "PRAGMA foreign_keys = ON;")
 		if err != nil {
 			return nil, err
 		}

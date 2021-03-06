@@ -508,7 +508,7 @@ func TestHandleLogout(t *testing.T) {
 }
 
 func TestHandleGetSession(t *testing.T) {
-	preCreatedSessions := []model.SessionState{
+	preCreatedSessions := []common.SessionState{
 		{
 			CreatedAt: time.Now().Round(0),
 			User: common.User{
@@ -523,7 +523,7 @@ func TestHandleGetSession(t *testing.T) {
 	}
 
 	ctx, err := BuildContext(&config.MapProvider{Data: map[string]string{
-		"DB_DSB": ":memory:",
+		"DB_DSN": ":memory:",
 	}})
 
 	if err != nil {
@@ -547,7 +547,7 @@ func TestHandleGetSession(t *testing.T) {
 		headers        map[string]string
 		w              *httptest.ResponseRecorder
 		expectedStatus int
-		expectedState  model.SessionState
+		expectedState  common.SessionState
 	}{
 		{
 			// valid get session
@@ -563,7 +563,7 @@ func TestHandleGetSession(t *testing.T) {
 			headers:        nil,
 			w:              httptest.NewRecorder(),
 			expectedStatus: http.StatusUnauthorized,
-			expectedState:  model.SessionState{},
+			expectedState:  common.SessionState{},
 		},
 		{
 			// invalid token
@@ -571,7 +571,7 @@ func TestHandleGetSession(t *testing.T) {
 			headers:        map[string]string{"Authorization": "Bearer " + "INVALIDTOKEN"},
 			w:              httptest.NewRecorder(),
 			expectedStatus: http.StatusNotFound,
-			expectedState:  model.SessionState{},
+			expectedState:  common.SessionState{},
 		},
 		{
 			// Wrong method
@@ -579,7 +579,7 @@ func TestHandleGetSession(t *testing.T) {
 			headers:        map[string]string{"Authorization": "Bearer " + sessions[0]},
 			w:              httptest.NewRecorder(),
 			expectedStatus: http.StatusMethodNotAllowed,
-			expectedState:  model.SessionState{},
+			expectedState:  common.SessionState{},
 		},
 	}
 
@@ -597,7 +597,7 @@ func TestHandleGetSession(t *testing.T) {
 
 		// check if the states match if valid
 		if testCase.w.Result().StatusCode == http.StatusOK {
-			var stateOut model.SessionState
+			var stateOut common.SessionState
 			err = json.NewDecoder(testCase.w.Body).Decode(&stateOut)
 			if err != nil {
 				t.Fatalf("Case %d could not parse response: %v", i, err)

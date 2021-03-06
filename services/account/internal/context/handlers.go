@@ -75,7 +75,7 @@ func (ctx *Context) HandleSignup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Begin a session and return
-	token, err := ctx.SessionStore.Create(model.SessionState{
+	token, err := ctx.SessionStore.Create(common.SessionState{
 		User:      createdUser,
 		CreatedAt: time.Now(),
 	})
@@ -131,7 +131,7 @@ func (ctx *Context) HandleLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Begin a session and return
-	token, err := ctx.SessionStore.Create(model.SessionState{
+	token, err := ctx.SessionStore.Create(common.SessionState{
 		User:      *reqUser,
 		CreatedAt: time.Now(),
 	})

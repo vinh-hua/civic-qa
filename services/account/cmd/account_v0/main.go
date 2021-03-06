@@ -30,8 +30,9 @@ func main() {
 
 	// middleware
 	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
-		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", ":8888"),
+		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", "http://localhost:8888"),
 		ServiceName:       "account",
+		SkipSuccesses:     true,
 		StdoutErrors:      true,
 		Timeout:           10 * time.Second,
 	}))

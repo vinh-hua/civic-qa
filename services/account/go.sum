@@ -13,6 +13,7 @@ github.com/mattn/go-sqlite3 v1.14.6 h1:dNPt6NO46WmLVt2DLNpwczCmdV5boIZ6g/tlDrlRU
 github.com/mattn/go-sqlite3 v1.14.6/go.mod h1:NyWgC/yNuGj7Q9rpYnZvas74GogHl5/Z4A/KQRfk6bU=
 github.com/urfave/negroni v1.0.0 h1:kIimOitoypq34K7TG7DUaJ9kq/N4Ofuwi1sjz0KipXc=
 github.com/urfave/negroni v1.0.0/go.mod h1:Meg73S6kFm/4PpbYdq35yYWoCZ9mS/YSx+lKnmiohz4=
+github.com/vivian-hua/civic-qa v0.0.0-20210302044339-c3d270fa655a h1:v2YKLJHxxO7ULdrYgpVS0i+8JlhsUgGh8bjoK3Rxzow=
 github.com/vivian-hua/civic-qa/services/common v0.0.0-20210217005008-848fa3bc0399/go.mod h1:JQKJyp3Xi6UUICplQpjiAI0SoeZm7D+YoNumsgxEiLA=
 github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f h1:cgSafvK8SUG2VJOVgtfjOAIE5DJlN8oYE+JUa6TBXgI=
 github.com/vivian-hua/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f/go.mod h1:M1d7kDdIWVmgwNAL/rH13Nm+4KHaGt4Rb1aI8qV9DxQ=

@@ -7,7 +7,7 @@ import (
 	"encoding/base64"
 	"errors"
 
-	"github.com/vivian-hua/civic-qa/service/account/internal/model"
+	"github.com/vivian-hua/civic-qa/services/common/model"
 )
 
 // Token is a type alias for string
