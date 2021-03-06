@@ -16,13 +16,13 @@ export default function App() {
   const authToken = localStorage.getItem("user");
   const [auth, setAuth] = useState((authToken != "") && (authToken != null));
 
-  function UserLogout() {
+  function userLogout() {
       setAuth(false);
       localStorage.setItem("user", "");
       return(<Redirect to="/login"></Redirect>);
   }
 
-  function UserLogin() {
+  function userLogin() {
     setAuth(true);
     localStorage.setItem("user", "success");
     return(<Redirect to="/dashboard"></Redirect>);
@@ -31,7 +31,7 @@ export default function App() {
   return (
     <Router>
       <div className="App">
-        <Route path="/login" component={() => <Login login={UserLogin}/>}></Route>
+        <Route path="/login" component={() => <Login login={userLogin}/>}></Route>
         {auth ? <Redirect to="/dashboard"/> : <Redirect to="/login"/>}
         {auth ?
           <div>
@@ -54,7 +54,7 @@ export default function App() {
                 </div>
                 <ul>
                 <li><img src="./assets/icons/settings.png"/><Link className="nav-link" to="/settings">{Constants.Settings}</Link></li>
-                  <li><img src="./assets/icons/logout.png"/><button className="logout-btn" onClick={UserLogout}>{Constants.Logout}</button></li>
+                  <li><img src="./assets/icons/logout.png"/><button className="logout-btn" onClick={userLogout}>{Constants.Logout}</button></li>
                 </ul>
               </nav>
             </div>

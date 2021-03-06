@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StatCardRow } from '../Components/StatCardRow';
 import { DashboardChartStats } from '../Dashboard/DashboardChartStats';
-import { Itinerary } from '../Dashboard/Itinerary';
 import * as Constants from '../Constants/Constants';
 import './Dashboard.css';
 

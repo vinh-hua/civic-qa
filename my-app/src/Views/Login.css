@@ -35,7 +35,7 @@ input:-webkit-autofill::first-line {
     font-size: 28px
 }
 
-input {
+.login-form-text {
     padding-left: 30px;
 }
 
@@ -51,4 +51,11 @@ input {
     font-size: 32px;
     width: 15%;
     height: 70px;
+}
+
+.switch-login-signup-btn {
+    background: none;
+    border: none;
+    color: white;
+    text-decoration: underline;
 }
