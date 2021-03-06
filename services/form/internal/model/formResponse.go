@@ -14,7 +14,7 @@ type FormResponse struct {
 	Subject      string    `gorm:"column:subject" json:"subject"`
 	Body         string    `gorm:"column:body" json:"body"`
 	CreatedAt    time.Time `gorm:"column:createdAt" json:"createdAt"`
-	Open         bool      `gorm:"column:open" json:"open"`
+	Active       bool      `gorm:"column:active" json:"active"`
 	FormID       uint      `gorm:"column:formID" json:"formID"`
 	Form         Form      `gorm:"foreignKey:FormID" json:"-"`
 }

@@ -85,9 +85,9 @@ func (g *GormStore) GetByUserID(userID uint) ([]*model.FormResponse, error) {
 	return responses, nil
 }
 
-// PatchByID updates the 'open' state of a FormResponse by its ID
+// PatchByID updates the 'active' state of a FormResponse by its ID
 func (g *GormStore) PatchByID(responseID uint, state bool) error {
-	result := g.db.Model(&model.FormResponse{}).Where("id = ?", responseID).Update("open", state)
+	result := g.db.Model(&model.FormResponse{}).Where("id = ?", responseID).Update("active", state)
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
 			return ErrResponseNotFound

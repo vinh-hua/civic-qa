@@ -105,7 +105,6 @@ class TestForm(unittest.TestCase):
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
         form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
 
-
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
@@ -125,7 +124,7 @@ class TestForm(unittest.TestCase):
         common.patch_response(GATEWAY_URL, resp["id"], False, auth)
 
         updated = common.get_response(GATEWAY_URL, resp["id"], auth)
-        assert updated["open"] == False
+        assert updated["active"] == False
 
 
 

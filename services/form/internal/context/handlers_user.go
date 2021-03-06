@@ -79,7 +79,7 @@ func (ctx *Context) HandlePostForm(w http.ResponseWriter, r *http.Request) {
 		Subject:      responseFormData.Get("subject"),
 		Body:         responseFormData.Get("body"),
 		CreatedAt:    time.Now().UTC(),
-		Open:         true,
+		Active:       true,
 		FormID:       uint(formID),
 	}
 

@@ -30,9 +30,9 @@ func NewGormStore(dialector gorm.Dialector, config *gorm.Config, exec ...string)
 
 	// perform execs
 	for _, stmt := range exec {
-		res := db.Exec(stmt)
-		if res.Error != nil {
-			return nil, res.Error
+		err = db.Exec(stmt).Error
+		if err != nil {
+			return nil, err
 		}
 	}
 

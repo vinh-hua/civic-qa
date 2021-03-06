@@ -362,7 +362,7 @@ func (ctx *Context) HandlePatchResponse(w http.ResponseWriter, r *http.Request) 
 	}
 
 	// update the state
-	err = ctx.ResponseStore.PatchByID(uint(responseID), patchResponse.Open)
+	err = ctx.ResponseStore.PatchByID(uint(responseID), patchResponse.Active)
 	if err != nil {
 		log.Printf("Error updating FormResponse Open State: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
