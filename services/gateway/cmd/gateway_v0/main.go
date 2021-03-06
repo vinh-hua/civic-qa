@@ -55,6 +55,7 @@ func main() {
 
 	// Middleware
 	router.Use(middleware.NewCorrelatorMiddleware)
+	router.Use(middleware.CorsMiddleware)
 	router.Use(commonMiddleware.NewLoggingMiddleware(LoggingOutput))
 	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
 		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", "http://localhost:8888/v0"),
