@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DropdownMenu } from '../Components/DropdownMenu';
 import { ChartData, DashboardChart } from '../Dashboard/DashboardChart';
 import { StatCard } from '../Components/StatCard';
-import * as Constants from '../Constants/constants';
+import * as Constants from '../Constants/Constants';
 
 function randomChartData(): Array<ChartData> {
     var data = [];

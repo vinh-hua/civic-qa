@@ -35,7 +35,7 @@ export function General() {
             {onSpecificView ? <div></div> :
             <div>
                 <Header title="General Inquiries"></Header>
-                <SubDashboard title="TOP SUBJECTS" data={test_data} setSpecificView={setSpecificView} emailTemplates={false} fullPageView={false} hasRespondOption={true} viewButton={true}></SubDashboard>
+                <SubDashboard title="TOP SUBJECTS" data={test_data} setSpecificView={setSpecificView} emailTemplates={false} fullPageView={false} viewButton={true}></SubDashboard>
                 <div className="sub-summary">
                     <SubHeaderLine title="SUMMARY"></SubHeaderLine>
                     <StatCardRow cards={statCards}></StatCardRow>

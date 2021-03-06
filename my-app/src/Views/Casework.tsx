@@ -29,7 +29,7 @@ export function Casework() {
     return (
         <div className="dashboard sub-dashboard">
             <Header title="Casework"></Header>
-            <SubDashboard title="TOPIC" data={test_data} setSpecificView={setSpecificView} emailTemplates={false} fullPageView={false} hasRespondOption={false} viewButton={false}></SubDashboard>
+            <SubDashboard title="TOPIC" data={test_data} setSpecificView={setSpecificView} emailTemplates={false} fullPageView={false} viewButton={true}></SubDashboard>
             <div className="sub-summary">
                 <SubHeaderLine title="SUMMARY"></SubHeaderLine>
                 <StatCardRow cards={statCards}></StatCardRow>

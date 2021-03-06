@@ -1,5 +1,5 @@
 import { useState, Dispatch, SetStateAction } from 'react';
-import * as Constants from '../Constants/constants';
+import * as Constants from '../Constants/Constants';
 import './DropdownMenu.css';
 
 export type DropdownMenuProps = {

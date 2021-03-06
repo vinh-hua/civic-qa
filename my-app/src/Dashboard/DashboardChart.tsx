@@ -1,6 +1,6 @@
 import React from 'react';
 import { AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-import * as Constants from '../Constants/constants';
+import * as Constants from '../Constants/Constants';
 
 export type ChartData = {
     index: number;

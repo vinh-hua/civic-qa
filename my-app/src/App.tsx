@@ -10,7 +10,7 @@ import { EngagementReports } from './Views/EngagementReports';
 import { Templates } from './Views/Templates';
 import { Settings } from './Views/Settings';
 import { Login } from './Views/Login';
-import * as Constants from './Constants/constants';
+import * as Constants from './Constants/Constants';
 
 export default function App() {
   const authToken = localStorage.getItem("user");

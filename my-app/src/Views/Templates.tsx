@@ -21,7 +21,7 @@ export function Templates() {
     return (
         <div className="dashboard sub-dashboard">
             <Header title="Email Templates"></Header>
-            <SubDashboard title="Templates" data={test_data} setSpecificView={setSpecificView} emailTemplates={true} fullPageView={false} hasRespondOption={false} viewButton={true}></SubDashboard>
+            <SubDashboard title="Templates" data={test_data} setSpecificView={setSpecificView} emailTemplates={true} fullPageView={false} viewButton={true}></SubDashboard>
             <button className="templates-btn">Create New</button>
         </div>
     );
