@@ -3,10 +3,11 @@ import { Header } from '../Components/Header';
 import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { StatCardRow } from '../Components/StatCardRow';
+import { Responses } from './Responses';
 
 // TODO: will data be pre-sorted on back-end?
 // currently using test data
-function getSubDashboardData(): Array<SubDashboardData> {
+function getInitialSubDashboardData(): Array<SubDashboardData> {
     var data = [];
     data.push({name: "SPD - Reform", value: 123});
     data.push({name: "COVID-19 - Stimulus", value: 119});
@@ -20,8 +21,18 @@ function getSubDashboardData(): Array<SubDashboardData> {
     return data as Array<SubDashboardData>;
 }
 
+function getSpecificData(): Array<SubDashboardData> {
+    var data = [];
+    data.push({name: "Test", value: 123});
+    data.push({name: "Test", value: 123});
+    data.push({name: "Test", value: 123});
+    data.push({name: "Test", value: 123});
+    return data as Array<SubDashboardData>;
+}
+
 export function General() {
-    const test_data = getSubDashboardData();
+    const testData = getInitialSubDashboardData();
+    const testSpecificData = getSpecificData();
     const [onSpecificView, setSpecificView] = useState(false);
 
     let statCards = [
@@ -30,17 +41,31 @@ export function General() {
         {title: "Topics", stat: 24}
     ];
 
+    function specificView() {
+        setSpecificView(true);
+    }
+
+    function initialView() {
+        setSpecificView(false);
+    }
+
     return (
-        <div className="dashboard sub-dashboard">
-            {onSpecificView ? <div></div> :
+        onSpecificView ? 
+        <div> 
+            <div className="dashboard sub-dashboard">
+                <button className="exit-button" onClick={initialView}><img src="./assets/icons/back-arrow.png"></img></button>
+            </div>
+            <Responses header="General Inquiries" data={testSpecificData}></Responses>
+        </div>
+        : <div className="dashboard sub-dashboard">
             <div>
                 <Header title="General Inquiries"></Header>
-                <SubDashboard title="TOP SUBJECTS" data={test_data} setSpecificView={setSpecificView} emailTemplates={false} fullPageView={false} viewButton={true}></SubDashboard>
+                <SubDashboard title="TOP SUBJECTS" data={testData} changeViewFunc={specificView} emailTemplates={false} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
                     <SubHeaderLine title="SUMMARY"></SubHeaderLine>
                     <StatCardRow cards={statCards}></StatCardRow>
                 </div>
-            </div>}
+            </div>
         </div>
     );
 }

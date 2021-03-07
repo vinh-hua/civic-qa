@@ -20,6 +20,11 @@ function getSubDashboardData(): Array<SubDashboardData> {
     return data as Array<SubDashboardData>;
 }
 
+export type ResponsesProps = {
+    header?: string;
+    data: Array<SubDashboardData>;
+}
+
 async function getResponses() {
     var authToken = localStorage.getItem("Authorization") || "";
     const response = await fetch("http://localhost/v0/forms", {
@@ -31,26 +36,27 @@ async function getResponses() {
     console.log(response);
 }
 
-export function Responses() {
-    getResponses();
-    const test_data = getSubDashboardData();
-    const test_body = "Dear WA 36th Legislative Staff, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam maximus diam egestas augue dignissim, quis accumsan tortor pulvinar. Suspendisse mattis quam magna, ut dapibus leo volutpat non. Donec sapien mauris, semper non odio at, gravida posuere massa. Sed mattis diam id sapien semper sodales. Nam in justo ultrices, facilisis arcu vitae, ornare velit. Nam vitae aliquam... More text to test overflow, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing?";
+export function Responses(props: ResponsesProps) {
+    // getResponses();
+    const headerTitle = props.header || "Form Responses"
+    const testData = getSubDashboardData();
+    const testBody = "Dear WA 36th Legislative Staff, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam maximus diam egestas augue dignissim, quis accumsan tortor pulvinar. Suspendisse mattis quam magna, ut dapibus leo volutpat non. Donec sapien mauris, semper non odio at, gravida posuere massa. Sed mattis diam id sapien semper sodales. Nam in justo ultrices, facilisis arcu vitae, ornare velit. Nam vitae aliquam... More text to test overflow, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing?";
     const [onResponseView, setResponseView] = useState(false);
     const [responseSubject, setResponseSubject] = useState("");
     const [responseBody, setResponseBody] = useState("");
 
-    function setResponseContent(subject: string) {
+    function setResponseContent() {
         setResponseView(true);
-        setResponseSubject(subject);
-        setResponseBody(test_body);
+        setResponseSubject("test");
+        setResponseBody(testBody);
     }
     
     return (
         <div className="dashboard sub-dashboard">
-            {onResponseView? <FormResponseView title="Form Responses" subject={responseSubject} body={responseBody} subHeaderNumber={342} setSpecificView={() => setResponseView(false)}></FormResponseView> :
+            {onResponseView ? <FormResponseView title="Form Responses" subject={responseSubject} body={responseBody} subHeaderNumber={342} setSpecificView={() => setResponseView(false)}></FormResponseView> :
             <div>
-                <Header title="Form Responses"></Header>
-                <SubDashboard title="CURRENT RESPONSES" data={test_data} setSpecificView={setResponseContent} emailTemplates={false} fullPageView={true} viewButton={false} subHeaderNumber={342}></SubDashboard>
+                <Header title={headerTitle}></Header>
+                <SubDashboard title="CURRENT RESPONSES" data={testData} changeViewFunc={() => setResponseContent()} emailTemplates={false} fullPageView={true} subHeaderNumber={342}></SubDashboard>
             </div>}
         </div>
     );
