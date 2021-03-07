@@ -20,7 +20,19 @@ function getSubDashboardData(): Array<SubDashboardData> {
     return data as Array<SubDashboardData>;
 }
 
+async function getResponses() {
+    var authToken = localStorage.getItem("Authorization") || "";
+    const response = await fetch("http://localhost/v0/forms", {
+        method: "GET",
+        headers: new Headers({
+            "Authorization": authToken
+        })
+    });
+    console.log(response);
+}
+
 export function Responses() {
+    getResponses();
     const test_data = getSubDashboardData();
     const test_body = "Dear WA 36th Legislative Staff, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam maximus diam egestas augue dignissim, quis accumsan tortor pulvinar. Suspendisse mattis quam magna, ut dapibus leo volutpat non. Donec sapien mauris, semper non odio at, gravida posuere massa. Sed mattis diam id sapien semper sodales. Nam in justo ultrices, facilisis arcu vitae, ornare velit. Nam vitae aliquam... More text to test overflow, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing, is it overflowing?";
     const [onResponseView, setResponseView] = useState(false);
