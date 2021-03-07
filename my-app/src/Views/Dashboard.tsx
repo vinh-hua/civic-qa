@@ -14,8 +14,7 @@ export function Dashboard() {
 
     let statCards = [
         {title: Constants.General, stat: general},
-        {title: Constants.Casework, stat: casework},
-        {title: Constants.Topics, stat: topics}
+        {title: Constants.Casework, stat: casework}
     ]
 
     return (

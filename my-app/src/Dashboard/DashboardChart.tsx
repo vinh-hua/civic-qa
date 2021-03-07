@@ -14,7 +14,7 @@ export type DashboardChartProps = {
 export function DashboardChart(props: DashboardChartProps) {
     return (
         <div>
-            <AreaChart width={800} height={350} data={props.data}>
+            <AreaChart width={800} height={450} data={props.data}>
                 <defs>
                     <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor={Constants.Purple} stopOpacity={0.5}/>
