@@ -12,9 +12,10 @@ export type SubDashboardData = {
 export type SubDashboardProps = {
     title: string;
     data: Array<SubDashboardData>;
-    setData: Dispatch<SetStateAction<SubDashboardData[]>>;
+    changeViewFunc: Function;
     emailTemplates: boolean;
-    hasRespondOption: boolean;
+    fullPageView: boolean;
+    subHeaderNumber?: number;
 };
 
 export function SubDashboard(props: SubDashboardProps) {
@@ -22,16 +23,22 @@ export function SubDashboard(props: SubDashboardProps) {
     if (props.emailTemplates) {
         props.data.forEach(d => cards.push(<EmailTemplateCard name={d.name} value={d.value}></EmailTemplateCard>))
     } else {
-        props.data.forEach(d => cards.push(<SubDashboardCard name={d.name} value={d.value} setData={props.setData} hasRespondOption={props.hasRespondOption}></SubDashboardCard>));
+        props.data.forEach(d => cards.push(<SubDashboardCard name={d.name} value={d.value} changeViewFunc={props.changeViewFunc}></SubDashboardCard>));
     }
 
     return (
         <div>
             <div>
-                <SubHeaderLine title={props.title}></SubHeaderLine>
-                <div className="sub-dash-cards">
+                <SubHeaderLine title={props.title} subHeaderNumber={props.subHeaderNumber ? props.subHeaderNumber : undefined}></SubHeaderLine>
+                {props.fullPageView ? 
+                <div className="sub-dash-cards-700">
+                    {cards}
+                </div> :
+                <div className="sub-dash-cards-400">
                     {cards}
                 </div>
+                }
+
             </div>
         </div>
     );

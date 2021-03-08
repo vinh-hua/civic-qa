@@ -16,13 +16,12 @@ function getTemplatesData(): Array<SubDashboardData> {
 
 export function Templates() {
     const test_data = getTemplatesData();
-    const [data, setData] = useState(test_data);
     const [onSpecificView, setSpecificView] = useState(false);
 
     return (
         <div className="dashboard sub-dashboard">
             <Header title="Email Templates"></Header>
-            <SubDashboard title="Templates" data={data} setData={setData} emailTemplates={true} hasRespondOption={false}></SubDashboard>
+            <SubDashboard title="Templates" data={test_data} changeViewFunc={setSpecificView} emailTemplates={true} fullPageView={false}></SubDashboard>
             <button className="templates-btn">Create New</button>
         </div>
     );

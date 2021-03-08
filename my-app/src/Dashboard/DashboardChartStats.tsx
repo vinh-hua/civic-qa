@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DropdownMenu } from '../Components/DropdownMenu';
 import { ChartData, DashboardChart } from '../Dashboard/DashboardChart';
 import { StatCard } from '../Components/StatCard';
-import * as Constants from '../Constants/constants';
+import * as Constants from '../Constants/Constants';
 
 function randomChartData(): Array<ChartData> {
     var data = [];
@@ -15,7 +15,7 @@ function randomChartData(): Array<ChartData> {
 export function DashboardChartStats() {
     const [total, setTotal] = useState(0);
     const [today, setToday] = useState(0);
-    const [chartView, setChartView] = useState(Constants.AllEmails);
+    const [chartView, setChartView] = useState(Constants.Responses);
 
     // make randomize chart data
     const test_data = randomChartData();
