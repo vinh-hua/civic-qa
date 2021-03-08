@@ -4,6 +4,7 @@ import { SubHeaderLine } from '../Components/SubHeaderLine';
 import "./FormResponseView.css";
 
 export type FormResponseViewProps = {
+    responseId: string;
     title: string;
     subject: string;
     body: string;

@@ -38,8 +38,8 @@ export function Casework() {
         {title: "Topics", stat: 10}
     ];
 
-    function specificView(title: string) {
-        setSpecificViewTitle(title);
+    function specificView(data: SubDashboardData) {
+        setSpecificViewTitle(data.name);
         setSpecificView(true);
     }
 
