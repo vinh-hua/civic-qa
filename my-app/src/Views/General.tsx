@@ -34,6 +34,7 @@ export function General() {
     const testData = getInitialSubDashboardData();
     const testSpecificData = getSpecificData();
     const [onSpecificView, setSpecificView] = useState(false);
+    const [specificViewTitle, setSpecificViewTitle] = useState("");
 
     let statCards = [
         {title: "New Today", stat: 288},
@@ -41,7 +42,8 @@ export function General() {
         {title: "Topics", stat: 24}
     ];
 
-    function specificView() {
+    function specificView(title: string) {
+        setSpecificViewTitle(title);
         setSpecificView(true);
     }
 
@@ -55,7 +57,7 @@ export function General() {
             <div className="dashboard sub-dashboard">
                 <button className="exit-button" onClick={initialView}><img src="./assets/icons/back-arrow.png"></img></button>
             </div>
-            <Responses header="General Inquiries" data={testSpecificData}></Responses>
+            <Responses header="General Inquiries" subjectTitle={specificViewTitle} data={testSpecificData}></Responses>
         </div>
         : <div className="dashboard sub-dashboard">
             <div>

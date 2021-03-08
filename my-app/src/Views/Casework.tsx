@@ -30,6 +30,7 @@ export function Casework() {
     const testData = getSubDashboardData();
     const testSpecificData = getSpecificData();
     const [onSpecificView, setSpecificView] = useState(false);
+    const [specificViewTitle, setSpecificViewTitle] = useState("");
 
     let statCards = [
         {title: "New Today", stat: 9},
@@ -37,7 +38,8 @@ export function Casework() {
         {title: "Topics", stat: 10}
     ];
 
-    function specificView() {
+    function specificView(title: string) {
+        setSpecificViewTitle(title);
         setSpecificView(true);
     }
 
@@ -51,7 +53,7 @@ export function Casework() {
             <div className="dashboard sub-dashboard">
                 <button className="exit-button" onClick={initialView}><img src="./assets/icons/back-arrow.png"></img></button>
             </div>
-            <Responses header="Casework" data={testSpecificData}></Responses>
+            <Responses header="Casework" subjectTitle={specificViewTitle} data={testSpecificData}></Responses>
         </div>
         : <div className="dashboard sub-dashboard">
             <div>

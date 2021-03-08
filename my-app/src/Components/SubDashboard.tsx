@@ -23,7 +23,7 @@ export function SubDashboard(props: SubDashboardProps) {
     if (props.emailTemplates) {
         props.data.forEach(d => cards.push(<EmailTemplateCard name={d.name} value={d.value}></EmailTemplateCard>))
     } else {
-        props.data.forEach(d => cards.push(<SubDashboardCard name={d.name} value={d.value} changeViewFunc={() => props.changeViewFunc()}></SubDashboardCard>));
+        props.data.forEach(d => cards.push(<SubDashboardCard name={d.name} value={d.value} changeViewFunc={props.changeViewFunc}></SubDashboardCard>));
     }
 
     return (

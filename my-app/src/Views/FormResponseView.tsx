@@ -1,11 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Header } from './Header';
-import { SubHeaderLine } from './SubHeaderLine';
+import { Header } from '../Components/Header';
+import { SubHeaderLine } from '../Components/SubHeaderLine';
 import "./FormResponseView.css";
 
 export type FormResponseViewProps = {
     title: string;
-    subHeaderNumber: number;
     subject: string;
     body: string;
     setSpecificView: Dispatch<SetStateAction<boolean>>;
