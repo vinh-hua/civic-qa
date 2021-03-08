@@ -62,57 +62,6 @@ func (g *GormStore) GetByID(responseID uint) (*model.FormResponse, error) {
 
 }
 
-// GetByFormID returns all FormResponses for a given Form by its ID
-func (g *GormStore) GetByFormID(formID uint) ([]*model.FormResponse, error) {
-	responses := make([]*model.FormResponse, 0)
-
-	result := g.db.
-		Where("formID = ?", formID).
-		Order("createdAt DESC").
-		Find(&responses)
-
-	if result.Error != nil {
-		return nil, result.Error
-	}
-
-	return responses, nil
-}
-
-// GetByUserID returns all FormResponses for a given user by their userID
-func (g *GormStore) GetByUserID(userID uint) ([]*model.FormResponse, error) {
-	responses := make([]*model.FormResponse, 0)
-
-	result := g.db.
-		Joins("JOIN forms ON forms.ID = formResponses.formID").
-		Where("forms.userID = ?", userID).
-		Order("formResponses.createdAt DESC").
-		Find(&responses)
-
-	if result.Error != nil {
-		return nil, result.Error
-	}
-
-	return responses, nil
-}
-
-// GetByUserIDAndSubject returns all FormResponses with a subject for a given user by their userID
-func (g *GormStore) GetByUserIDAndSubject(userID uint, subject string) ([]*model.FormResponse, error) {
-	responses := make([]*model.FormResponse, 0)
-
-	result := g.db.
-		Joins("JOIN forms ON forms.ID = formResponses.formID").
-		Where("forms.userID = ?", userID).
-		Where("formResponses.subject = ?", subject).
-		Order("formResponses.createdAt DESC").
-		Find(&responses)
-
-	if result.Error != nil {
-		return nil, result.Error
-	}
-
-	return responses, nil
-}
-
 // PatchByID updates the 'active' state of a FormResponse by its ID
 func (g *GormStore) PatchByID(responseID uint, state bool) error {
 
@@ -129,4 +78,48 @@ func (g *GormStore) PatchByID(responseID uint, state bool) error {
 	}
 
 	return nil
+}
+
+// GetResponses returns a slice of FormResponses given a userID and a ResponseQuery.
+// non-default fields in the ResponseQuery will be used to filter the returned FormResponses
+func (g *GormStore) GetResponses(userID uint, query Query) ([]*model.FormResponse, error) {
+	responses := make([]*model.FormResponse, 0)
+
+	// apply non-default query parameters
+	sess := applyQuery(query, g.db.Session(&gorm.Session{}))
+
+	// execute the query
+	result := sess.
+		Joins("JOIN forms ON forms.ID = formResponses.formID").Where("forms.userID = ?", userID).
+		Order("formResponses.createdAt DESC").
+		Find(&responses)
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			return nil, ErrResponseNotFound
+		}
+		return nil, result.Error
+	}
+
+	// return the responses
+	return responses, nil
+}
+
+func applyQuery(query Query, session *gorm.DB) *gorm.DB {
+	if query.ActiveOnly {
+		session = session.Where("formResponses.active = ?", query.ActiveOnly)
+	}
+	if query.EmailAddress != "" {
+		session = session.Where("formResponses.emailAddress = ?", query.EmailAddress)
+	}
+	if query.FormID != 0 {
+		session = session.Where("formResponses.formID = ?", query.FormID)
+	}
+	if query.Name != "" {
+		session = session.Where("formResponses.name = ?", query.Name)
+	}
+	if query.Subject != "" {
+		session = session.Where("formResponses.subject = ?", query.Subject)
+	}
+
+	return session
 }

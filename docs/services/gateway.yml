@@ -115,38 +115,40 @@ paths:
             application/json:
               schema:
                 $ref: "form/api-v0.yml#/components/schemas/form"
-
-  /forms/{formID}/responses:
-    get:
-      summary: get all responses to a form by ID
-      parameters:
-        - in: path
-          name: formID
-          schema:
-            type: integer
-          required: true
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: form responses
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "form/api-v0.yml#/components/schemas/formResponse"
-    
   /responses:
     get:
       summary: get all responses to the auth users forms
       parameters:
+        - in: query
+          name: name
+          description: formResponse name field
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: emailAddress
+          description: formResponse emailAddress field
+          schema:
+            type: string
+          required: false 
         - in: query
           name: subject
           description: subject to filter responses by
           schema:
             type: string
           required: false
+        - in: query
+          name: activeOnly
+          description: filter out non-active responses
+          schema:
+            type: boolean
+          required: false 
+        - in: query
+          name: formID
+          description: filter to specific form
+          schema:
+            type: integer
+          required: false 
       security:
         - bearerAuth: []
       responses:

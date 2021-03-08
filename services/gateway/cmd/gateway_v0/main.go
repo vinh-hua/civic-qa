@@ -83,7 +83,6 @@ func main() {
 	api.Handle("/form/{formID:[0-9]+}", formProxy)
 	apiAuth.Handle("/forms", formProxy)
 	apiAuth.Handle("/forms/{formID:[0-9]+}", formProxy)
-	apiAuth.Handle("/forms/{formID:[0-9]+}/responses", formProxy)
 	apiAuth.Handle("/responses", formProxy)
 	apiAuth.Handle("/responses/{responseID:[0-9]+}", formProxy)
 

@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/vivian-hua/civic-qa/services/common/parse"
+
 	"github.com/gorilla/mux"
 	"github.com/vivian-hua/civic-qa/services/form/internal/model"
 	"github.com/vivian-hua/civic-qa/services/form/internal/repository/form"
@@ -169,61 +171,6 @@ func (ctx *Context) HandleGetSpecificForm(w http.ResponseWriter, r *http.Request
 	}
 }
 
-// HandleGetFormResponses GET /forms/{formID}/responses
-// Allows an authenticated user to see response to a specific form
-func (ctx *Context) HandleGetFormResponses(w http.ResponseWriter, r *http.Request) {
-	// parse the URL parameter
-	vars := mux.Vars(r)
-	formID, err := strconv.ParseUint(vars["formID"], 10, 64)
-	if err != nil {
-		http.Error(w, "Invalid Form ID", http.StatusBadRequest)
-		return
-	}
-
-	// get the auth user
-	userID, authErr := getAuthUserID(r)
-	if authErr != nil {
-		http.Error(w, authErr.message, authErr.code)
-		return
-	}
-
-	// retrieve the form
-	formData, err := ctx.FormStore.GetByID(uint(formID))
-	if err != nil {
-		if err == form.ErrFormNotFound {
-			http.Error(w, "Form Not Found", http.StatusNotFound)
-			return
-		}
-		log.Printf("Error retrieving form: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	// make sure this form belongs to the user
-	if formData.UserID != userID {
-		http.Error(w, "This form does not belong to you", http.StatusForbidden)
-		return
-	}
-
-	// retrieve the responses
-	responses, err := ctx.ResponseStore.GetByFormID(uint(formID))
-	if err != nil {
-		log.Printf("Error retrieving responses: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	// return the responses
-	w.Header().Set("content-type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	err = json.NewEncoder(w).Encode(&responses)
-	if err != nil {
-		log.Printf("Error encoding forms: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-}
-
 // HandleGetSpecificResponse GET /responses/{responseID}
 // Allows an authenticated user to view a specific response
 func (ctx *Context) HandleGetSpecificResponse(w http.ResponseWriter, r *http.Request) {
@@ -289,8 +236,18 @@ func (ctx *Context) HandleGetResponses(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	queryParams := r.URL.Query()
+
+	query := response.Query{
+		Name:         queryParams.Get("name"),
+		EmailAddress: queryParams.Get("emailAddress"),
+		Subject:      queryParams.Get("subject"),
+		ActiveOnly:   parse.ParseBoolOrDefault(queryParams.Get("activeOnly")),
+		FormID:       parse.ParseUintOrDefault(queryParams.Get("formID")),
+	}
+
 	// get the associated responses
-	responses, err := ctx.ResponseStore.GetByUserID(userID)
+	responses, err := ctx.ResponseStore.GetResponses(userID, query)
 	if err != nil {
 		log.Printf("Error retrieving responses by userID: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -306,40 +263,6 @@ func (ctx *Context) HandleGetResponses(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-}
-
-// HandleGetResponsesBySubject GET /responses?subject={subject}
-// Allows an authenticated user to get all responses with a given subject
-func (ctx *Context) HandleGetResponsesBySubject(w http.ResponseWriter, r *http.Request) {
-
-	// get the auth user
-	userID, authErr := getAuthUserID(r)
-	if authErr != nil {
-		http.Error(w, authErr.message, authErr.code)
-		return
-	}
-
-	// parse query params
-	vars := mux.Vars(r)
-
-	// get the associated responses with subject
-	responses, err := ctx.ResponseStore.GetByUserIDAndSubject(userID, vars["subject"])
-	if err != nil {
-		log.Printf("Error retrieving responses by userID: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	// return the responses
-	w.Header().Set("content-type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	err = json.NewEncoder(w).Encode(&responses)
-	if err != nil {
-		log.Printf("Error encoding forms: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
 }
 
 // HandlePatchResponse PATCH /responses/{responseID}
