@@ -25,6 +25,9 @@ export default function App() {
           "Authorization": authToken
       })
     });
+    if (response.status >= 300) {
+      console.log("Failed to logout");
+    }
     localStorage.removeItem("Authorization");
     setAuth(false);
     return(<Redirect to="/login"></Redirect>);
