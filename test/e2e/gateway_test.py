@@ -77,30 +77,18 @@ class TestForm(unittest.TestCase):
 
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
 
-    def test_get_responses(self):
-        print("Testing get responses from form")
-        auth = common.make_user(GATEWAY_URL, common.generate_user())
-        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
-
-        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
-        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
-        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
-
-        assert len(common.get_responses(GATEWAY_URL, form["id"], auth)) == 3
-
     def test_get_response(self):
         print("Testing get response")
         auth = common.make_user(GATEWAY_URL, common.generate_user())
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
 
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
-        resps = common.get_responses(GATEWAY_URL, form["id"], auth)
-        resp_id = resps[0]["id"]
+        resps = common.get_responses_params(GATEWAY_URL, auth, {"formID": form["id"]})
         
-        common.get_response(GATEWAY_URL, resp_id, auth)
+        common.get_response(GATEWAY_URL, auth, resps[0]["id"])
 
-    def test_get_responses_user(self):
-        print("Testing get responses by user")
+    def test_get_responses(self):
+        print("Testing get responses (no filter)")
         auth = common.make_user(GATEWAY_URL, common.generate_user())
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
         form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
@@ -111,10 +99,10 @@ class TestForm(unittest.TestCase):
         common.post_form_user(GATEWAY_URL, form2["id"], common.generate_response())
         common.post_form_user(GATEWAY_URL, form2["id"], common.generate_response())
 
-        assert len(common.get_responses_user(GATEWAY_URL, auth)) == 5
+        assert len(common.get_responses(GATEWAY_URL, auth)) == 5
 
-    def test_get_responses_user_subject(self):
-        print("Testing get responses by user with subject")
+    def test_get_responses_subject(self):
+        print("Testing get responses (filter: subject)")
         auth = common.make_user(GATEWAY_URL, common.generate_user())
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
         form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
@@ -129,7 +117,97 @@ class TestForm(unittest.TestCase):
         common.post_form_user(GATEWAY_URL, form2["id"], resp1)
         common.post_form_user(GATEWAY_URL, form2["id"], resp2)
 
-        assert len(common.get_responses_user_subject(GATEWAY_URL, auth, resp1["subject"])) == 3
+        assert len(common.get_responses_params(GATEWAY_URL, auth, {"subject": resp1["subject"]})) == 3
+
+    def test_get_responses_email(self):
+        print("Testing get responses (filter: emailAddress)")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        resp1 = common.generate_response()
+        resp2 = common.generate_response()
+
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp2)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp2)
+
+        assert len(common.get_responses_params(GATEWAY_URL, auth, {"emailAddress": resp1["email"]})) == 3
+
+    def test_get_responses_active(self):
+        print("Testing get responses (filter: activeOnly)")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        resp1 = common.generate_response()
+        resp2 = common.generate_response()
+
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp2)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp2)
+
+        # mark 3 of the responses as non-active, leaving 2 active
+        resps = common.get_responses(GATEWAY_URL, auth)
+        for resp in resps[:3]:
+            common.patch_response(GATEWAY_URL, resp["id"], False, auth)
+
+        assert len(common.get_responses_params(GATEWAY_URL, auth, {"activeOnly": True})) == 2
+
+    def test_get_responses_formID(self):
+        print("Testing get responses (filter: formID)")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        resp1 = common.generate_response()
+        resp2 = common.generate_response()
+
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp2)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp2)
+
+        assert len(common.get_responses_params(GATEWAY_URL, auth, {"formID": form["id"]})) == 3
+
+    def test_get_responses_name(self):
+        print("Testing get responses (filter: name)")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        resp1 = common.generate_response()
+        resp2 = common.generate_response()
+
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp2)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp2)
+
+        assert len(common.get_responses_params(GATEWAY_URL, auth, {"name": resp1["name"]})) == 3
+
+    def test_get_responses_multi(self):
+        print("Testing get responses (filter: multiple)")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        resp1 = common.generate_response()
+        resp2 = common.generate_response()
+
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp2)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp2)
+
+        assert len(common.get_responses_params(GATEWAY_URL, auth, {"name": resp1["name"], "formID": form["id"]})) == 2
 
     def test_patch_response(self):
         print("Testing patch response")
@@ -137,11 +215,11 @@ class TestForm(unittest.TestCase):
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
 
-        resp = common.get_responses(GATEWAY_URL, form["id"], auth)[0]
+        resp = common.get_responses_params(GATEWAY_URL, auth, {"formID": form["id"]})[0]
 
         common.patch_response(GATEWAY_URL, resp["id"], False, auth)
 
-        updated = common.get_response(GATEWAY_URL, resp["id"], auth)
+        updated = common.get_response(GATEWAY_URL, auth, resp["id"])
         assert updated["active"] == False
 
 
