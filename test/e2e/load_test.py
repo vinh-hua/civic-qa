@@ -45,7 +45,7 @@ class TestLoad(unittest.TestCase):
                 common.login(GATEWAY_URL, creds)
         run()
 
-    def test_get_form_user(self):
+    def test_get_form_client(self):
         auth = common.make_user(GATEWAY_URL, common.generate_user())
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
 
@@ -76,7 +76,7 @@ class TestLoad(unittest.TestCase):
         @timeit(f"test_get_responses {N=}")
         def run():
             for _ in range(N):
-                common.get_responses_user(GATEWAY_URL, auth)
+                common.get_responses(GATEWAY_URL, auth)
         run()
 
     def test_patch_response(self):
@@ -85,7 +85,7 @@ class TestLoad(unittest.TestCase):
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_form())
 
-        resp = common.get_responses(GATEWAY_URL, form["id"], auth)[0]
+        resp = common.get_responses_params(GATEWAY_URL, auth, {"formID": form["id"]})[0]
 
         N = 100
 

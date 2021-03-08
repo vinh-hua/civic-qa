@@ -6,6 +6,15 @@ import (
 	"github.com/vivian-hua/civic-qa/services/form/internal/model"
 )
 
+// Query is used to query the response.Store
+type Query struct {
+	Name         string
+	EmailAddress string
+	Subject      string
+	ActiveOnly   bool
+	FormID       uint
+}
+
 var (
 	// ErrResponseNotFound is returned when a requested FormResponse does not exist
 	ErrResponseNotFound = errors.New("Response Does Not Exist")
@@ -16,8 +25,6 @@ var (
 type Store interface {
 	Create(response *model.FormResponse) error
 	GetByID(responseID uint) (*model.FormResponse, error)
-	GetByFormID(formID uint) ([]*model.FormResponse, error)
-	GetByUserID(userID uint) ([]*model.FormResponse, error)
-	GetByUserIDAndSubject(userID uint, subject string) ([]*model.FormResponse, error)
 	PatchByID(responseID uint, state bool) error
+	GetResponses(userID uint, query Query) ([]*model.FormResponse, error)
 }
