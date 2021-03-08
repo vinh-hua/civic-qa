@@ -38,7 +38,7 @@ async function getResponses() {
 }
 
 export function Responses(props: ResponsesProps) {
-    // getResponses();
+    getResponses();
     const headerTitle = props.header || "Form Responses";
     const subjecTitle = props.subjectTitle || "CURRENT RESPONSES";
     const testData = getSubDashboardData();
