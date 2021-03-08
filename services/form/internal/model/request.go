@@ -17,5 +17,5 @@ type NewFormResponse struct {
 // PatchResponse is a model for
 // a request to patch a response state
 type PatchResponse struct {
-	Open bool `json:"open"`
+	Active bool `json:"active"`
 }
