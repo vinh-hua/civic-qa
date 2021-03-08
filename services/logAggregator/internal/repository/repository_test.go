@@ -44,6 +44,7 @@ func TestLog(t *testing.T) {
 		{CorrelationID: testUUID1, TimeUnix: time.Now().Unix(), Service: "test", Notes: "test"},
 		{CorrelationID: testUUID1, TimeUnix: time.Now().Unix(), Service: "test", StatusCode: 200, Notes: "test"},
 		{CorrelationID: testUUID1, TimeUnix: time.Now().Unix(), RequestPath: "/url/path", Service: "test", StatusCode: 200, Notes: "test"},
+		{CorrelationID: testUUID1, TimeUnix: time.Now().Unix(), RequestPath: "/url/path", Service: "test", StatusCode: 200, Hostname: "somehost", Notes: "test"},
 	}
 
 	repo := createRepo()

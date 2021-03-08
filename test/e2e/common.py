@@ -1,6 +1,7 @@
 import random
 import requests
 import string
+from urllib.parse import quote_plus
 
 
 def randstr(n):
@@ -80,6 +81,7 @@ def get_form_client(URL, form_id):
 
 def generate_response():
     return { 
+        "name": f"{randstr(5)} {randstr(8)}", 
         "email": f"{randstr(6)}@example.com",
         "subject": randstr(10),
         "body": randstr(25)
@@ -108,6 +110,13 @@ def get_response(URL, resp_id, auth_header):
 
 def get_responses_user(URL, auth_header):
     resp = requests.get(URL+"/responses", headers={"Authorization": auth_header})
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.json()
+
+def get_responses_user_subject(URL, auth_header, subject):
+    resp = requests.get(URL+f"/responses?subject={quote_plus(subject)}", headers={"Authorization": auth_header})
     if resp.status_code != 200:
         raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
 

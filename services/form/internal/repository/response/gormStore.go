@@ -77,7 +77,12 @@ func (g *GormStore) GetByFormID(formID uint) ([]*model.FormResponse, error) {
 // GetByUserID returns all FormResponses for a given user by their userID
 func (g *GormStore) GetByUserID(userID uint) ([]*model.FormResponse, error) {
 	responses := make([]*model.FormResponse, 0)
-	result := g.db.Joins("JOIN forms ON forms.ID = formResponses.formID").Where("forms.userID = ?", userID).Find(&responses)
+
+	result := g.db.
+		Joins("JOIN forms ON forms.ID = formResponses.formID").
+		Where("forms.userID = ?", userID).
+		Find(&responses)
+
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -85,9 +90,26 @@ func (g *GormStore) GetByUserID(userID uint) ([]*model.FormResponse, error) {
 	return responses, nil
 }
 
-// PatchByID updates the 'open' state of a FormResponse by its ID
+// GetByUserIDAndSubject returns all FormResponses with a subject for a given user by their userID
+func (g *GormStore) GetByUserIDAndSubject(userID uint, subject string) ([]*model.FormResponse, error) {
+	responses := make([]*model.FormResponse, 0)
+
+	result := g.db.
+		Joins("JOIN forms ON forms.ID = formResponses.formID").
+		Where("forms.userID = ?", userID).
+		Where("formResponses.subject = ?", subject).
+		Find(&responses)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return responses, nil
+}
+
+// PatchByID updates the 'active' state of a FormResponse by its ID
 func (g *GormStore) PatchByID(responseID uint, state bool) error {
-	result := g.db.Model(&model.FormResponse{}).Where("id = ?", responseID).Update("open", state)
+	result := g.db.Model(&model.FormResponse{}).Where("id = ?", responseID).Update("active", state)
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
 			return ErrResponseNotFound

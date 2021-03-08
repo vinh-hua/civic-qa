@@ -1,6 +1,11 @@
 <form action="/v0/form/{{ .ID }}" method="POST">
     <h1>{{ .Name }} </h1>
 
+    <label for="name">Name: </lable>
+    <br>
+    <input type="text" id="name" name="name">
+    <br>
+
     <label for="email">Email Address: </lable>
     <br>
     <input type="email" id="email" name="email">

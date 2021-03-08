@@ -13,6 +13,7 @@ type LogEntry struct {
 	RequestPath   string    `gorm:"column:requestPath" json:"requestPath"`
 	Service       string    `gorm:"column:service" json:"service"`
 	StatusCode    int       `gorm:"column:statusCode" json:"statusCode"`
+	Hostname      string    `gorm:"column:hostname" json:"hostname"`
 	Notes         string    `gorm:"column:notes" json:"notes"`
 }
 
@@ -30,4 +31,5 @@ type LogQuery struct {
 	Service         string    `json:"service"`
 	StatusCodeStart int       `json:"statusCodeStart"`
 	StatusCodeStop  int       `json:"statusCodeStop"`
+	Hostname        string    `json:"hostname"`
 }

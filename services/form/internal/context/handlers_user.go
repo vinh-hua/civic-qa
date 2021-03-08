@@ -75,11 +75,12 @@ func (ctx *Context) HandlePostForm(w http.ResponseWriter, r *http.Request) {
 	// create the response
 	responseFormData := r.Form
 	response := &model.FormResponse{
+		Name:         responseFormData.Get("name"),
 		EmailAddress: responseFormData.Get("email"),
 		Subject:      responseFormData.Get("subject"),
 		Body:         responseFormData.Get("body"),
 		CreatedAt:    time.Now().UTC(),
-		Open:         true,
+		Active:       true,
 		FormID:       uint(formID),
 	}
 

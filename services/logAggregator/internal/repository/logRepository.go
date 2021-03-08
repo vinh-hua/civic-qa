@@ -101,6 +101,10 @@ func (l *LogRepository) generateWheres(query model.LogQuery) (conds, params []in
 		conds = append(conds, "statusCode <= ?")
 		params = append(params, query.StatusCodeStop)
 	}
+	if query.Hostname != "" {
+		conds = append(conds, "hostname = ?")
+		params = append(params, query.Hostname)
+	}
 
 	return conds, params
 }

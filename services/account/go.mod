@@ -3,6 +3,8 @@ module github.com/vivian-hua/civic-qa/service/account
 go 1.15
 
 require (
+	github.com/go-redis/redis v6.15.9+incompatible // indirect
+	github.com/go-redis/redis/v8 v8.7.0
 	github.com/gorilla/mux v1.8.0
 	github.com/vivian-hua/civic-qa/services/common v0.0.0
 	github.com/vivian-hua/civic-qa/services/logAggregator v0.0.0-20210227211936-aef745c47c5f

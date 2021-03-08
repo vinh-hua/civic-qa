@@ -7,23 +7,29 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/urfave/negroni"
 )
 
 const (
-	defaultTimeout = 5 * time.Second
-	logPath        = "/v0/log"
+	defaultTimeout  = 5 * time.Second
+	defaultHostname = "unavailable"
+	logPath         = "/v0/log"
 )
 
 // Config contains settings to perform logging
 type Config struct {
+	// Exposed fields
 	AggregatorAddress string
 	ServiceName       string
 	SkipSuccesses     bool
 	StdoutErrors      bool
 	Timeout           time.Duration
+
+	// Unexposed fields
+	hostname string
 }
 
 // newLogEntry represents a LogEntry before it is added to the database
@@ -34,12 +40,21 @@ type newLogEntry struct {
 	RequestPath   string `json:"requestPath"`
 	Service       string `json:"service"`
 	StatusCode    int    `json:"statusCode"`
+	Hostname      string `json:"hostname"`
 	Notes         string `json:"notes"`
 }
 
 // NewAggregatorMiddleware returns a mux.MiddlewareFunc
 // To log all requests to an instance of the logAggregator
 func NewAggregatorMiddleware(config *Config) func(http.Handler) http.Handler {
+	// Establish hostname
+	hostname, err := os.Hostname()
+	if err != nil {
+		log.Printf("Error getting hostname: %v", err)
+		hostname = defaultHostname
+	}
+	config.hostname = hostname
+
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// Wrap the response writer so we can get the status after
@@ -55,6 +70,7 @@ func NewAggregatorMiddleware(config *Config) func(http.Handler) http.Handler {
 				RequestPath:   r.URL.String(),
 				Service:       config.ServiceName,
 				StatusCode:    wrapped.Status(),
+				Hostname:      config.hostname,
 			}
 
 			// if SkipSuccesses, don't log unless this request failed

@@ -46,6 +46,9 @@ func getSessionStoreImpl(cfg config.Provider) (session.Store, error) {
 	switch sessImpl {
 	case "memory":
 		return session.NewMemoryStore(), nil
+	case "redis":
+		redisAddr := cfg.GetOrFallback("REDIS_ADDR", "localhost:6379")
+		return session.NewRedisStore(redisAddr)
 	default:
 		return nil, fmt.Errorf("Unknown SESS_IMPL: %s", sessImpl)
 	}
