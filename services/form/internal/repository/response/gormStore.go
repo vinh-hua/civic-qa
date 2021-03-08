@@ -68,7 +68,7 @@ func (g *GormStore) GetByFormID(formID uint) ([]*model.FormResponse, error) {
 
 	result := g.db.
 		Where("formID = ?", formID).
-		Order("createdAt").
+		Order("createdAt DESC").
 		Find(&responses)
 
 	if result.Error != nil {
@@ -85,7 +85,7 @@ func (g *GormStore) GetByUserID(userID uint) ([]*model.FormResponse, error) {
 	result := g.db.
 		Joins("JOIN forms ON forms.ID = formResponses.formID").
 		Where("forms.userID = ?", userID).
-		Order("formResponses.createdAt").
+		Order("formResponses.createdAt DESC").
 		Find(&responses)
 
 	if result.Error != nil {
@@ -103,7 +103,7 @@ func (g *GormStore) GetByUserIDAndSubject(userID uint, subject string) ([]*model
 		Joins("JOIN forms ON forms.ID = formResponses.formID").
 		Where("forms.userID = ?", userID).
 		Where("formResponses.subject = ?", subject).
-		Order("formResponses.createdAt").
+		Order("formResponses.createdAt DESC").
 		Find(&responses)
 
 	if result.Error != nil {
