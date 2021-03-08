@@ -140,6 +140,13 @@ paths:
   /responses:
     get:
       summary: get all responses to the auth users forms
+      parameters:
+        - in: query
+          name: subject
+          description: subject to filter responses by
+          schema:
+            type: string
+          required: false
       security:
         - bearerAuth: []
       responses:

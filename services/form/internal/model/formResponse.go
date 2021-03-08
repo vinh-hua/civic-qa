@@ -10,6 +10,7 @@ const (
 // FormResponse is a model for a response to an HTML form
 type FormResponse struct {
 	ID           uint      `gorm:"primaryKey;column:id" json:"id"`
+	Name         string    `gorm:"column:name" json:"name"`
 	EmailAddress string    `gorm:"column:emailAddress" json:"emailAddress"`
 	Subject      string    `gorm:"column:subject" json:"subject"`
 	Body         string    `gorm:"column:body" json:"body"`

@@ -308,6 +308,40 @@ func (ctx *Context) HandleGetResponses(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// HandleGetResponsesBySubject GET /responses?subject={subject}
+// Allows an authenticated user to get all responses with a given subject
+func (ctx *Context) HandleGetResponsesBySubject(w http.ResponseWriter, r *http.Request) {
+
+	// get the auth user
+	userID, authErr := getAuthUserID(r)
+	if authErr != nil {
+		http.Error(w, authErr.message, authErr.code)
+		return
+	}
+
+	// parse query params
+	vars := mux.Vars(r)
+
+	// get the associated responses with subject
+	responses, err := ctx.ResponseStore.GetByUserIDAndSubject(userID, vars["subject"])
+	if err != nil {
+		log.Printf("Error retrieving responses by userID: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// return the responses
+	w.Header().Set("content-type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	err = json.NewEncoder(w).Encode(&responses)
+	if err != nil {
+		log.Printf("Error encoding forms: %v", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+}
+
 // HandlePatchResponse PATCH /responses/{responseID}
 // Allows an authenticated user to update a responses 'open' state
 func (ctx *Context) HandlePatchResponse(w http.ResponseWriter, r *http.Request) {

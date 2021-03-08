@@ -113,6 +113,24 @@ class TestForm(unittest.TestCase):
 
         assert len(common.get_responses_user(GATEWAY_URL, auth)) == 5
 
+    def test_get_responses_user_subject(self):
+        print("Testing get responses by user with subject")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        resp1 = common.generate_response()
+        resp2 = common.generate_response()
+
+
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp2)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp2)
+
+        assert len(common.get_responses_user_subject(GATEWAY_URL, auth, resp1["subject"])) == 3
+
     def test_patch_response(self):
         print("Testing patch response")
         auth = common.make_user(GATEWAY_URL, common.generate_user())

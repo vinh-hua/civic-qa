@@ -11,6 +11,11 @@ services:
       - AGG_ADDR=http://logaggregator:8888
       - ACCOUNT_SVC=http://account:8080
       - FORM_SVC=http://form:7070
+    depends_on:
+      - account
+      - form
+    restart: 
+      "on-failure"
   account:
     build: 
       context: ./account
@@ -21,8 +26,18 @@ services:
       - AGG_ADDR=http://logaggregator:8888
       - DB_IMPL=sqlite
       - DB_DSN=/database/database.db
+      - SESS_IMPL=redis
+      - REDIS_ADDR=redis:6379
     volumes:
       - ./test_databases:/database
+    depends_on:
+      - redis
+    restart: 
+      "on-failure"
+  redis:
+    image: "redis:alpine"
+    restart: 
+      "on-failure"
   form:
     build: 
       context: ./form
@@ -35,6 +50,8 @@ services:
       - DB_DSN=/database/database.db
     volumes:
       - ./test_databases:/database
+    restart: 
+      "on-failure"
   logaggregator:
     build: 
       context: ./logAggregator
@@ -45,5 +62,7 @@ services:
       - DB_DSN=/database/logs.db
     volumes:
       - ./test_databases:/database
+    restart: 
+      "on-failure"
 
     
