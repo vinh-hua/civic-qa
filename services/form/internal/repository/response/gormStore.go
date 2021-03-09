@@ -3,9 +3,10 @@ package response
 import (
 	common "github.com/vivian-hua/civic-qa/services/common/model"
 
+	"time"
+
 	"github.com/vivian-hua/civic-qa/services/form/internal/model"
 	"gorm.io/gorm"
-	"time"
 )
 
 // GormStore implements response.Store
@@ -125,22 +126,25 @@ func applyQuery(query Query, session *gorm.DB) *gorm.DB {
 	if query.ActiveOnly {
 		session = session.Where("formResponses.active = ?", query.ActiveOnly)
 	}
-	if query.TodayOnly {
-		today := time.Now().UTC()
-		beginDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
-		session = session.Where("formResponses.createdAt >= ?", beginDay)
-	}
 	if query.EmailAddress != "" {
 		session = session.Where("formResponses.emailAddress = ?", query.EmailAddress)
 	}
 	if query.FormID != 0 {
 		session = session.Where("formResponses.formID = ?", query.FormID)
 	}
+	if query.InquiryType != "" {
+		session = session.Where("formResponses.inquiryType = ?", query.InquiryType)
+	}
 	if query.Name != "" {
 		session = session.Where("formResponses.name = ?", query.Name)
 	}
 	if query.Subject != "" {
 		session = session.Where("formResponses.subject = ?", query.Subject)
+	}
+	if query.TodayOnly {
+		today := time.Now().UTC()
+		beginDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
+		session = session.Where("formResponses.createdAt >= ?", beginDay)
 	}
 
 	return session

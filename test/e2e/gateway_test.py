@@ -209,6 +209,30 @@ class TestForm(unittest.TestCase):
 
         assert len(common.get_responses_params(GATEWAY_URL, auth, {"todayOnly": True})) == 5
 
+    def test_get_responses_inquiry(self):
+        print("Testing get responses (filter: inquiryType)")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        resp1 = common.generate_response()
+        resp1["inquiryType"] = "casework"
+
+        resp2 = common.generate_response()
+        resp2["inquiryType"] = "general"
+
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form["id"], resp2)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp1)
+        common.post_form_user(GATEWAY_URL, form2["id"], resp2)
+
+        assert len(common.get_responses_params(GATEWAY_URL, auth, {"inquiryType": "casework"})) == 3
+        assert len(common.get_responses_params(GATEWAY_URL, auth, {"inquiryType": "general"})) == 2
+        assert len(common.get_responses_params(GATEWAY_URL, auth, {"inquiryType": "INVALID"})) == 0
+
+
+
     def test_get_responses_multi(self):
         print("Testing get responses (filter: multiple)")
         auth = common.make_user(GATEWAY_URL, common.generate_user())

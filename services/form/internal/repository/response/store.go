@@ -10,9 +10,10 @@ import (
 type Query struct {
 	Name         string
 	EmailAddress string
+	InquiryType  string
 	Subject      string
 	ActiveOnly   bool
-	TodayOnly	 bool
+	TodayOnly    bool
 	FormID       uint
 }
 

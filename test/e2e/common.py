@@ -94,6 +94,7 @@ def generate_response():
     return { 
         "name": f"{randstr(4,8)} {randstr(5,12)}", 
         "email": f"{randstr(6,12)}@example.com",
+        "inquiryType": random.choice(["general", "casework"]),
         "subject": randstr(8, 20),
         "body": randstr(20, 45)
     }
