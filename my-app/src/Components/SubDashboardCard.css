@@ -12,6 +12,7 @@
 }
 
 .sub-dash-card-value {
+    text-align: right;
     width: 275px;
     font-size: 24px;
     color: #A4A6B3;
