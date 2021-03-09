@@ -36,9 +36,9 @@ export function Casework() {
             console.log("Error retrieving form responses");
             return;
         }
-        const responsesGeneral = await response.json();
+        const responses = await response.json();
         var formResponses: Array<SubDashboardData> = [];
-        responsesGeneral.forEach(function(formResponse: any) {
+        responses.forEach(function(formResponse: any) {
             var d = new Date(formResponse.createdAt);
             var t = d.toLocaleString("en-US");
             formResponses.push({id: formResponse.id, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body});
