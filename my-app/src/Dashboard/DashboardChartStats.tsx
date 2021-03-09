@@ -17,29 +17,64 @@ function randomChartData(): Array<ChartData> {
 export function DashboardChartStats() {
     const [total, setTotal] = useState(0);
     const [today, setToday] = useState(0);
+    const [todayTrends, setTodayTrends] = useState<ChartData[]>([]);
     const [chartView, setChartView] = useState(Constants.Responses);
 
     // make randomize chart data
     const test_data = randomChartData();
 
-    async function GetStats() {
+    async function GetTotal() {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses, {
+        const responseTotal = await fetch(Endpoints.Testbase + Endpoints.Responses, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
             })
         });
-        if (response.status >= 300) {
+        if (responseTotal.status >= 300) {
             console.log("Error retrieving form responses");
             return;
         }
-        const forms = await response.json();
-        setTotal(forms.length);
+        const formsTotal = await responseTotal.json();
+        setTotal(formsTotal.length);
+    }
+
+    async function GetTodayTrends() {
+        var authToken = localStorage.getItem("Authorization") || "";
+        const responseToday= await fetch(Endpoints.Testbase + Endpoints.Responses + "?todayOnly=true", {
+            method: "GET",
+            headers: new Headers({
+                "Authorization": authToken
+            })
+        });
+        if (responseToday.status >= 300) {
+            console.log("Error retrieving form responses");
+            return;
+        }
+        const formsToday = await responseToday.json();
+        // map hour and form response counts
+        var trendData = new Map<number, number>();
+        formsToday.forEach(function(form: any) {
+            var date = new Date(form.createdAt);
+            var hour = date.getHours();
+            if (trendData.has(hour)) {
+                trendData.set(hour, (trendData.get(hour) || 0) + 1);
+            } else {
+                trendData.set(hour, 1);
+            }
+        });
+        // convert map to array for recharts line chart
+        var trendDataArray: Array<ChartData> = [];
+        for (var i = 0; i < 24; i++) {
+            trendDataArray.push({index: i, count: trendData.get(i) || 0});
+        }
+        setTodayTrends(trendDataArray);
+        setToday(formsToday.length);
     }
 
     useEffect(() => {
-        GetStats();
+        GetTotal();
+        GetTodayTrends();
     }, []);
 
     return(
@@ -51,7 +86,7 @@ export function DashboardChartStats() {
                 </div>
             </div>
             <div className="chart-stats">
-                <DashboardChart data={test_data}></DashboardChart>
+                <DashboardChart data={todayTrends}></DashboardChart>
                 <div className="chart-stats-cards">
                     <StatCard title={Constants.Total} stat={total}></StatCard>
                     <StatCard title={Constants.Today} stat={today}></StatCard>
