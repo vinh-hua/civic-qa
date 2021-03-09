@@ -292,34 +292,10 @@ func (ctx *Context) HandlePatchResponse(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	// retrieve the response
-	respData, err := ctx.ResponseStore.GetByID(uint(responseID))
-	if err != nil {
-		if err == response.ErrResponseNotFound {
-			http.Error(w, "Response not found", http.StatusNotFound)
-			return
-		}
-		log.Printf("Error retrieving response: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	// get the associated form
-	formData, err := ctx.FormStore.GetByID(respData.FormID)
-	if err != nil {
-		log.Printf("Error retrieving form: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	// ensure the form belongs to the user
-	if formData.UserID != userID {
-		http.Error(w, "This response does not belong to you", http.StatusForbidden)
-		return
-	}
+	log.Printf("GOT REQUEST TO PATCH RESPONSE: %v", patchResponse)
 
 	// update the state
-	err = ctx.ResponseStore.PatchByID(uint(responseID), patchResponse.Active)
+	err = ctx.ResponseStore.PatchByID(userID, uint(responseID), patchResponse.Active)
 	if err != nil {
 		log.Printf("Error updating FormResponse Open State: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

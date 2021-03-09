@@ -154,7 +154,7 @@ class TestForm(unittest.TestCase):
         # mark 3 of the responses as non-active, leaving 2 active
         resps = common.get_responses(GATEWAY_URL, auth)
         for resp in resps[:3]:
-            common.patch_response(GATEWAY_URL, resp["id"], False, auth)
+            common.patch_response(GATEWAY_URL, auth, resp["id"], False)
 
         assert len(common.get_responses_params(GATEWAY_URL, auth, {"activeOnly": True})) == 2
 
@@ -214,13 +214,17 @@ class TestForm(unittest.TestCase):
         auth = common.make_user(GATEWAY_URL, common.generate_user())
         form = common.make_form(GATEWAY_URL, auth, common.generate_form())
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
-
         resp = common.get_responses_params(GATEWAY_URL, auth, {"formID": form["id"]})[0]
 
-        common.patch_response(GATEWAY_URL, resp["id"], False, auth)
+        common.patch_response(GATEWAY_URL, auth, resp["id"], False)
 
         updated = common.get_response(GATEWAY_URL, auth, resp["id"])
         assert updated["active"] == False
+
+        common.patch_response(GATEWAY_URL, auth, resp["id"], True)
+        updated = common.get_response(GATEWAY_URL, auth, resp["id"])
+        assert updated["active"] == True
+
 
 
 

@@ -1,6 +1,8 @@
 package response
 
 import (
+	"log"
+
 	common "github.com/vivian-hua/civic-qa/services/common/model"
 
 	"github.com/vivian-hua/civic-qa/services/form/internal/model"
@@ -63,18 +65,38 @@ func (g *GormStore) GetByID(responseID uint) (*model.FormResponse, error) {
 }
 
 // PatchByID updates the 'active' state of a FormResponse by its ID
-func (g *GormStore) PatchByID(responseID uint, state bool) error {
+func (g *GormStore) PatchByID(userID uint, responseID uint, state bool) error {
 
+	log.Printf("AHOY, PATCHING BY ID to state: %t", state)
+
+	var response model.FormResponse
 	result := g.db.
 		Model(&model.FormResponse{}).
-		Where("id = ?", responseID).
-		Update("active", state)
+		Joins("JOIN forms ON forms.ID = formResponses.formID").Where("forms.userID = ?", userID).
+		Where("formResponses.id = ?", responseID).
+		Take(&response, responseID)
 
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
 			return ErrResponseNotFound
 		}
 		return result.Error
+	}
+
+	log.Printf("updating :%v to active: %t", response, state)
+
+	// perform the update (super ugly because: https://gorm.io/docs/update.html#Updates-multiple-columns)
+	// 			"NOTE When update with struct, GORM will only update non-zero fields,
+	// 			you might want to use map to update attributes or use Select to specify fields to update"
+	result = g.db.Model(&response).Updates(map[string]interface{}{"active": state})
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			return ErrResponseNotFound
+		}
+		return result.Error
+	}
+	if result.RowsAffected != 1 {
+		return ErrResponseNotFound
 	}
 
 	return nil
