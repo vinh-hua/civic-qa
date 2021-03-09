@@ -39,8 +39,33 @@ export function Responses(props: ResponsesProps) {
         setData(formResponses);
     }
 
+    const getToday = async() => {
+        var authToken = localStorage.getItem("Authorization") || "";
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveOnlyQuery, {
+            method: "GET",
+            headers: new Headers({
+                "Authorization": authToken
+            })
+        });
+        if (response.status >= 300) {
+            console.log("Error retrieving form responses");
+            return;
+        }
+        const forms = await response.json();
+        var formResponses: Array<SubDashboardData> = [];
+        forms.forEach(function(formResponse: any) {
+            var d = new Date(formResponse.createdAt);
+            var t = d.toLocaleString("en-US");
+            formResponses.push({id: formResponse.id, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body});
+        });
+        setData(formResponses);
+    }
+
+    
+
     useEffect(() => {
         getResponses();
+        getToday();
     }, []);
 
     function setSpecificResponseContent(formResponse: SubDashboardData) {
