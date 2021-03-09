@@ -91,8 +91,10 @@ class TestLoad(unittest.TestCase):
 
         @timeit(f"test_patch_response {N=}")
         def run():
+            new_state = False
             for _ in range(N):
-                common.patch_response(GATEWAY_URL, resp["id"], False, auth)
+                common.patch_response(GATEWAY_URL, auth, resp["id"], new_state)
+                new_state = not new_state
         run()
 
 
@@ -101,4 +103,5 @@ class TestLoad(unittest.TestCase):
         
 
 if __name__ == '__main__':
-    unittest.main()
+    TestLoad().test_patch_response()
+    #unittest.main()
