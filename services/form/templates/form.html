@@ -1,0 +1,38 @@
+<form action="/v0/form/{{ .ID }}" method="POST">
+    <h1>{{ .Name }} </h1>
+
+    <label for="name">Name: </lable>
+    <br>
+    <input type="text" id="name" name="name">
+    <br>
+
+    <label for="email">Email Address: </lable>
+    <br>
+    <input type="email" id="email" name="email">
+    <br>
+
+    <label for="inquiryType">Inquiry Type:</label>
+    <br>
+    <select name="inquiryType" id="inquiryType">
+        <option value="general">General</option>
+        <option value="casework">Casework</option>
+    </select>
+
+    <br>
+
+    <label for="subject">Subject: </lable>
+    <br>
+    <input type="text" id="subject" name="subject">
+    <br>
+
+    <label for="body">Body: </lable>
+    <br>
+    <textarea name="body" id="body" cols="30" rows="10">
+    </textarea>
+    <br>
+
+    <input type="submit">
+    <br>
+
+    <p>Powered by Civic QA</p>
+</form>

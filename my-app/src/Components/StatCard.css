@@ -1,0 +1,19 @@
+.stat-card {
+    border-radius: 10px;
+    border: 1px solid #DFE0EB;
+    background-color: white;
+    text-align: center;
+    width: 300px;
+}
+
+.stat-card-title {
+    color: #9FA2B4;
+    font-weight: bold;
+    padding-top: 10%;
+    font-size: 20px;
+}
+
+.stat-card-data {
+    font-size: 40px;
+    font-weight: bold;
+}

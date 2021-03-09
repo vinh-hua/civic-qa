@@ -40,6 +40,9 @@ paths:
                 timeStopUnix:
                   type: integer
                   format: int64
+                httpMethod:
+                    type: string
+                    format: HTTP-Method
                 service:
                   type: string
                 statusCodeStart:
@@ -50,8 +53,6 @@ paths:
                   type: integer
                   minimum: 100
                   maximum: 599
-              required:
-                - correlationID
       responses:
         '200': 
           description: success
@@ -73,6 +74,12 @@ components:
         timeUnix:
           type: integer
           format: int64
+        httpMethod:
+            type: string
+            format: HTTP-Method
+        requestPath:
+            type: string
+            format: uri
         service:
           type: string
         statusCode:
@@ -84,5 +91,7 @@ components:
       required:
         - correlationID
         - timeUnix
+        - httpMethod
+        - requestPath
         - service
         - statusCode

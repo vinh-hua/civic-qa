@@ -1,0 +1,86 @@
+openapi: '3.0.2'
+info:
+  title: Form API
+  description: API specification for form service
+  version: '0.0.0'
+
+paths:
+  /forms:
+    $ref: '../gateway.yml#/paths/~1forms'
+  /forms/{formID}:
+    $ref: '../gateway.yml#/paths/~1forms~1{formID}'
+  /forms/{formID}/responses:
+    $ref: '../gateway.yml#/paths/~1forms~1{formID}~1responses'
+  /responses:
+    $ref: '../gateway.yml#/paths/~1responses'
+  /responses/{responseID}:
+    $ref: '../gateway.yml#/paths/~1responses~1{responseID}'
+
+
+    
+components:
+  schemas:
+    form:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        userID:
+          type: integer
+
+    newFormRequest:
+      properties:
+         name:
+          type: string
+
+    newFormResponse:
+      properties:
+        email:
+          type: string
+          format: email
+        subject:
+          type: string
+        body:
+          type: string
+    
+    patchResponse:
+      properties:
+        active:
+          type: boolean
+
+    formResponse:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          format: string
+        emailAddress:
+          type: string
+          format: email
+        subject:
+          type: string
+        body:
+          type: string
+        active:
+          type: boolean
+        formID:
+          type: integer
+
+    formResponseURLEncodedForm:
+      properties:
+        name:
+          type: string
+          format: string
+        email:
+          type: string
+          format: email
+        subject:
+          type: string
+        body:
+          type: string        
+

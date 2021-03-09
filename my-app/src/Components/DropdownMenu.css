@@ -1,0 +1,23 @@
+.menu {
+    margin-top: -2.5px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-menu-btn {
+    width: 400px;
+    font-size: 20px;
+    padding-top: 15px;
+    background-color: white;
+    border: 1px solid #DFE0EB;
+}
+
+.dropdown-menu-btn-text {
+    padding-left: 30%;
+    float: left;
+}
+
+.dropdown-menu-arrow {
+    float: right;
+}
