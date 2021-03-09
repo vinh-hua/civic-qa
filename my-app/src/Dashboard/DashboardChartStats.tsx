@@ -1,27 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { DropdownMenu } from '../Components/DropdownMenu';
 import { ChartData, DashboardChart } from '../Dashboard/DashboardChart';
-import { SubDashboardData } from '../Components/SubDashboard';
 import { StatCard } from '../Components/StatCard';
 import * as Constants from '../Constants/Constants';
 import * as Endpoints from '../Constants/Endpoints';
-
-function randomChartData(): Array<ChartData> {
-    var data = [];
-    for (var i = 0; i < 24; i++) {
-        data.push({index: i, count: Math.floor(Math.random() * 50)});
-    }
-    return data as Array<ChartData>;
-}
 
 export function DashboardChartStats() {
     const [total, setTotal] = useState(0);
     const [today, setToday] = useState(0);
     const [todayTrends, setTodayTrends] = useState<ChartData[]>([]);
     const [chartView, setChartView] = useState(Constants.Responses);
-
-    // make randomize chart data
-    const test_data = randomChartData();
 
     async function GetTotal() {
         var authToken = localStorage.getItem("Authorization") || "";
@@ -41,7 +29,7 @@ export function DashboardChartStats() {
 
     async function GetTodayTrends() {
         var authToken = localStorage.getItem("Authorization") || "";
-        const responseToday= await fetch(Endpoints.Testbase + Endpoints.Responses + "?todayOnly=true", {
+        const responseToday= await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesTodayOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -66,7 +54,7 @@ export function DashboardChartStats() {
         // convert map to array for recharts line chart
         var trendDataArray: Array<ChartData> = [];
         for (var i = 0; i < 24; i++) {
-            trendDataArray.push({index: i, count: trendData.get(i) || 0});
+            trendDataArray.push({index: i, responses: trendData.get(i) || 0});
         }
         setTodayTrends(trendDataArray);
         setToday(formsToday.length);

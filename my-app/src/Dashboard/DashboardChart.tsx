@@ -4,7 +4,7 @@ import * as Constants from '../Constants/Constants';
 
 export type ChartData = {
     index: number;
-    count: number;
+    responses: number;
 }
 
 export type DashboardChartProps = {
@@ -25,7 +25,7 @@ export function DashboardChart(props: DashboardChartProps) {
                 <YAxis />
                 <CartesianGrid stroke="#eee" vertical={false} />
                 <Tooltip />
-                <Area type="monotone" dataKey="count" stroke={Constants.Purple} fillOpacity={1} fill="url(#purpleGradient)" />
+                <Area type="monotone" dataKey="responses" stroke={Constants.Purple} fillOpacity={1} fill="url(#purpleGradient)" />
             </AreaChart>
         </div>
     );
