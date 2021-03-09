@@ -5,6 +5,7 @@ import (
 
 	"github.com/vivian-hua/civic-qa/services/form/internal/model"
 	"gorm.io/gorm"
+	"time"
 )
 
 // GormStore implements response.Store
@@ -123,6 +124,11 @@ func (g *GormStore) GetResponses(userID uint, query Query) ([]*model.FormRespons
 func applyQuery(query Query, session *gorm.DB) *gorm.DB {
 	if query.ActiveOnly {
 		session = session.Where("formResponses.active = ?", query.ActiveOnly)
+	}
+	if query.TodayOnly {
+		today := time.Now().UTC()
+		beginDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
+		session = session.Where("formResponses.createdAt >= ?", beginDay)
 	}
 	if query.EmailAddress != "" {
 		session = session.Where("formResponses.emailAddress = ?", query.EmailAddress)

@@ -12,6 +12,7 @@ type Query struct {
 	EmailAddress string
 	Subject      string
 	ActiveOnly   bool
+	TodayOnly	 bool
 	FormID       uint
 }
 
