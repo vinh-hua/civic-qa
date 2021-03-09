@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
+import * as Endpoints from '../Constants/Endpoints';
 import "./FormResponseView.css";
 
 export type FormResponseViewProps = {
@@ -8,7 +9,7 @@ export type FormResponseViewProps = {
     title: string;
     subject: string;
     body: string;
-    setSpecificView: Dispatch<SetStateAction<boolean>>;
+    setSpecificView: Function;
 };
 
 export function FormResponseView(props: FormResponseViewProps) {
@@ -16,10 +17,10 @@ export function FormResponseView(props: FormResponseViewProps) {
 
     const resolveResponse = async(id: string, isResolved: boolean) => {
         var authToken = localStorage.getItem("Authorization") || "";
-        var deactiveResponse = JSON.stringify({isActive: !isResolved});
-        const response = await fetch("http://localhost/v0/responses/" + id, {
+        var patchActive = JSON.stringify({isActive: !isResolved});
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + id, {
             method: "PATCH",
-            body: deactiveResponse,
+            body: patchActive,
             headers: new Headers({
                 "Authorization": authToken
             })
@@ -37,7 +38,7 @@ export function FormResponseView(props: FormResponseViewProps) {
 
     return(
         <div>
-            <button className="exit-button" onClick={() => props.setSpecificView(false)}><img src="./assets/icons/back-arrow.png"></img></button>
+            <button className="exit-button" onClick={() => props.setSpecificView()}><img src="./assets/icons/back-arrow.png"></img></button>
             <Header title={props.title}></Header>
             <SubHeaderLine title={props.subject}></SubHeaderLine>
             <div className="form-response">

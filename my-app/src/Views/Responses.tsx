@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 import { FormResponseView } from './FormResponseView'; 
+import * as Endpoints from '../Constants/Endpoints';
 
 export type ResponsesProps = {
     header?: string;
@@ -18,7 +19,7 @@ export function Responses(props: ResponsesProps) {
 
     const getResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch("http://localhost/v0/responses?activeOnly=true", {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveOnlyQuery, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -46,10 +47,15 @@ export function Responses(props: ResponsesProps) {
         setResponseView(true);
         setSpecificResponseData(formResponse);
     }
+
+    function setSpecificView() {
+        setResponseView(false);
+        getResponses();
+    }
     
     return (
         <div className="dashboard sub-dashboard">
-            {onResponseView ? <FormResponseView responseId={specificResponseData?.id || ""} title="Form Responses" subject={specificResponseData?.name || ""} body={specificResponseData?.body || ""} setSpecificView={() => setResponseView(false)}></FormResponseView> :
+            {onResponseView ? <FormResponseView responseId={specificResponseData?.id || ""} title="Form Responses" subject={specificResponseData?.name || ""} body={specificResponseData?.body || ""} setSpecificView={setSpecificView}></FormResponseView> :
             <div>
                 <Header title={headerTitle}></Header>
                 <SubDashboard title={subjecTitle} data={responseData} changeViewFunc={setResponseContent} emailTemplates={false} fullPageView={true} subHeaderNumber={responseData.length}></SubDashboard>

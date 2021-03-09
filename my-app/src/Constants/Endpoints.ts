@@ -1,6 +1,4 @@
-export default {
-    testbase: "http://localhost",
-    api: {
-        signup: "/v0/signup"
-    }
-}
+export const Testbase = "http://localhost/v0";
+export const Signup = "/signup";
+export const Responses = "/responses";
+export const ResponsesActiveOnlyQuery = "?activeOnly=true";
