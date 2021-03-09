@@ -10,11 +10,7 @@ import * as Endpoints from '../Constants/Endpoints';
 // currently using test data
 function getSubDashboardData(): Array<SubDashboardData> {
     var data = [];
-    data.push({name: "Employment Card", value: 22});
-    data.push({name: "Citizenship", value: 21});
-    data.push({name: "Social Security #", value: 18});
-    data.push({name: "Tax Documents", value: 15});
-    data.push({name: "Other", value: 11});
+    data.push({name: "Test", value: 22});
     return data as Array<SubDashboardData>;
 }
 
@@ -23,6 +19,10 @@ export function Casework() {
     const [onSpecificView, setSpecificView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
     const [specificTopicData, setSpecificTopicData] = useState<SubDashboardData[]>([]);
+    const [summaryToday, setSummaryToday] = useState(0);
+    const [summaryWeek, setSummaryWeek] = useState(0);
+    const [summaryTopics, setSummaryTopics] = useState(0);
+
 
     const getResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
@@ -60,9 +60,9 @@ export function Casework() {
     }, []);
 
     let statCards = [
-        {title: "New Today", stat: 9},
-        {title: "This Week", stat: 23},
-        {title: "Topics", stat: 10}
+        {title: "New Today", stat: summaryToday},
+        {title: "This Week", stat: summaryWeek},
+        {title: "Topics", stat: summaryTopics}
     ];
 
     return (

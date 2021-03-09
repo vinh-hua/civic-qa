@@ -18,6 +18,9 @@ export function General() {
     const [onSpecificView, setSpecificView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
     const [specificSubjectData, setSpecificSubjectData] = useState<SubDashboardData[]>([]);
+    const [summaryToday, setSummaryToday] = useState(0);
+    const [summaryWeek, setSummaryWeek] = useState(0);
+    const [summaryTopics, setSummaryTopics] = useState(0);
 
     const getResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
@@ -55,9 +58,9 @@ export function General() {
     }, []);
 
     let statCards = [
-        {title: "New Today", stat: 288},
-        {title: "This Week", stat: 106},
-        {title: "Topics", stat: 24}
+        {title: "New Today", stat: summaryToday},
+        {title: "This Week", stat: summaryWeek},
+        {title: "Topics", stat: summaryTopics}
     ];
 
     return (
