@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DropdownMenu } from '../Components/DropdownMenu';
 import { ChartData, DashboardChart } from '../Dashboard/DashboardChart';
+import { SubDashboardData } from '../Components/SubDashboard';
 import { StatCard } from '../Components/StatCard';
 import * as Constants from '../Constants/Constants';
+import * as Endpoints from '../Constants/Endpoints';
 
 function randomChartData(): Array<ChartData> {
     var data = [];
@@ -19,6 +21,26 @@ export function DashboardChartStats() {
 
     // make randomize chart data
     const test_data = randomChartData();
+
+    async function GetStats() {
+        var authToken = localStorage.getItem("Authorization") || "";
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses, {
+            method: "GET",
+            headers: new Headers({
+                "Authorization": authToken
+            })
+        });
+        if (response.status >= 300) {
+            console.log("Error retrieving form responses");
+            return;
+        }
+        const forms = await response.json();
+        setTotal(forms.length);
+    }
+
+    useEffect(() => {
+        GetStats();
+    }, []);
 
     return(
         <div className="trends">

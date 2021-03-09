@@ -13,11 +13,11 @@ export type FormResponseViewProps = {
 };
 
 export function FormResponseView(props: FormResponseViewProps) {
-    const [isResolved, setIsResolved] = useState(false);
+    const [isResolved, setIsResolved] = useState(true);
 
     const resolveResponse = async(id: string, isResolved: boolean) => {
         var authToken = localStorage.getItem("Authorization") || "";
-        var patchActive = JSON.stringify({isActive: !isResolved});
+        var patchActive = JSON.stringify({active: !isResolved});
         const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + id, {
             method: "PATCH",
             body: patchActive,
