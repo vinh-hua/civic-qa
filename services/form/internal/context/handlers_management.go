@@ -243,6 +243,7 @@ func (ctx *Context) HandleGetResponses(w http.ResponseWriter, r *http.Request) {
 		EmailAddress: queryParams.Get("emailAddress"),
 		Subject:      queryParams.Get("subject"),
 		ActiveOnly:   parse.ParseBoolOrDefault(queryParams.Get("activeOnly")),
+		TodayOnly:	  parse.ParseBoolOrDefault(queryParams.Get("todayOnly")),
 		FormID:       parse.ParseUintOrDefault(queryParams.Get("formID")),
 	}
 
