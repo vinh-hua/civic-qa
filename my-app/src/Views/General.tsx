@@ -42,8 +42,8 @@ export function General() {
         {title: "Topics", stat: 24}
     ];
 
-    function specificView(title: string) {
-        setSpecificViewTitle(title);
+    function specificView(data: SubDashboardData) {
+        setSpecificViewTitle(data.name);
         setSpecificView(true);
     }
 

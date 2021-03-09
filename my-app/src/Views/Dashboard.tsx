@@ -10,7 +10,6 @@ export function Dashboard() {
     // stat cards data
     const [general, setGeneral] = useState(0);
     const [casework, setCasework] = useState(0);
-    const [topics, setTopics] = useState(0);
 
     let statCards = [
         {title: Constants.General, stat: general},

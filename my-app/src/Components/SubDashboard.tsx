@@ -5,8 +5,10 @@ import './SubDashboard.css';
 import { EmailTemplateCard } from './EmailTemplateCard';
 
 export type SubDashboardData = {
+    id: string;
     name: string;
     value: any;
+    body?: string;
 }
 
 export type SubDashboardProps = {
@@ -23,7 +25,7 @@ export function SubDashboard(props: SubDashboardProps) {
     if (props.emailTemplates) {
         props.data.forEach(d => cards.push(<EmailTemplateCard name={d.name} value={d.value}></EmailTemplateCard>))
     } else {
-        props.data.forEach(d => cards.push(<SubDashboardCard name={d.name} value={d.value} changeViewFunc={props.changeViewFunc}></SubDashboardCard>));
+        props.data.forEach(d => cards.push(<SubDashboardCard data={d} changeViewFunc={props.changeViewFunc}></SubDashboardCard>));
     }
 
     return (
