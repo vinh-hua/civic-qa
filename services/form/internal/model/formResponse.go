@@ -12,6 +12,7 @@ type FormResponse struct {
 	ID           uint      `gorm:"primaryKey;column:id" json:"id"`
 	Name         string    `gorm:"column:name" json:"name"`
 	EmailAddress string    `gorm:"column:emailAddress" json:"emailAddress"`
+	InquiryType  string    `gorm:"column:inquiryType" json:"inquiryType"`
 	Subject      string    `gorm:"column:subject" json:"subject"`
 	Body         string    `gorm:"column:body" json:"body"`
 	CreatedAt    time.Time `gorm:"column:createdAt" json:"createdAt"`

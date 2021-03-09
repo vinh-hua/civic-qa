@@ -77,6 +77,7 @@ func (ctx *Context) HandlePostForm(w http.ResponseWriter, r *http.Request) {
 	response := &model.FormResponse{
 		Name:         responseFormData.Get("name"),
 		EmailAddress: responseFormData.Get("email"),
+		InquiryType:  responseFormData.Get("inquiryType"),
 		Subject:      responseFormData.Get("subject"),
 		Body:         responseFormData.Get("body"),
 		CreatedAt:    time.Now().UTC(),
