@@ -64,5 +64,18 @@ services:
       - ./test_databases:/database
     restart: 
       "on-failure"
+  textanalytics:
+    build: 
+      context: ./textanalytics
+      args:
+        - PORT=9090
+    environment:
+      - ADDR=9090
+      - AZURE_TEXT_ANALYTICS_ENDPOINT=${AZURE_TEXT_ANALYTICS_ENDPOINT_ENV}
+      - COGNITIVE_SERVICE_KEY=${COGNITIVE_SERVICE_KEY_ENV}
+    volumes:
+      - ./test_databases:/database
+    restart: 
+      "on-failure"
 
     

@@ -1,30 +1,15 @@
 import os
 import sys
 
-def authenticate_client():
-    from azure.core.credentials import AzureKeyCredential
-    from azure.ai.textanalytics import TextAnalyticsClient
-
-    endpoint = os.environ["AZURE_TEXT_ANALYTICS_ENDPOINT"]
-    key = os.environ["COGNITIVE_SERVICE_KEY"]
-    text_analytics_client = TextAnalyticsClient(endpoint=endpoint, credential=AzureKeyCredential(key))
-    return text_analytics_client
-
-def extract_key_phrases(input):
-    print(
-        "In this sample, we want to find the articles that mention Microsoft to read."
-    )
-    client = authenticate_client()
+def extract_key_phrases(input, number_of_tags, client):
     result = client.extract_key_phrases(input)
-    print(result, file=sys.stderr)
-    resultMap = {}
-    for idx, doc in enumerate(result):
+    result_phrases = []
+    for doc in result:
         if not doc.is_error:
-            resultMap[idx] = doc.key_phrases
-    return resultMap
+            result_phrases = doc.key_phrases
+    return result_phrases[:3]
 
-def extract_pii_entities(input):
-    client = authenticate_client()
+def extract_pii_entities(input, client):
     response = client.recognize_pii_entities(input, language="en")
     result = [doc for doc in response if not doc.is_error]
     personal_info = {}
