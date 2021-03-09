@@ -292,8 +292,6 @@ func (ctx *Context) HandlePatchResponse(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	log.Printf("GOT REQUEST TO PATCH RESPONSE: %v", patchResponse)
-
 	// update the state
 	err = ctx.ResponseStore.PatchByID(userID, uint(responseID), patchResponse.Active)
 	if err != nil {

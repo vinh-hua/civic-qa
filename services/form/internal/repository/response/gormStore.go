@@ -1,8 +1,6 @@
 package response
 
 import (
-	"log"
-
 	common "github.com/vivian-hua/civic-qa/services/common/model"
 
 	"github.com/vivian-hua/civic-qa/services/form/internal/model"
@@ -67,8 +65,6 @@ func (g *GormStore) GetByID(responseID uint) (*model.FormResponse, error) {
 // PatchByID updates the 'active' state of a FormResponse by its ID
 func (g *GormStore) PatchByID(userID uint, responseID uint, state bool) error {
 
-	log.Printf("AHOY, PATCHING BY ID to state: %t", state)
-
 	var response model.FormResponse
 	result := g.db.
 		Model(&model.FormResponse{}).
@@ -82,8 +78,6 @@ func (g *GormStore) PatchByID(userID uint, responseID uint, state bool) error {
 		}
 		return result.Error
 	}
-
-	log.Printf("updating :%v to active: %t", response, state)
 
 	// perform the update (super ugly because: https://gorm.io/docs/update.html#Updates-multiple-columns)
 	// 			"NOTE When update with struct, GORM will only update non-zero fields,
