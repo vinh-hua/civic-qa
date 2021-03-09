@@ -25,6 +25,6 @@ var (
 type Store interface {
 	Create(response *model.FormResponse) error
 	GetByID(responseID uint) (*model.FormResponse, error)
-	PatchByID(responseID uint, state bool) error
+	PatchByID(userID uint, responseID uint, state bool) error
 	GetResponses(userID uint, query Query) ([]*model.FormResponse, error)
 }
