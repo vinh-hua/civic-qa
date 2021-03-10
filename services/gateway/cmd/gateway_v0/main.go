@@ -44,6 +44,7 @@ func main() {
 	// subservices
 	accountService := cfg.GetOrFallback("ACCOUNT_SVC", "http://localhost:8080")
 	formService := cfg.GetOrFallback("FORM_SVC", "http://localhost:7070")
+	mailtoService := cfg.GetOrFallback("MAILTO_SVC", "http://localhost:9090")
 
 	// Routers
 	// base router
@@ -72,6 +73,7 @@ func main() {
 	// routes
 	accountProxy := httputil.NewSingleHostReverseProxy(proxy.MustParse(accountService))
 	formProxy := httputil.NewSingleHostReverseProxy(proxy.MustParse(formService))
+	mailtoProxy := httputil.NewSingleHostReverseProxy(proxy.MustParse((mailtoService)))
 
 	// Session/Account
 	api.Handle("/signup", accountProxy)
@@ -85,6 +87,9 @@ func main() {
 	apiAuth.Handle("/forms/{formID:[0-9]+}", formProxy)
 	apiAuth.Handle("/responses", formProxy)
 	apiAuth.Handle("/responses/{responseID:[0-9]+}", formProxy)
+
+	// Mailto
+	api.Handle("/mailto", mailtoProxy)
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

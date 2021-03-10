@@ -1,15 +1,15 @@
 package main
 
 import (
-	"io"
 	"log"
 	"net/http"
 	"time"
 
 	"github.com/gorilla/mux"
+
 	"github.com/vivian-hua/civic-qa/services/common/config"
-	"github.com/vivian-hua/civic-qa/services/form/internal/context"
 	aggregator "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware"
+	"github.com/vivian-hua/civic-qa/services/mailto/internal/context"
 )
 
 const (
@@ -20,7 +20,6 @@ const (
 )
 
 func main() {
-	// config
 	var cfg config.Provider = &config.EnvProvider{}
 	cfg.SetVerbose(true)
 
@@ -31,7 +30,7 @@ func main() {
 	// middleware
 	router.Use(aggregator.NewAggregatorMiddleware(&aggregator.Config{
 		AggregatorAddress: cfg.GetOrFallback("AGG_ADDR", "http://localhost:8888"),
-		ServiceName:       "form",
+		ServiceName:       "mailto",
 		SkipSuccesses:     true,
 		StdoutErrors:      true,
 		Timeout:           10 * time.Second,
@@ -44,24 +43,10 @@ func main() {
 	}
 
 	// routes
-	api.HandleFunc("/forms", ctx.HandleGetForms).Methods("GET")
-	api.HandleFunc("/forms", ctx.HandleCreateForm).Methods("POST")
-	api.HandleFunc("/forms/{formID:[0-9]+}", ctx.HandleGetSpecificForm).Methods("GET")
-
-	api.HandleFunc("/responses", ctx.HandleGetResponses).Methods("GET")
-	api.HandleFunc("/responses/{responseID:[0-9]+}", ctx.HandlePatchResponse).Methods("PATCH")
-	api.HandleFunc("/responses/{responseID:[0-9]+}", ctx.HandleGetSpecificResponse).Methods("GET")
-
-	api.HandleFunc("/form/{formID:[0-9]+}", ctx.HandleGetForm).Methods("GET")
-	api.HandleFunc("/form/{formID:[0-9]+}", ctx.HandlePostForm).Methods("POST")
-
-	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		io.WriteString(w, "Hello world!")
-	})
+	api.HandleFunc("/mailto", ctx.Mailto).Methods("POST")
 
 	// start server
-	addr := cfg.GetOrFallback("ADDR", ":7070")
+	addr := cfg.GetOrFallback("ADDR", ":6060")
 	log.Printf("Server %s running on %s", APIVersion, addr)
 	log.Fatal(http.ListenAndServe(addr, router))
 }
