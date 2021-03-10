@@ -5,7 +5,7 @@ import time
 GATEWAY_URL = "http://localhost/v0"
 
 
-def timeit(name):
+def timeit(name, itr):
     """Return a function decorator that prints the time
        taken for execution, with a given name
 
@@ -16,7 +16,8 @@ def timeit(name):
         def inner(*args, **kwargs):
             t_start = time.perf_counter()
             f(*args, **kwargs)
-            print(f"{name} executed in {time.perf_counter() - t_start} seconds")
+            elapsed = time.perf_counter() - t_start
+            print(f"{name} executed in {elapsed} seconds | N={itr} | {elapsed / itr} per iteration")
         return inner
     return decor
 
@@ -26,7 +27,7 @@ class TestLoad(unittest.TestCase):
         N = 100
         users = [common.generate_user() for _ in range(N)]
 
-        @timeit(f"test_signup {N=}")
+        @timeit(f"test_signup", N)
         def run():
             for u in users:
                 common.make_user(GATEWAY_URL, u)
@@ -39,7 +40,7 @@ class TestLoad(unittest.TestCase):
 
         creds = {"email": user["email"], "password": user["password"]}
 
-        @timeit(f"test_login {N=}")
+        @timeit(f"test_login", N)
         def run():
             for _ in range(N):
                 common.login(GATEWAY_URL, creds)
@@ -51,7 +52,7 @@ class TestLoad(unittest.TestCase):
 
         N = 100
 
-        @timeit(f"test_get_form_client {N=}")
+        @timeit(f"test_get_form_client", N)
         def run():
             for _ in range(N):
                 common.get_form_client(GATEWAY_URL, form["id"])
@@ -73,7 +74,7 @@ class TestLoad(unittest.TestCase):
 
         N = 100
 
-        @timeit(f"test_get_responses {N=}")
+        @timeit(f"test_get_responses", N)
         def run():
             for _ in range(N):
                 common.get_responses(GATEWAY_URL, auth)
@@ -89,7 +90,7 @@ class TestLoad(unittest.TestCase):
 
         N = 100
 
-        @timeit(f"test_patch_response {N=}")
+        @timeit(f"test_patch_response", N)
         def run():
             new_state = False
             for _ in range(N):
@@ -106,7 +107,7 @@ class TestLoad(unittest.TestCase):
 
         N = 100
 
-        @timeit(f"test_mailto {N=}")
+        @timeit(f"test_mailto", N)
         def run():
             for _ in range(N):
                 common.post_mailto(GATEWAY_URL, body)
