@@ -1,6 +1,8 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
+import { Tag } from '../Components/Tag';
+import { TagAdd } from '../Components/TagAdd';
 import * as Endpoints from '../Constants/Endpoints';
 import "./FormResponseView.css";
 
@@ -43,15 +45,23 @@ export function FormResponseView(props: FormResponseViewProps) {
             <button className="exit-button" onClick={() => props.setSpecificView()}><img src="./assets/icons/back-arrow.png"></img></button>
             <Header title={props.title}></Header>
             <SubHeaderLine title={props.subject}></SubHeaderLine>
-            <div className="form-response">
-                <p className="form-response-body">{props.body}</p>
-                <textarea className="form-response-message"></textarea>
-                <div className="resolved-send-container">
-                    <label className="resolved-label" >
-                        <input id="resolved-check-box" className="resolved-check-box" type="checkbox" onClick={() => clickCheckbox()}></input>
-                        Resolved
-                    </label>
-                    <a className="send-btn mailto-link" href={mailto}><button className="send-btn" placeholder="Message">Send</button></a>
+            <div className="tags-container">
+                    <Tag name="COVID"></Tag>
+                    <Tag name="stimulus"></Tag>
+                    <Tag name="taxes"></Tag>
+                    <TagAdd></TagAdd>
+            </div>
+            <div className="form-response-container">
+                <div className="form-response">
+                    <p className="form-response-body">{props.body}</p>
+                    <textarea className="form-response-message"></textarea>
+                    <div className="resolved-send-container">
+                        <label className="resolved-label" >
+                            <input id="resolved-check-box" className="resolved-check-box" type="checkbox" onClick={() => clickCheckbox()}></input>
+                            Resolved
+                        </label>
+                        <a className="send-btn mailto-link" href={mailto}><button className="send-btn" placeholder="Message">Send</button></a>
+                    </div>
                 </div>
             </div>
         </div>
