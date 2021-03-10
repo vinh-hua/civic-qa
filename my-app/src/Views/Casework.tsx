@@ -26,7 +26,7 @@ export function Casework() {
 
     const getResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveCasework, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -46,6 +46,22 @@ export function Casework() {
         setSpecificTopicData(formResponses);
     }
 
+    const getResponsesToday = async() => {
+        var authToken = localStorage.getItem("Authorization") || "";
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework + "&" + Endpoints.ResponsesTodayOnly, {
+            method: "GET",
+            headers: new Headers({
+                "Authorization": authToken
+            })
+        });
+        if (response.status >= 300) {
+            console.log("Error retrieving form responses");
+            return;
+        }
+        const responsesToday = await response.json();
+        setSummaryToday(responsesToday.length);
+    }
+
     function specificView(data: SubDashboardData) {
         setSpecificViewTitle(data.name);
         setSpecificView(true);
@@ -57,6 +73,7 @@ export function Casework() {
     
     useEffect(() => {
         getResponses();
+        getResponsesToday();
     }, []);
 
     let statCards = [

@@ -13,7 +13,7 @@ export function Dashboard() {
 
     const getGeneralResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveGeneral, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -29,7 +29,7 @@ export function Dashboard() {
 
     const getCaseworkResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveCasework, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken

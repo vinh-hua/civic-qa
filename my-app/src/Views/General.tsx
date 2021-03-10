@@ -24,7 +24,7 @@ export function General() {
 
     const getResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveGeneral, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -44,6 +44,22 @@ export function General() {
         setSpecificSubjectData(formResponses);
     }
 
+    const getResponsesToday = async() => {
+        var authToken = localStorage.getItem("Authorization") || "";
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral + "&" + Endpoints.ResponsesTodayOnly, {
+            method: "GET",
+            headers: new Headers({
+                "Authorization": authToken
+            })
+        });
+        if (response.status >= 300) {
+            console.log("Error retrieving form responses");
+            return;
+        }
+        const responsesToday = await response.json();
+        setSummaryToday(responsesToday.length);
+    }
+
     function specificView(data: SubDashboardData) {
         setSpecificViewTitle(data.name);
         setSpecificView(true);
@@ -55,6 +71,7 @@ export function General() {
     
     useEffect(() => {
         getResponses();
+        getResponsesToday();
     }, []);
 
     let statCards = [
