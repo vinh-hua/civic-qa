@@ -3,9 +3,10 @@ package mailto
 import (
 	"bytes"
 	"net/url"
-	"regexp"
 	"strings"
 	"text/template"
+
+	"github.com/vivian-hua/civic-qa/services/mailto/internal/model"
 )
 
 // TODO: replies via https://tools.ietf.org/html/rfc6068#section-6.1
@@ -18,11 +19,6 @@ const (
 	mailtoTemplate = "<a href=\"mailto:{{.Addresses}}{{.Params}}\">{{.InnerText}}</a>"
 )
 
-var (
-	// email regex from: https://golangcode.com/validate-an-email-address/
-	emailRegex = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
-)
-
 // templateData is used by the template to construct
 // the actual <a> tag
 type templateData struct {
@@ -32,53 +28,47 @@ type templateData struct {
 }
 
 // Generate returns a mailto anchor tag for a given config
-func Generate(config Config) (string, error) {
-
-	// Validate addresses
-	err := validateConfig(config)
-	if err != nil {
-		return InvalidMailto, err
-	}
+func Generate(request model.Request) ([]byte, error) {
 
 	// Parse the template
 	tmpl, err := template.New("mailto").Parse(mailtoTemplate)
 	if err != nil {
-		return InvalidMailto, err
+		return []byte(InvalidMailto), err
 	}
 
-	params := buildParameters(config)
+	params := buildParameters(request)
 
 	// execute the template
 	var buf bytes.Buffer
 	err = tmpl.Execute(&buf,
 		templateData{
-			Addresses: strings.Join(config.To, ","),
-			InnerText: config.InnerText,
+			Addresses: strings.Join(request.To, ","),
+			InnerText: request.InnerText,
 			Params:    params,
 		})
 
 	if err != nil {
-		return InvalidMailto, err
+		return []byte(InvalidMailto), err
 	}
 
-	// return the resulting mailto anchor tag
-	return buf.String(), nil
+	// return the resulting mailto anchor tag bytes
+	return buf.Bytes(), nil
 }
 
 // buildParameters returns a string of mailto parameters
-func buildParameters(config Config) string {
+func buildParameters(request model.Request) string {
 	var params []string
-	if len(config.Cc) > 0 {
-		params = append(params, "cc="+strings.Join(config.Cc, ","))
+	if len(request.Cc) > 0 {
+		params = append(params, "cc="+strings.Join(request.Cc, ","))
 	}
-	if len(config.Bcc) > 0 {
-		params = append(params, "bcc="+strings.Join(config.Bcc, ","))
+	if len(request.Bcc) > 0 {
+		params = append(params, "bcc="+strings.Join(request.Bcc, ","))
 	}
-	if config.Subject != "" {
-		params = append(params, "subject="+url.PathEscape(config.Subject))
+	if request.Subject != "" {
+		params = append(params, "subject="+url.PathEscape(request.Subject))
 	}
-	if config.Body != "" {
-		params = append(params, "body="+url.PathEscape(config.Body))
+	if request.Body != "" {
+		params = append(params, "body="+url.PathEscape(request.Body))
 	}
 
 	// combine all parameters into one string
