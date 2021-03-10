@@ -19,6 +19,36 @@ export function FormResponseView(props: FormResponseViewProps) {
     const [mailto, setMailto] = useState("mailto:");
     const [messageResponse, setMessageResponse] = useState("");
 
+    const getTags = async(id: string) => {
+        var authToken = localStorage.getItem("Authorization") || "";
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + id + Endpoints.ResponsesTags, {
+            method: "GET",
+            headers: new Headers({
+                "Authorization": authToken
+            })
+        });
+        if (response.status >= 300) {
+            console.log("Error retreiving response tags");
+            return;
+        }
+        const tags = await response.json();
+        
+    }
+
+    async function removeTag(responseId: string) {
+        var authToken = localStorage.getItem("Authorization") || "";
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + responseId + Endpoints.ResponsesTags, {
+
+        });
+    }
+
+    async function addTag(responseId: string) {
+        var authToken = localStorage.getItem("Authorization") || "";
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + responseId + Endpoints.ResponsesTags, {
+
+        });
+    }
+
     const resolveResponse = async(id: string, isResolved: boolean) => {
         var authToken = localStorage.getItem("Authorization") || "";
         var patchActive = JSON.stringify({active: !isResolved});
@@ -46,9 +76,9 @@ export function FormResponseView(props: FormResponseViewProps) {
             <Header title={props.title}></Header>
             <SubHeaderLine title={props.subject}></SubHeaderLine>
             <div className="tags-container">
-                    <Tag name="COVID"></Tag>
-                    <Tag name="stimulus"></Tag>
-                    <Tag name="taxes"></Tag>
+                    <Tag tagId={"1"} name="COVID"></Tag>
+                    <Tag tagId={"2"} name="stimulus"></Tag>
+                    <Tag tagId={"3"} name="taxes"></Tag>
                     <TagAdd></TagAdd>
             </div>
             <div className="form-response-container">

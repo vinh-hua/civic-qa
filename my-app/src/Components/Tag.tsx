@@ -1,6 +1,7 @@
 import './Tag.css';
 
 export type TagProps = {
+    tagId: string;
     name: string;
 }
 
