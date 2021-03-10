@@ -14,8 +14,14 @@ export type FormResponseViewProps = {
     setSpecificView: Function;
 };
 
+export type TagType = {
+    id: string;
+    name: string;
+}
+
 export function FormResponseView(props: FormResponseViewProps) {
     const [isResolved, setIsResolved] = useState(true);
+    const [tags, setTags] = useState<TagType[]>([{id: "1", name: "test"}]);
     const [mailto, setMailto] = useState("mailto:");
     const [messageResponse, setMessageResponse] = useState("");
 
@@ -49,8 +55,12 @@ export function FormResponseView(props: FormResponseViewProps) {
             console.log("Error retreiving response tags");
             return;
         }
+        let tagsList: TagType[] = [];
         const tags = await response.json();
-        
+        tags.forEach(function(tag: any) {
+            tagsList.push({id: tag.id, name: tag.name});
+        });
+        setTags(tagsList);
     }
 
     async function removeTag(responseId: string) {
@@ -88,15 +98,18 @@ export function FormResponseView(props: FormResponseViewProps) {
         resolveResponse(props.responseId, isResolved);
     }
 
+    let tagsList:any[] = [];
+    tags.forEach(function(tag) {
+        tagsList.push(<Tag tagId={tag.id} name={tag.name}></Tag>)
+    });
+
     return(
         <div>
             <button className="exit-button" onClick={() => props.setSpecificView()}><img src="./assets/icons/back-arrow.png"></img></button>
             <Header title={props.title}></Header>
             <SubHeaderLine title={props.subject}></SubHeaderLine>
             <div className="tags-container">
-                    <Tag tagId={"1"} name="COVID"></Tag>
-                    <Tag tagId={"2"} name="stimulus"></Tag>
-                    <Tag tagId={"3"} name="taxes"></Tag>
+                    {tagsList}
                     <TagAdd></TagAdd>
             </div>
             <div className="form-response-container">

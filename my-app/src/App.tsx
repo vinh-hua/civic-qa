@@ -36,13 +36,11 @@ export default function App() {
     }
     localStorage.removeItem("Authorization");
     setAuth(false);
-    return(<Redirect to="/login"></Redirect>);
   }
 
   function userLogin(authToken: string) {
-    setAuth(true);
     localStorage.setItem("Authorization", authToken);
-    return(<Redirect to="/dashboard"></Redirect>);
+    setAuth(true);
   }
 
   return (
