@@ -42,7 +42,7 @@ li {
   text-decoration: none;
 }
 
-.nav-link:active, .nav-link:hover {
+.active-link {
   color: #DDE2FF;
 }
 

@@ -6,9 +6,8 @@ export type EngagementReportBarChartData = {
     count: number;
 }
 
-
 export function EngagementReports() {
-    const test_data = [
+    const testData = [
         {
           name: 'Topic 1',
           count: 250
@@ -31,7 +30,7 @@ export function EngagementReports() {
         }
       ];
 
-    var sorted_data: EngagementReportBarChartData[] = test_data.sort((a, b) => {
+    testData.sort((a, b) => {
         if (a.count > b.count) {
             return -1;
         } else if (a.count < b.count) {
@@ -48,7 +47,7 @@ export function EngagementReports() {
             <BarChart
                 width={700}
                 height={500}
-                data={test_data}
+                data={testData}
                 margin={{
                     top: 5,
                     right: 30,

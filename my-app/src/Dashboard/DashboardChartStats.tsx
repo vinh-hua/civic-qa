@@ -11,9 +11,9 @@ export function DashboardChartStats() {
     const [todayTrends, setTodayTrends] = useState<ChartData[]>([]);
     const [chartView, setChartView] = useState(Constants.Responses);
 
-    async function GetTotal() {
+    async function getTotal() {
         var authToken = localStorage.getItem("Authorization") || "";
-        const responseTotal = await fetch(Endpoints.Testbase + Endpoints.Responses, {
+        const responseTotal = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -27,9 +27,9 @@ export function DashboardChartStats() {
         setTotal(formsTotal.length);
     }
 
-    async function GetTodayTrends() {
+    async function getTodayTrends() {
         var authToken = localStorage.getItem("Authorization") || "";
-        const responseToday= await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesTodayOnly, {
+        const responseToday= await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesTodayOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -61,8 +61,8 @@ export function DashboardChartStats() {
     }
 
     useEffect(() => {
-        GetTotal();
-        GetTodayTrends();
+        getTotal();
+        getTodayTrends();
     }, []);
 
     return(

@@ -1,6 +1,6 @@
 import './App.css';
-import React, { useState} from "react";
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import React, { useEffect, useState} from "react";
+import { Route, NavLink, Redirect, useLocation } from "react-router-dom";
 import { ProfileHeader } from "./Profile/ProfileHeader";
 import { Dashboard } from './Views/Dashboard';
 import { General } from './Views/General';
@@ -15,6 +15,12 @@ import * as Constants from './Constants/Constants';
 export default function App() {
   const authToken = localStorage.getItem("Authorization");
   const [auth, setAuth] = useState((authToken != "") && (authToken != null));
+  const [path, setPath] = useState("/dashboard");
+  const location = useLocation();
+
+  useEffect(() => {
+    setPath(location.pathname);
+  }, [location]);
 
   const userLogout = async(e: any) => {
     e.preventDefault();
@@ -40,7 +46,6 @@ export default function App() {
   }
 
   return (
-    <Router>
       <div className="App">
         <Route path="/login" component={() => <Login userLogin={userLogin}/>}></Route>
         {auth ? <Redirect to="/dashboard"/> : <Redirect to="/login"/>}
@@ -53,18 +58,18 @@ export default function App() {
               <nav className="nav-bar">
                 <h1 className="title">{Constants.Title}</h1>
                 <ul>
-                  <li><img src="./assets/icons/pie.png"/><Link className="nav-link" to="/dashboard">{Constants.Dashboard}</Link></li>
-                  <li className="dashboard-sub-li"><Link className="nav-link" to="/general">{Constants.GeneralInquiries}</Link></li>
-                  <li className="dashboard-sub-li"><Link className="nav-link" to="/casework">{Constants.Casework}</Link></li>
-                  <li><img src="./assets/icons/inbox.png"/><Link className="nav-link" to="/responses">{Constants.Responses}</Link></li>
-                  <li><img src="./assets/icons/stats.png"/><Link className="nav-link" to="/engagement-reports">{Constants.EngagementReports}</Link></li>
-                  <li><img src="./assets/icons/layout.png"/><Link className="nav-link" to="/templates">{Constants.Templates}</Link></li>
+                  <li>{path == "/dashboard" ? <img src="./assets/icons/active-pie.png"/> : <img src="./assets/icons/pie.png"/>}<NavLink className="nav-link" activeClassName="active-link" to="/dashboard">{Constants.Dashboard}</NavLink></li>
+                  <li className="dashboard-sub-li"><NavLink className="nav-link" activeClassName="active-link" to="/general">{Constants.GeneralInquiries}</NavLink></li>
+                  <li className="dashboard-sub-li"><NavLink className="nav-link" activeClassName="active-link" to="/casework">{Constants.Casework}</NavLink></li>
+                  <li>{path =="/responses" ? <img src="./assets/icons/active-inbox.png"/> : <img src="./assets/icons/inbox.png"/>}<NavLink className="nav-link" activeClassName="active-link" to="/responses">{Constants.Responses}</NavLink></li>
+                  <li>{path =="/engagement-reports" ? <img src="./assets/icons/active-stats.png"/> :<img src="./assets/icons/stats.png"/>}<NavLink className="nav-link" activeClassName="active-link" to="/engagement-reports">{Constants.EngagementReports}</NavLink></li>
+                  <li>{path =="/templates" ? <img src="./assets/icons/active-layout.png"/> :<img src="./assets/icons/layout.png"/>}<NavLink className="nav-link" activeClassName="active-link" to="/templates">{Constants.Templates}</NavLink></li>
                 </ul>
                 <div className="compose-email-btn-container">
                   <hr className="solid"/>
                 </div>
                 <ul>
-                <li><img src="./assets/icons/settings.png"/><Link className="nav-link" to="/settings">{Constants.Settings}</Link></li>
+                <li><img src="./assets/icons/settings.png"/><NavLink className="nav-link" activeClassName="active-link" to="/settings">{Constants.Settings}</NavLink></li>
                   <li><img src="./assets/icons/logout.png"/><button className="logout-btn" onClick={userLogout}>{Constants.Logout}</button></li>
                 </ul>
               </nav>
@@ -78,6 +83,5 @@ export default function App() {
             <Route path="/settings" component={Settings}/>
           </div> : null}
         </div>
-      </Router>
   );
 }

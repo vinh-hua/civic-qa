@@ -19,7 +19,29 @@ export function Responses(props: ResponsesProps) {
 
     const getResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveOnlyQuery, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveOnly, {
+            method: "GET",
+            headers: new Headers({
+                "Authorization": authToken
+            })
+        });
+        if (response.status >= 300) {
+            console.log("Error retrieving form responses");
+            return;
+        }
+        const forms = await response.json();
+        var formResponses: Array<SubDashboardData> = [];
+        forms.forEach(function(formResponse: any) {
+            var d = new Date(formResponse.createdAt);
+            var t = d.toLocaleString("en-US");
+            formResponses.push({id: formResponse.id, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body});
+        });
+        setData(formResponses);
+    }
+
+    const getToday = async() => {
+        var authToken = localStorage.getItem("Authorization") || "";
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveOnly + "&" + Endpoints.ResponsesTodayOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -41,9 +63,10 @@ export function Responses(props: ResponsesProps) {
 
     useEffect(() => {
         getResponses();
+        getToday();
     }, []);
 
-    function setResponseContent(formResponse: SubDashboardData) {
+    function setSpecificResponseContent(formResponse: SubDashboardData) {
         setResponseView(true);
         setSpecificResponseData(formResponse);
     }
@@ -58,7 +81,7 @@ export function Responses(props: ResponsesProps) {
             {onResponseView ? <FormResponseView responseId={specificResponseData?.id || ""} title="Form Responses" subject={specificResponseData?.name || ""} body={specificResponseData?.body || ""} setSpecificView={setSpecificView}></FormResponseView> :
             <div>
                 <Header title={headerTitle}></Header>
-                <SubDashboard title={subjecTitle} data={responseData} changeViewFunc={setResponseContent} emailTemplates={false} fullPageView={true} subHeaderNumber={responseData.length}></SubDashboard>
+                <SubDashboard title={subjecTitle} data={props.data ? props.data : responseData} changeViewFunc={setSpecificResponseContent} emailTemplates={false} fullPageView={true} subHeaderNumber={props.data ? props.data.length : responseData.length}></SubDashboard>
             </div>}
         </div>
     );

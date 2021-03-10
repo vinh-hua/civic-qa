@@ -21,7 +21,7 @@ export function DashboardChart(props: DashboardChartProps) {
                         <stop offset="100%" stopColor={Constants.Purple} stopOpacity={0}/>
                     </linearGradient>
                 </defs>
-                <XAxis dataKey="name" />
+                <XAxis dataKey="index" />
                 <YAxis />
                 <CartesianGrid stroke="#eee" vertical={false} />
                 <Tooltip />
