@@ -10,6 +10,8 @@ test: vendor
 	cd gateway && go test ./... && cd ..
 	@echo Testing: logAggregator
 	cd logAggregator && go test ./... && cd ..
+	@echo Testing: mailto
+	cd mailto && go test ./... && cd ..
 
 
 up: vendor
@@ -17,7 +19,7 @@ up: vendor
 	docker-compose up --build
 
 
-vendor: vendor_gateway vendor_account vendor_form vendor_logaggregator
+vendor: vendor_gateway vendor_account vendor_form vendor_logaggregator vendor_mailto
 	@echo "==== Vendoring all dependencies ===="
 
 
@@ -41,4 +43,7 @@ vendor_logaggregator:
 	cd ./logAggregator && go mod vendor
 
 
+vendor_mailto:
+	@echo "==== Vendor: mailto ===="
+	cd ./mailto && go mod vendor
 

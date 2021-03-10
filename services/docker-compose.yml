@@ -11,6 +11,7 @@ services:
       - AGG_ADDR=http://logaggregator:8888
       - ACCOUNT_SVC=http://account:8080
       - FORM_SVC=http://form:7070
+      - MAILTO_SVC=http://mailto:9090
     depends_on:
       - account
       - form
@@ -62,6 +63,16 @@ services:
       - DB_DSN=/database/logs.db
     volumes:
       - ./test_databases:/database
+    restart: 
+      "on-failure"
+  mailto:
+    build:
+      context: ./mailto
+      args:
+        - PORT=6060
+    environment:
+      - ADDR=:6060
+      - AGG_ADDR=http://logaggregator:8888
     restart: 
       "on-failure"
 
