@@ -11,7 +11,7 @@ services:
       - AGG_ADDR=http://logaggregator:8888
       - ACCOUNT_SVC=http://account:8080
       - FORM_SVC=http://form:7070
-      - MAILTO_SVC=http://mailto:9090
+      - MAILTO_SVC=http://mailto:6060
     depends_on:
       - account
       - form
