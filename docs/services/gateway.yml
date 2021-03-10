@@ -238,6 +238,28 @@ paths:
             text/plain:
               schema:
                 type: string
+  # =================================  mailto  =================================
+  /mailto:
+    post:
+      summary: generate a mailto HTML anchor tag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "mailto/api-v0/yml#/components/schemas/request"
+      responses:
+        '200':
+          description: Bytes of HTML, anchor tag with mailto href
+          content:
+            text/html:
+              examples: 
+                simple: 
+                  value: <a href="mailto:email@example.com">click me!</a>
+                  summary: A mailto anchor tag containing 1 to and some inner text
+                complex:
+                  value: <a href="mailto:test@example.com?cc=ccme@example.com&bcc=thebcc@example.com&subject=important%20subject&body=the%20body">click here!</a>
+                  summary: A more complex mailto tag containing 1 to, a cc, a bcc, a subject and a body
+
 
 components:
   securitySchemes:

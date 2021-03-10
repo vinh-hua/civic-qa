@@ -97,11 +97,27 @@ class TestLoad(unittest.TestCase):
                 new_state = not new_state
         run()
 
+    def test_mailto(self):
+        body = {
+            "to": ["test@example.com"],
+            "subject": "test subject",
+            "body": "test body"
+        }
+
+        N = 100
+
+        @timeit(f"test_mailto {N=}")
+        def run():
+            for _ in range(N):
+                common.post_mailto(GATEWAY_URL, body)
+
+        run()
+
+
 
 
 
         
 
 if __name__ == '__main__':
-    TestLoad().test_patch_response()
-    #unittest.main()
+    unittest.main()

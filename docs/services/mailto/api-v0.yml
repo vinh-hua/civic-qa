@@ -1,0 +1,49 @@
+openapi: '3.0.2'
+info:
+  title: mailto API
+  version: 0.0.0
+
+paths:
+  /mailto:
+    $ref: "./gateway.yml#/paths/mailto"
+
+components:
+  schemas:
+    request:
+      type: object
+      properties:
+        to:
+          type: array
+          items:
+            type: string
+            format: email
+            minLength: 1
+        cc:
+          type: array
+          items:
+            type: string
+            format: email
+            minLength: 0
+        bcc:
+          type: array
+          items:
+            type: string
+            format: email
+            minLength: 0
+        subject:
+          type: string
+        body:
+          type: string
+        innerText:
+          type: string
+      required:
+        - "to"
+          
+
+
+# To        []string `json:"to"`
+# Cc        []string `json:"cc"`
+# Bcc       []string `json:"bcc"`
+# Subject   string   `json:"subject"`
+# Body      string   `json:"body"`
+# InnerText string   `json:"innerText"`

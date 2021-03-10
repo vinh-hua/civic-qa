@@ -266,7 +266,34 @@ class TestForm(unittest.TestCase):
         updated = common.get_response(GATEWAY_URL, auth, resp["id"])
         assert updated["active"] == True
 
+class TestMailto(unittest.TestCase):
 
+    def simple(self):
+        print("Testing mailto simple")
+
+        body = {
+            "to": ["test@example.com"]
+        }
+
+        assert common.post_mailto(GATEWAY_URL, body) == r'<a href="mailto:test@example.com"></a>'
+
+    def multiple_to(self):
+        print("Testing mailto multiple to's")
+        body = {
+            "to": ["test@example.com", "test1@example.com", "test2@example.com"]
+        }
+
+        assert common.post_mailto(GATEWAY_URL, body) == r'<a href="mailto:test@example.com,test1@example.com,test2@example.com"></a>'
+
+    def to_subject_body(self):
+        print("Testing mailto (to, subject, body)")
+        body = {
+            "to": ["test@example.com"],
+            "subject": "test subject",
+            "body": "test body"
+        }
+
+        assert common.post_mailto(GATEWAY_URL, body) == r'<a href="mailto:test@example.com?subject=test%20subject&body=test%20body"></a>'
 
 
 
