@@ -136,3 +136,11 @@ def patch_response(URL, auth_header, resp_id, new_state):
 
     return resp.status_code
 
+def post_mailto(URL, body):
+    resp = requests.post(URL+"/mailto", headers={"content-type": "application/json"}, json=body)
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.text
+
+

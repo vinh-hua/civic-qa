@@ -43,7 +43,7 @@ func main() {
 		log.Fatalf("Failed to create handler context: %v", err)
 	}
 
-	//routes
+	// routes
 	api.HandleFunc("/forms", ctx.HandleGetForms).Methods("GET")
 	api.HandleFunc("/forms", ctx.HandleCreateForm).Methods("POST")
 	api.HandleFunc("/forms/{formID:[0-9]+}", ctx.HandleGetSpecificForm).Methods("GET")
