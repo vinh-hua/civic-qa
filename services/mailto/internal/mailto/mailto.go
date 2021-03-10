@@ -15,8 +15,8 @@ const (
 	// InvalidMailto is returned if a mailto cannot be generated
 	InvalidMailto = "INVALID MAILTO"
 
-	// anchor mailto tag template
-	mailtoTemplate = "<a href=\"mailto:{{.Addresses}}{{.Params}}\">{{.InnerText}}</a>"
+	// mailto template
+	mailtoTemplate = "mailto:{{.Addresses}}{{.Params}}"
 )
 
 // templateData is used by the template to construct

@@ -19,6 +19,24 @@ export function FormResponseView(props: FormResponseViewProps) {
     const [mailto, setMailto] = useState("mailto:");
     const [messageResponse, setMessageResponse] = useState("");
 
+    async function createMailto() {
+        var mailtoRequest = {to: ["test@test.com"], subject: props.subject, body: messageResponse};
+        var jsonMailtoRequest = JSON.stringify(mailtoRequest);
+        const response = await fetch(Endpoints.Testbase + Endpoints.Mailto, {
+            method: "POST",
+            body: jsonMailtoRequest,
+            headers: new Headers({
+                "Content-Type": "application/json"
+            })
+        });
+        if (response.status >= 300) {
+            console.log("Error creating mailto");
+            return;
+        }
+        const mailtoString = await response.text();
+        window.location.href = mailtoString;
+    }
+
     const getTags = async(id: string) => {
         var authToken = localStorage.getItem("Authorization") || "";
         const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + id + Endpoints.ResponsesTags, {
@@ -84,13 +102,13 @@ export function FormResponseView(props: FormResponseViewProps) {
             <div className="form-response-container">
                 <div className="form-response">
                     <p className="form-response-body">{props.body}</p>
-                    <textarea className="form-response-message"></textarea>
+                    <textarea className="form-response-message" value={messageResponse} onChange={e => setMessageResponse(e.target.value)}></textarea>
                     <div className="resolved-send-container">
                         <label className="resolved-label" >
                             <input id="resolved-check-box" className="resolved-check-box" type="checkbox" onClick={() => clickCheckbox()}></input>
                             Resolved
                         </label>
-                        <a className="send-btn mailto-link" href={mailto}><button className="send-btn" placeholder="Message">Send</button></a>
+                        <button className="send-btn" placeholder="Message" onClick={createMailto}>Send</button>
                     </div>
                 </div>
             </div>
