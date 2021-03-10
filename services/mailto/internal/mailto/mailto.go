@@ -24,7 +24,6 @@ const (
 type templateData struct {
 	Addresses string
 	Params    string
-	InnerText string
 }
 
 // Generate returns a mailto anchor tag for a given config
@@ -43,7 +42,6 @@ func Generate(request model.Request) ([]byte, error) {
 	err = tmpl.Execute(&buf,
 		templateData{
 			Addresses: strings.Join(request.To, ","),
-			InnerText: request.InnerText,
 			Params:    params,
 		})
 

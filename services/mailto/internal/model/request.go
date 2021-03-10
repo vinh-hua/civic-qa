@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	defaultConfig = Request{To: []string{"mail@example.com"}, InnerText: "Click Me!"}
+	defaultConfig = Request{To: []string{"mail@example.com"}}
 
 	// email regex from: https://golangcode.com/validate-an-email-address/
 	emailRegex = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
@@ -20,7 +20,6 @@ type Request struct {
 	Bcc       []string `json:"bcc"`
 	Subject   string   `json:"subject"`
 	Body      string   `json:"body"`
-	InnerText string   `json:"innerText"`
 }
 
 // Validate performs field validation on a Request, returning an error

@@ -268,7 +268,7 @@ class TestForm(unittest.TestCase):
 
 class TestMailto(unittest.TestCase):
 
-    def simple(self):
+    def test_simple_to(self):
         print("Testing mailto simple")
 
         body = {
@@ -277,7 +277,7 @@ class TestMailto(unittest.TestCase):
 
         assert common.post_mailto(GATEWAY_URL, body) == r'mailto:test@example.com'
 
-    def multiple_to(self):
+    def test_multiple_to(self):
         print("Testing mailto multiple to's")
         body = {
             "to": ["test@example.com", "test1@example.com", "test2@example.com"]
@@ -285,7 +285,7 @@ class TestMailto(unittest.TestCase):
 
         assert common.post_mailto(GATEWAY_URL, body) == r'mailto:test@example.com,test1@example.com,test2@example.com'
 
-    def to_subject_body(self):
+    def test_to_subject_body(self):
         print("Testing mailto (to, subject, body)")
         body = {
             "to": ["test@example.com"],
