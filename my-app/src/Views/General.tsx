@@ -94,7 +94,7 @@ export function General() {
                 <SubDashboard title="TOP SUBJECTS" data={testData} changeViewFunc={specificView} emailTemplates={false} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
                     <SubHeaderLine title="SUMMARY"></SubHeaderLine>
-                    <StatCardRow cards={statCards}></StatCardRow>
+                    <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>
                 </div>
             </div>
         </div>

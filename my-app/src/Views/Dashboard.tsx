@@ -55,7 +55,7 @@ export function Dashboard() {
 
     return (
         <div className="dashboard">
-            <StatCardRow cards={statCards}></StatCardRow>
+            <StatCardRow spaceEven={true} cards={statCards}></StatCardRow>
             <DashboardChartStats></DashboardChartStats>
         </div>
     );
