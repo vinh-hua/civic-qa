@@ -19,7 +19,7 @@ export function Responses(props: ResponsesProps) {
 
     const getResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveOnlyQuery, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -41,7 +41,7 @@ export function Responses(props: ResponsesProps) {
 
     const getToday = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveOnlyQuery, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveOnly + Endpoints.ResponsesTodayOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -60,8 +60,6 @@ export function Responses(props: ResponsesProps) {
         });
         setData(formResponses);
     }
-
-    
 
     useEffect(() => {
         getResponses();

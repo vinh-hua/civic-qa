@@ -14,6 +14,8 @@ export type FormResponseViewProps = {
 
 export function FormResponseView(props: FormResponseViewProps) {
     const [isResolved, setIsResolved] = useState(true);
+    const [mailto, setMailto] = useState("mailto:");
+    const [messageResponse, setMessageResponse] = useState("");
 
     const resolveResponse = async(id: string, isResolved: boolean) => {
         var authToken = localStorage.getItem("Authorization") || "";
@@ -49,7 +51,7 @@ export function FormResponseView(props: FormResponseViewProps) {
                         <input id="resolved-check-box" className="resolved-check-box" type="checkbox" onClick={() => clickCheckbox()}></input>
                         Resolved
                     </label>
-                    <button className="send-btn" placeholder="Message">Send</button>
+                    <a className="send-btn mailto-link" href={mailto}><button className="send-btn" placeholder="Message">Send</button></a>
                 </div>
             </div>
         </div>

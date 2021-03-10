@@ -13,7 +13,7 @@ export function DashboardChartStats() {
 
     async function getTotal() {
         var authToken = localStorage.getItem("Authorization") || "";
-        const responseTotal = await fetch(Endpoints.Testbase + Endpoints.Responses, {
+        const responseTotal = await fetch(Endpoints.Testbase + Endpoints.Responses + Endpoints.ResponsesActiveOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken

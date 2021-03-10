@@ -5,7 +5,6 @@ import * as Constants from '../Constants/Constants';
 import * as Endpoints from '../Constants/Endpoints';
 import './Dashboard.css';
 
-
 // currently using dummy data for StatCards and LineChart
 export function Dashboard() {
     // stat cards data

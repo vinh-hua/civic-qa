@@ -57,3 +57,10 @@
     color: white;
     background-color: rgb(179, 103, 255);
 }
+
+.mailto-link {
+    border: none;
+    outline: none;
+    text-decoration: none;
+    color: white;
+}
