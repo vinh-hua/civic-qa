@@ -71,6 +71,8 @@ export function Casework() {
             cases.push({name: key, value: topicsCases.get(key)});
         })
 
+        cases.sort((a, b) => (a.value > b.value) ? -1 : (a.value === b.value) ? -1 : 1);
+
         setTopicsCases(cases);
         setTopicsResponsesData(topicsMap);
     }
