@@ -51,9 +51,14 @@ func main() {
 	api.HandleFunc("/responses", ctx.HandleGetResponses).Methods("GET")
 	api.HandleFunc("/responses/{responseID:[0-9]+}", ctx.HandlePatchResponse).Methods("PATCH")
 	api.HandleFunc("/responses/{responseID:[0-9]+}", ctx.HandleGetSpecificResponse).Methods("GET")
+	api.HandleFunc("/responses/{responseID:[0-9]+}/tags", ctx.HandleGetTags).Methods("GET")
+	api.HandleFunc("/responses/{responseID:[0-9]+}/tags", ctx.HandlePostTag).Methods("POST")
+	api.HandleFunc("/responses/{responseID:[0-9]+}/tags", ctx.HandleDeleteTag).Methods("DELETE")
 
 	api.HandleFunc("/form/{formID:[0-9]+}", ctx.HandleGetForm).Methods("GET")
 	api.HandleFunc("/form/{formID:[0-9]+}", ctx.HandlePostForm).Methods("POST")
+
+	api.HandleFunc("/tags", ctx.HandleGetAllTags).Methods("GET")
 
 	api.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

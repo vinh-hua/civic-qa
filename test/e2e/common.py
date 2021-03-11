@@ -136,6 +136,36 @@ def patch_response(URL, auth_header, resp_id, new_state):
 
     return resp.status_code
 
+def make_tag(URL, auth_header, resp_id, value):
+    body = {"value": value}
+    resp = requests.post(URL+"/responses/"+str(resp_id)+"/tags", headers={"Authorization": auth_header}, json=body)
+    if resp.status_code != 201:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.status_code
+
+def delete_tag(URL, auth_header, resp_id, value):
+    body = {"value": value}
+    resp = requests.delete(URL+"/responses/"+str(resp_id)+"/tags", headers={"Authorization": auth_header}, json=body)
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.status_code
+
+def get_all_tags(URL, auth_header):
+    resp = requests.get(URL+"/tags", headers={"Authorization": auth_header})
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.json()
+
+def get_all_tags_response(URL, auth_header, resp_id):
+    resp = requests.get(URL+"/responses/"+str(resp_id)+"/tags", headers={"Authorization": auth_header})
+    if resp.status_code != 200:
+        raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
+
+    return resp.json()
+
 def post_mailto(URL, body):
     resp = requests.post(URL+"/mailto", headers={"content-type": "application/json"}, json=body)
     if resp.status_code != 200:

@@ -85,8 +85,10 @@ func main() {
 	api.Handle("/form/{formID:[0-9]+}", formProxy)
 	apiAuth.Handle("/forms", formProxy)
 	apiAuth.Handle("/forms/{formID:[0-9]+}", formProxy)
+	apiAuth.Handle("/tags", formProxy)
 	apiAuth.Handle("/responses", formProxy)
 	apiAuth.Handle("/responses/{responseID:[0-9]+}", formProxy)
+	apiAuth.Handle("/responses/{responseID:[0-9]+}/tags", formProxy)
 
 	// Mailto
 	api.Handle("/mailto", mailtoProxy)
