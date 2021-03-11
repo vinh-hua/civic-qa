@@ -13,7 +13,10 @@ paths:
     $ref: '../gateway.yml#/paths/~1responses'
   /responses/{responseID}:
     $ref: '../gateway.yml#/paths/~1responses~1{responseID}'
-  
+  /responses/{responseID}/tags:
+    $ref: '../gateway.yml#/paths/~1responses~1{responseID}~1tags'
+  /tags:
+      $ref: '../gateway.yml#/paths/~1tags'
 
 
     
