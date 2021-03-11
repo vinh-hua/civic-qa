@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/vivian-hua/civic-qa/services/common/config"
-	"github.com/vivian-hua/civic-qa/services/form/internal/context"
-	aggregator "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware"
+	"github.com/team-ravl/civic-qa/services/common/config"
+	"github.com/team-ravl/civic-qa/services/form/internal/context"
+	aggregator "github.com/team-ravl/civic-qa/services/logAggregator/pkg/middleware"
 )
 
 const (

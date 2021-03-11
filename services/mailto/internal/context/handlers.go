@@ -6,8 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/vivian-hua/civic-qa/services/mailto/internal/mailto"
-	"github.com/vivian-hua/civic-qa/services/mailto/internal/model"
+	"github.com/team-ravl/civic-qa/services/mailto/internal/mailto"
+	"github.com/team-ravl/civic-qa/services/mailto/internal/model"
 )
 
 // Mailto POST /mailto

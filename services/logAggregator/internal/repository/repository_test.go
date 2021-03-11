@@ -8,7 +8,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
-	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/model"
+	"github.com/team-ravl/civic-qa/services/logAggregator/internal/model"
 )
 
 var (

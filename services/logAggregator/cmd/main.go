@@ -14,11 +14,11 @@ import (
 	"gorm.io/gorm/logger"
 
 	// common
-	"github.com/vivian-hua/civic-qa/services/common/config"
+	"github.com/team-ravl/civic-qa/services/common/config"
 
 	// internal
-	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/context"
-	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/repository"
+	"github.com/team-ravl/civic-qa/services/logAggregator/internal/context"
+	"github.com/team-ravl/civic-qa/services/logAggregator/internal/repository"
 )
 
 const (

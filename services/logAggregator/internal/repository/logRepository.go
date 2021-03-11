@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/model"
+	"github.com/team-ravl/civic-qa/services/logAggregator/internal/model"
 	"gorm.io/gorm"
 )
 

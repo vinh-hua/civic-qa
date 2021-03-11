@@ -13,15 +13,15 @@ import (
 	"github.com/gorilla/mux"
 
 	// common
-	"github.com/vivian-hua/civic-qa/services/common/config"
-	commonMiddleware "github.com/vivian-hua/civic-qa/services/common/middleware"
+	"github.com/team-ravl/civic-qa/services/common/config"
+	commonMiddleware "github.com/team-ravl/civic-qa/services/common/middleware"
 
 	//pkg
-	aggregator "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware"
+	aggregator "github.com/team-ravl/civic-qa/services/logAggregator/pkg/middleware"
 
 	// internal
-	"github.com/vivian-hua/civic-qa/services/gateway/internal/middleware"
-	"github.com/vivian-hua/civic-qa/services/gateway/internal/proxy"
+	"github.com/team-ravl/civic-qa/services/gateway/internal/middleware"
+	"github.com/team-ravl/civic-qa/services/gateway/internal/proxy"
 )
 
 const (
