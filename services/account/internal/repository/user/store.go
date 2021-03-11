@@ -5,7 +5,7 @@ package user
 import (
 	"errors"
 
-	"github.com/vivian-hua/civic-qa/services/common/model"
+	"github.com/team-ravl/civic-qa/services/common/model"
 )
 
 var (

@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v8"
-	"github.com/vivian-hua/civic-qa/services/common/model"
+	"github.com/team-ravl/civic-qa/services/common/model"
 )
 
 const (

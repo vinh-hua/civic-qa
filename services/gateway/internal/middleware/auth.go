@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/vivian-hua/civic-qa/services/common/model"
+	"github.com/team-ravl/civic-qa/services/common/model"
 )
 
 const (

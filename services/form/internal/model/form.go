@@ -3,7 +3,7 @@ package model
 import (
 	"time"
 
-	common "github.com/vivian-hua/civic-qa/services/common/model"
+	common "github.com/team-ravl/civic-qa/services/common/model"
 )
 
 const (

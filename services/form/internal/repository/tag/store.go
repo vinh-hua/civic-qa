@@ -3,7 +3,7 @@ package tag
 import (
 	"errors"
 
-	"github.com/vivian-hua/civic-qa/services/form/internal/model"
+	"github.com/team-ravl/civic-qa/services/form/internal/model"
 )
 
 var (
