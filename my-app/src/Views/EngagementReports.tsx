@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
+import * as Endpoints from '../Constants/Endpoints';
 
 export type EngagementReportBarChartData = {
     name: string;
@@ -7,6 +9,8 @@ export type EngagementReportBarChartData = {
 }
 
 export function EngagementReports() {
+  const [topicCounts, setTopicCounts] = useState<EngagementReportBarChartData[]>();
+
     const testData = [
         {
           name: 'Topic 1',
@@ -39,6 +43,40 @@ export function EngagementReports() {
             return 0;
         }
     });
+
+    const getTags = async() => {
+      var authToken = localStorage.getItem("Authorization") || "";
+      const response = await fetch(Endpoints.Testbase + Endpoints.Tags, {
+          method: "GET",
+          headers: new Headers({
+              "Authorization": authToken
+          })
+      });
+      if (response.status >= 300) {
+          console.log("Error retrieving form responses");
+          return;
+      }
+      var topicCountsMap = new Map<string, number>();
+      const tags = await response.json();
+      tags.forEach((tag: any) => {
+        if (topicCountsMap.has(tag)) {
+          topicCountsMap.set(tag, (topicCountsMap.get(tag) || 0) + 1);
+        } else {
+          topicCountsMap.set(tag, 1);
+        }
+      });
+      
+      var engagementChartData: EngagementReportBarChartData[] = [];
+      var keys = Object.keys(topicCountsMap);
+      keys.forEach(key => {
+        engagementChartData.push({name: key, count: topicCountsMap.get(key) || 0});
+      });
+      setTopicCounts(engagementChartData);
+  }
+
+    useEffect(() => {
+
+    }, []);
 
     return (
         <div className="dashboard sub-dashboard">

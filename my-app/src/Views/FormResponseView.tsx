@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { Tag } from '../Components/Tag';
-import { TagAdd } from '../Components/TagAdd';
+import { Tags } from '../Components/Tags';
 import * as Endpoints from '../Constants/Endpoints';
 import "./FormResponseView.css";
 
@@ -16,7 +16,7 @@ export type FormResponseViewProps = {
 
 export function FormResponseView(props: FormResponseViewProps) {
     const [isResolved, setIsResolved] = useState(true);
-    const [mailto, setMailto] = useState("mailto:");
+    const [tags, setTags] = useState<any[]>([]);
     const [messageResponse, setMessageResponse] = useState("");
 
     async function createMailto() {
@@ -37,9 +37,9 @@ export function FormResponseView(props: FormResponseViewProps) {
         window.location.href = mailtoString;
     }
 
-    const getTags = async(id: string) => {
+    const getTags = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + id + Endpoints.ResponsesTags, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -50,21 +50,47 @@ export function FormResponseView(props: FormResponseViewProps) {
             return;
         }
         const tags = await response.json();
-        
+        var tagList: any[] = [];
+        tags.forEach((tag: any) => {
+            tagList.push(tag.value);
+        });
+        setTags(tagList);
     }
 
-    async function removeTag(responseId: string) {
+    async function removeTag(tagValue: string) {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + responseId + Endpoints.ResponsesTags, {
-
+        var tagJson = JSON.stringify({value: tagValue});
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
+            method: "DELETE",
+            body: tagJson,
+            headers: new Headers({
+                "Authorization": authToken,
+                "Content-Type": "application/json"
+            })
         });
+        if (response.status >= 300) {
+            console.log("Error creating tag");
+            return;
+        }
+        getTags();
     }
 
-    async function addTag(responseId: string) {
+    async function addTag(tagValue: string) {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + responseId + Endpoints.ResponsesTags, {
-
+        var tagJson = JSON.stringify({value: tagValue});
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
+            method: "POST",
+            body: tagJson,
+            headers: new Headers({
+                "Authorization": authToken,
+                "Content-Type": "application/json"
+            })
         });
+        if (response.status >= 300) {
+            console.log("Error creating tag");
+            return;
+        }
+        getTags();
     }
 
     const resolveResponse = async(id: string, isResolved: boolean) => {
@@ -88,17 +114,16 @@ export function FormResponseView(props: FormResponseViewProps) {
         resolveResponse(props.responseId, isResolved);
     }
 
+    useEffect(() => {
+        getTags();
+    }, []);
+
     return(
         <div>
             <button className="exit-button" onClick={() => props.setSpecificView()}><img src="./assets/icons/back-arrow.png"></img></button>
             <Header title={props.title}></Header>
             <SubHeaderLine title={props.subject}></SubHeaderLine>
-            <div className="tags-container">
-                    <Tag tagId={"1"} name="COVID"></Tag>
-                    <Tag tagId={"2"} name="stimulus"></Tag>
-                    <Tag tagId={"3"} name="taxes"></Tag>
-                    <TagAdd></TagAdd>
-            </div>
+            <Tags addTag={addTag} removeTag={removeTag} values={tags}></Tags>
             <div className="form-response-container">
                 <div className="form-response">
                     <p className="form-response-body">{props.body}</p>

@@ -1,5 +1,11 @@
-.stat-cards {
+.stat-cards-even {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.stat-cards-between {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
 }

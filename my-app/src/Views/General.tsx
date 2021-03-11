@@ -6,18 +6,12 @@ import { StatCardRow } from '../Components/StatCardRow';
 import { Responses } from './Responses';
 import * as Endpoints from '../Constants/Endpoints';
 
-// currently using test data
-function getInitialSubDashboardData(): Array<SubDashboardData> {
-    var data = [];
-    data.push({name: "Test", value: 123 + " inquiries"});
-    return data as Array<SubDashboardData>;
-}
-
 export function General() {
-    const testData = getInitialSubDashboardData();
     const [onSpecificView, setSpecificView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
     const [specificSubjectData, setSpecificSubjectData] = useState<SubDashboardData[]>([]);
+    const [subjectsResponsesData, setSubjectsResponsesData] = useState<Map<string, SubDashboardData[]>>();
+    const [subjectsInquiries, setSubjectsInquiries] = useState<SubDashboardData[]>([]);
     const [summaryToday, setSummaryToday] = useState(0);
     const [summaryWeek, setSummaryWeek] = useState(0);
     const [summaryTopics, setSummaryTopics] = useState(0);
@@ -35,13 +29,40 @@ export function General() {
             return;
         }
         const responsesGeneral = await response.json();
-        var formResponses: Array<SubDashboardData> = [];
+        var formResponses: SubDashboardData[] = [];
+        let subjectsMap = new Map<string, SubDashboardData[]>();
+        let subjectsInquiries = new Map<string, number>();
+
         responsesGeneral.forEach(function(formResponse: any) {
             var d = new Date(formResponse.createdAt);
             var t = d.toLocaleString("en-US");
-            formResponses.push({id: formResponse.id, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body});
+            var subjects = formResponse.tags;
+            var data: SubDashboardData = {id: formResponse.id, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
+
+            subjects.forEach((subject: any) => {
+                if (subjectsMap.has(subject.value)) {
+                    var getList = subjectsMap.get(subject.value);
+                    getList?.push(data);
+                    subjectsMap.set(subject.value, getList || []);
+                } else {
+                    var newList: SubDashboardData[] = [];
+                    newList.push(data);
+                    subjectsMap.set(subject.value, newList);
+                }
+
+                subjectsInquiries.set(subject.value, (subjectsInquiries.get(subject.value) || 0) + 1);
+
+            });
+            formResponses.push(data);
         });
-        setSpecificSubjectData(formResponses);
+
+        var inquiries: SubDashboardData[] = [];
+        Array.from(subjectsInquiries.keys()).forEach((key) => {
+            inquiries.push({name: key, value: subjectsInquiries.get(key)});
+        })
+
+        setSubjectsInquiries(inquiries);
+        setSubjectsResponsesData(subjectsMap);
     }
 
     const getResponsesToday = async() => {
@@ -62,6 +83,7 @@ export function General() {
 
     function specificView(data: SubDashboardData) {
         setSpecificViewTitle(data.name);
+        setSpecificSubjectData(subjectsResponsesData?.get(data.name) || []);
         setSpecificView(true);
     }
 
@@ -73,6 +95,7 @@ export function General() {
         getResponses();
         getResponsesToday();
     }, []);
+
 
     let statCards = [
         {title: "New Today", stat: summaryToday},
@@ -91,10 +114,10 @@ export function General() {
         : <div className="dashboard sub-dashboard">
             <div>
                 <Header title="General Inquiries"></Header>
-                <SubDashboard title="TOP SUBJECTS" data={testData} changeViewFunc={specificView} emailTemplates={false} fullPageView={false}></SubDashboard>
+                <SubDashboard title="TOP SUBJECTS" data={subjectsInquiries} changeViewFunc={specificView} emailTemplates={false} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
                     <SubHeaderLine title="SUMMARY"></SubHeaderLine>
-                    <StatCardRow cards={statCards}></StatCardRow>
+                    <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>
                 </div>
             </div>
         </div>

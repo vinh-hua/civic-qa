@@ -36,13 +36,11 @@ export default function App() {
     }
     localStorage.removeItem("Authorization");
     setAuth(false);
-    return(<Redirect to="/login"></Redirect>);
   }
 
   function userLogin(authToken: string) {
-    setAuth(true);
     localStorage.setItem("Authorization", authToken);
-    return(<Redirect to="/dashboard"></Redirect>);
+    setAuth(true);
   }
 
   return (
@@ -63,7 +61,6 @@ export default function App() {
                   <li className="dashboard-sub-li"><NavLink className="nav-link" activeClassName="active-link" to="/casework">{Constants.Casework}</NavLink></li>
                   <li>{path =="/responses" ? <img src="./assets/icons/active-inbox.png"/> : <img src="./assets/icons/inbox.png"/>}<NavLink className="nav-link" activeClassName="active-link" to="/responses">{Constants.Responses}</NavLink></li>
                   <li>{path =="/engagement-reports" ? <img src="./assets/icons/active-stats.png"/> :<img src="./assets/icons/stats.png"/>}<NavLink className="nav-link" activeClassName="active-link" to="/engagement-reports">{Constants.EngagementReports}</NavLink></li>
-                  <li>{path =="/templates" ? <img src="./assets/icons/active-layout.png"/> :<img src="./assets/icons/layout.png"/>}<NavLink className="nav-link" activeClassName="active-link" to="/templates">{Constants.Templates}</NavLink></li>
                 </ul>
                 <div className="compose-email-btn-container">
                   <hr className="solid"/>
@@ -79,7 +76,6 @@ export default function App() {
             <Route path="/casework" component={Casework}></Route>
             <Route path="/responses" component={Responses}/>
             <Route path="/engagement-reports" component={EngagementReports}/>
-            <Route path="/templates" component={Templates}/>
             <Route path="/settings" component={Settings}/>
           </div> : null}
         </div>
