@@ -231,8 +231,6 @@ class TestForm(unittest.TestCase):
         assert len(common.get_responses_params(GATEWAY_URL, auth, {"inquiryType": "general"})) == 2
         assert len(common.get_responses_params(GATEWAY_URL, auth, {"inquiryType": "INVALID"})) == 0
 
-
-
     def test_get_responses_multi(self):
         print("Testing get responses (filter: multiple)")
         auth = common.make_user(GATEWAY_URL, common.generate_user())
@@ -265,6 +263,61 @@ class TestForm(unittest.TestCase):
         common.patch_response(GATEWAY_URL, auth, resp["id"], True)
         updated = common.get_response(GATEWAY_URL, auth, resp["id"])
         assert updated["active"] == True
+
+    def test_create_tag(self):
+        print("Testing create tag")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+        resp = common.get_responses_params(GATEWAY_URL, auth, {"formID": form["id"]})[0]
+
+        common.make_tag(GATEWAY_URL, auth, resp["id"], common.randstr(5, 10))
+
+    def test_delete_tag(self):
+        print("Testing delete tag")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+        resp = common.get_responses_params(GATEWAY_URL, auth, {"formID": form["id"]})[0]
+
+        tag_val = common.randstr(5, 10)
+        common.make_tag(GATEWAY_URL, auth, resp["id"], tag_val)
+        common.delete_tag(GATEWAY_URL, auth, resp["id"], tag_val)
+
+    def test_get_all_tags(self):
+        print("Testing get tags")
+
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+        resp = common.get_responses_params(GATEWAY_URL, auth, {"formID": form["id"]})[0]
+
+        for _ in range(10):
+            common.make_tag(GATEWAY_URL, auth, resp["id"], common.randstr(5, 10))
+
+        assert len(common.get_all_tags(GATEWAY_URL, auth)) == 10
+
+    def test_get_tags_response(self):
+        print("Testing get tags by response id")
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form1 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        form2 = common.make_form(GATEWAY_URL, auth, common.generate_form())
+
+        common.post_form_user(GATEWAY_URL, form1["id"], common.generate_response())
+        common.post_form_user(GATEWAY_URL, form2["id"], common.generate_response())
+
+        resp1 = common.get_responses_params(GATEWAY_URL, auth, {"formID": form1["id"]})[0]
+        resp2 = common.get_responses_params(GATEWAY_URL, auth, {"formID": form2["id"]})[0]
+
+        for _ in range(3):
+            common.make_tag(GATEWAY_URL, auth, resp1["id"], common.randstr(5, 10))
+        
+        for _ in range(5):
+            common.make_tag(GATEWAY_URL, auth, resp2["id"], common.randstr(5, 10))
+
+        assert len(common.get_all_tags_response(GATEWAY_URL, auth, resp1["id"])) == 3
+        assert len(common.get_all_tags_response(GATEWAY_URL, auth, resp2["id"])) == 5
+
 
 class TestMailto(unittest.TestCase):
 

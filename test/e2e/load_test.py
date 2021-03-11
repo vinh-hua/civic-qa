@@ -98,6 +98,23 @@ class TestLoad(unittest.TestCase):
                 new_state = not new_state
         run()
 
+    def test_create_tag(self):
+        auth = common.make_user(GATEWAY_URL, common.generate_user())
+        form = common.make_form(GATEWAY_URL, auth, common.generate_form())
+        common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
+        resp = common.get_responses_params(GATEWAY_URL, auth, {"formID": form["id"]})[0]
+        N = 100
+
+        tag_vals = [f"test_{i}" for i in range(N)]
+
+        @timeit("test_create_tag", N)
+        def run():
+            for i in range(N):
+                common.make_tag(GATEWAY_URL, auth, resp["id"], tag_vals[i])
+
+        run()
+
+
     def test_mailto(self):
         body = {
             "to": ["test@example.com"],
