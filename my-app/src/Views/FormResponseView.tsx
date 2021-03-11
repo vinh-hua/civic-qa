@@ -56,9 +56,20 @@ export function FormResponseView(props: FormResponseViewProps) {
 
     async function removeTag(tagValue: string) {
         var authToken = localStorage.getItem("Authorization") || "";
+        var tagJson = JSON.stringify({value: tagValue});
         const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
-
+            method: "DELETE",
+            body: tagJson,
+            headers: new Headers({
+                "Authorization": authToken,
+                "Content-Type": "application/json"
+            })
         });
+        if (response.status >= 300) {
+            console.log("Error creating tag");
+            return;
+        }
+        getTags();
     }
 
     async function addTag(tagValue: string) {
@@ -109,7 +120,7 @@ export function FormResponseView(props: FormResponseViewProps) {
             <button className="exit-button" onClick={() => props.setSpecificView()}><img src="./assets/icons/back-arrow.png"></img></button>
             <Header title={props.title}></Header>
             <SubHeaderLine title={props.subject}></SubHeaderLine>
-            <Tags addTag={addTag} values={tags}></Tags>
+            <Tags addTag={addTag} removeTag={removeTag} values={tags}></Tags>
             <div className="form-response-container">
                 <div className="form-response">
                     <p className="form-response-body">{props.body}</p>

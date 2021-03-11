@@ -10,6 +10,7 @@
 
 .tag-value {
     padding-top: 5%;
+    color: #A4A6B3;
 }
 
 .tag-add-btn {
@@ -18,7 +19,11 @@
 }
 
 .tag-add-input {
+    border: 1px solid #A4A6B3;
+    border-radius: 10px;
     width: 100px;
+    height: 30px;
+    color: #A4A6B3;
 }
 
 .tag-remove-btn {

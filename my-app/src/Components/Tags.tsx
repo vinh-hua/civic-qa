@@ -5,6 +5,7 @@ import './Tag.css';
 export type TagProps = {
     values: string[];
     addTag: Function;
+    removeTag: Function;
 }
 
 export function Tags(props: TagProps) {
@@ -41,7 +42,7 @@ export function Tags(props: TagProps) {
 
     let tagList: any[] = [];
     props.values.forEach(function(value) {
-        tagList.push(<Tag value={value}></Tag>)
+        tagList.push(<Tag value={value} remove={props.removeTag}></Tag>)
     });
 
     return(
@@ -49,7 +50,7 @@ export function Tags(props: TagProps) {
             {tagList}
             {inputShow ? <div>
                     <form onSubmit={e => enterNewTag(e)}>
-                        <input ref={wrapperRef} className="tag-add-input" type="text" onChange={e => setInputText(e.target.value)}></input>
+                        <input ref={wrapperRef} className="tag-add-input" type="text" placeholder={"#"} onChange={e => setInputText(e.target.value)}></input>
                     </form>
                 </div>
                 : <button className="tag-add-btn" onClick={() => setInputShow(true)}><img src="./assets/icons/add.png"></img></button>}
