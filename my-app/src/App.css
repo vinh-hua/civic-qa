@@ -1,6 +1,11 @@
 .App {
   text-align: center;
 }
+
+.icon {
+  height: 16px;
+}
+
 .title {
   color: #9B51E0;
   font-size: 48px;

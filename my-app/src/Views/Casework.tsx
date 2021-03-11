@@ -22,7 +22,7 @@ export function Casework() {
     const [topicsResponsesData, setTopicsResponsesData] = useState<Map<string, SubDashboardData[]>>();
     const [topicsCases, setTopicsCases] = useState<SubDashboardData[]>([]);
     const [summaryToday, setSummaryToday] = useState(0);
-    const [summaryWeek, setSummaryWeek] = useState(0);
+    const [summaryTotal, setSummaryTotal] = useState(0);
     const [summaryTopics, setSummaryTopics] = useState(0);
 
 
@@ -68,9 +68,13 @@ export function Casework() {
 
         var cases: SubDashboardData[] = [];
         Array.from(topicsCases.keys()).forEach((key) => {
-            cases.push({name: key, value: topicsCases.get(key)});
+            cases.push({name: key, value: topicsCases.get(key) + " cases"});
         })
 
+        cases.sort((a, b) => (a.value > b.value) ? -1 : (a.value === b.value) ? -1 : 1);
+
+        setSummaryTopics(cases.length);
+        setSummaryTotal(formResponses.length);
         setTopicsCases(cases);
         setTopicsResponsesData(topicsMap);
     }
@@ -108,7 +112,7 @@ export function Casework() {
 
     let statCards = [
         {title: "New Today", stat: summaryToday},
-        {title: "This Week", stat: summaryWeek},
+        {title: "Total", stat: summaryTotal},
         {title: "Topics", stat: summaryTopics}
     ];
 

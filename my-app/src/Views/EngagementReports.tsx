@@ -9,40 +9,7 @@ export type EngagementReportBarChartData = {
 }
 
 export function EngagementReports() {
-  const [topicCounts, setTopicCounts] = useState<EngagementReportBarChartData[]>();
-
-    const testData = [
-        {
-          name: 'Topic 1',
-          count: 250
-        },
-        {
-          name: 'Topic 2',
-          count: 170
-        },
-        {
-          name: 'Topic 3',
-          count: 192
-        },
-        {
-          name: 'Topic 4',
-          count: 32
-        },
-        {
-          name: 'Topic 5',
-          count: 45
-        }
-      ];
-
-    testData.sort((a, b) => {
-        if (a.count > b.count) {
-            return -1;
-        } else if (a.count < b.count) {
-            return 1;
-        } else {
-            return 0;
-        }
-    });
+  const [engagementChartData, setEngagementChartData] = useState<EngagementReportBarChartData[]>();
 
     const getTags = async() => {
       var authToken = localStorage.getItem("Authorization") || "";
@@ -59,33 +26,44 @@ export function EngagementReports() {
       var topicCountsMap = new Map<string, number>();
       const tags = await response.json();
       tags.forEach((tag: any) => {
-        if (topicCountsMap.has(tag)) {
-          topicCountsMap.set(tag, (topicCountsMap.get(tag) || 0) + 1);
+        if (topicCountsMap.has(tag.value)) {
+          topicCountsMap.set(tag.value, (topicCountsMap.get(tag.value) || 0) + 1);
         } else {
-          topicCountsMap.set(tag, 1);
+          topicCountsMap.set(tag.value, 1);
         }
       });
       
       var engagementChartData: EngagementReportBarChartData[] = [];
-      var keys = Object.keys(topicCountsMap);
-      keys.forEach(key => {
+
+      Array.from(topicCountsMap.keys()).forEach((key) => {
         engagementChartData.push({name: key, count: topicCountsMap.get(key) || 0});
       });
-      setTopicCounts(engagementChartData);
+
+      engagementChartData.sort((a, b) => {
+        if (a.count > b.count) {
+            return -1;
+        } else if (a.count < b.count) {
+            return 1;
+        } else {
+            return 0;
+        }
+      });
+
+      setEngagementChartData(engagementChartData);
   }
 
     useEffect(() => {
-
+        getTags();
     }, []);
 
     return (
         <div className="dashboard sub-dashboard">
             <Header title="Engagement Reports"></Header>
-            <h2>Issues/Inquiries</h2>
+            <h2>Topics/Inquiries</h2>
             <BarChart
                 width={700}
                 height={500}
-                data={testData}
+                data={engagementChartData}
                 margin={{
                     top: 5,
                     right: 30,

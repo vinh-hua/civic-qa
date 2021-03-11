@@ -13,7 +13,7 @@ export function General() {
     const [subjectsResponsesData, setSubjectsResponsesData] = useState<Map<string, SubDashboardData[]>>();
     const [subjectsInquiries, setSubjectsInquiries] = useState<SubDashboardData[]>([]);
     const [summaryToday, setSummaryToday] = useState(0);
-    const [summaryWeek, setSummaryWeek] = useState(0);
+    const [summaryTotal, setSummaryTotal] = useState(0);
     const [summaryTopics, setSummaryTopics] = useState(0);
 
     const getResponses = async() => {
@@ -58,9 +58,13 @@ export function General() {
 
         var inquiries: SubDashboardData[] = [];
         Array.from(subjectsInquiries.keys()).forEach((key) => {
-            inquiries.push({name: key, value: subjectsInquiries.get(key)});
-        })
+            inquiries.push({name: key, value: subjectsInquiries.get(key) + " inquiries"});
+        });
 
+        inquiries.sort((a, b) => (a.value > b.value) ? -1 : (a.value === b.value) ? -1 : 1);
+
+        setSummaryTopics(inquiries.length);
+        setSummaryTotal(formResponses.length);
         setSubjectsInquiries(inquiries);
         setSubjectsResponsesData(subjectsMap);
     }
@@ -99,7 +103,7 @@ export function General() {
 
     let statCards = [
         {title: "New Today", stat: summaryToday},
-        {title: "This Week", stat: summaryWeek},
+        {title: "Total", stat: summaryTotal},
         {title: "Topics", stat: summaryTopics}
     ];
 
