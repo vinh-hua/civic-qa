@@ -1,9 +1,9 @@
 package form
 
 import (
-	common "github.com/vivian-hua/civic-qa/services/common/model"
+	common "github.com/team-ravl/civic-qa/services/common/model"
 
-	"github.com/vivian-hua/civic-qa/services/form/internal/model"
+	"github.com/team-ravl/civic-qa/services/form/internal/model"
 	"gorm.io/gorm"
 )
 

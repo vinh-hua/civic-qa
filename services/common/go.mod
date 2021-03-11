@@ -1,4 +1,4 @@
-module github.com/vivian-hua/civic-qa/services/common
+module github.com/team-ravl/civic-qa/services/common
 
 go 1.15
 

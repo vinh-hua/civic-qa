@@ -3,7 +3,7 @@ package mailto
 import (
 	"testing"
 
-	"github.com/vivian-hua/civic-qa/services/mailto/internal/model"
+	"github.com/team-ravl/civic-qa/services/mailto/internal/model"
 )
 
 func TestMailto(t *testing.T) {

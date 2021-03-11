@@ -3,7 +3,7 @@ package session
 import (
 	"sync"
 
-	"github.com/vivian-hua/civic-qa/services/common/model"
+	"github.com/team-ravl/civic-qa/services/common/model"
 )
 
 const intialCapacity = 100

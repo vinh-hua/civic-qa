@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vivian-hua/civic-qa/services/common/model"
+	"github.com/team-ravl/civic-qa/services/common/model"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )

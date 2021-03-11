@@ -6,7 +6,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/vivian-hua/civic-qa/services/mailto/internal/model"
+	"github.com/team-ravl/civic-qa/services/mailto/internal/model"
 )
 
 // TODO: replies via https://tools.ietf.org/html/rfc6068#section-6.1
