@@ -68,7 +68,7 @@ export function Casework() {
 
         var cases: SubDashboardData[] = [];
         Array.from(topicsCases.keys()).forEach((key) => {
-            cases.push({name: key, value: topicsCases.get(key)});
+            cases.push({name: key, value: topicsCases.get(key) + " cases"});
         })
 
         cases.sort((a, b) => (a.value > b.value) ? -1 : (a.value === b.value) ? -1 : 1);
