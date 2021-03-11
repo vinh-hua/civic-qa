@@ -198,6 +198,77 @@ paths:
       responses:
         '200':
           description: Update successful
+  /responses/{responseID}/tags:
+    get:
+      summary: get all tags for a given response
+      parameters:
+        - in: path
+          name: responseID
+          schema:
+            type: integer
+          required: true
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: all tags from the given response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "form/api-v0.yml#/components/schemas/tag"
+    post:
+      summary: add a tag to a response
+      parameters:
+        - in: path
+          name: responseID
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "form/api-v0.yml#/components/schemas/tagRequest"
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: created
+    delete:
+      summary: add a tag to a response
+      parameters:
+        - in: path
+          name: responseID
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "form/api-v0.yml#/components/schemas/tagRequest"
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: deleted
+  /tags:
+    get:
+      summary: get all tags for all responses
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: all tags from all responses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "form/api-v0.yml#/components/schemas/tag"
+      
   # =================================  form/user  =================================
   /form/{formID}:
     get:

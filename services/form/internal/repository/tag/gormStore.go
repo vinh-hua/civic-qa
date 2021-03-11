@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// GormStore implements tag.Store
 type GormStore struct {
 	db *gorm.DB
 }
@@ -38,6 +39,7 @@ func NewGormStore(dialector gorm.Dialector, config *gorm.Config, exec ...string)
 	return &GormStore{db}, nil
 }
 
+// GetAll returns all tags for a given userID's responses
 func (g *GormStore) GetAll(userID uint) ([]*model.Tag, error) {
 	tags := make([]*model.Tag, 0)
 
@@ -57,6 +59,7 @@ func (g *GormStore) GetAll(userID uint) ([]*model.Tag, error) {
 	return tags, nil
 }
 
+// GetByResponseID returns all tags for a given response by ID
 func (g *GormStore) GetByResponseID(userID uint, responseID uint) ([]*model.Tag, error) {
 	tags := make([]*model.Tag, 0)
 
@@ -77,6 +80,7 @@ func (g *GormStore) GetByResponseID(userID uint, responseID uint) ([]*model.Tag,
 	return tags, nil
 }
 
+// Create creates a new tag with a given value for a given response by ID
 func (g *GormStore) Create(userID uint, responseID uint, value string) error {
 	// find the associated response
 	var response model.FormResponse
@@ -108,6 +112,7 @@ func (g *GormStore) Create(userID uint, responseID uint, value string) error {
 	return nil
 }
 
+// Delete deletes a tag by value for a given response by ID
 func (g *GormStore) Delete(userID uint, responseID uint, value string) error {
 	// get the tag
 	var tag model.Tag

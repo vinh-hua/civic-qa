@@ -11,6 +11,8 @@ var (
 	ErrTagNotFound = errors.New("Tag Does Not Exist")
 )
 
+// Store is an interface for implementations of tag.Store.
+// Describes storage of tags
 type Store interface {
 	GetAll(userID uint) ([]*model.Tag, error)
 	GetByResponseID(userID uint, responseID uint) ([]*model.Tag, error)
