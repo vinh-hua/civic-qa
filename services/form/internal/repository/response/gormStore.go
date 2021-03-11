@@ -24,7 +24,7 @@ func NewGormStore(dialector gorm.Dialector, config *gorm.Config, exec ...string)
 	}
 
 	// perform schema migration
-	err = db.AutoMigrate(&model.Form{}, &model.FormResponse{}, &common.User{})
+	err = db.AutoMigrate(&common.User{}, &model.Form{}, &model.FormResponse{})
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (g *GormStore) PatchByID(userID uint, responseID uint, state bool) error {
 	var response model.FormResponse
 	result := g.db.
 		Model(&model.FormResponse{}).
-		Joins("JOIN forms ON forms.ID = formResponses.formID").Where("forms.userID = ?", userID).
+		Joins("JOIN forms ON forms.id = formResponses.formID").Where("forms.userID = ?", userID).
 		Where("formResponses.id = ?", responseID).
 		Take(&response, responseID)
 
@@ -91,7 +91,7 @@ func (g *GormStore) PatchByID(userID uint, responseID uint, state bool) error {
 		}
 		return result.Error
 	}
-	if result.RowsAffected != 1 {
+	if result.RowsAffected < 1 {
 		return ErrResponseNotFound
 	}
 
