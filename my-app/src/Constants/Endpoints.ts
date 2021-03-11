@@ -7,3 +7,4 @@ export const ResponsesActiveGeneral = "activeOnly=true&inquiryType=general";
 export const ResponsesActiveCasework = "activeOnly=true&inquiryType=casework";
 export const ResponsesTags = "/tags";
 export const Mailto = "/mailto";
+export const Tags = "/tags";

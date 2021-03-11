@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vivian-hua/civic-qa/services/common/model"
+	"github.com/team-ravl/civic-qa/services/common/model"
 )
 
 func TestMemoryStore(t *testing.T) {

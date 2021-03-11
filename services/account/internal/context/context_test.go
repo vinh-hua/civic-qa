@@ -10,10 +10,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/vivian-hua/civic-qa/service/account/internal/model"
-	"github.com/vivian-hua/civic-qa/service/account/internal/repository/session"
-	"github.com/vivian-hua/civic-qa/services/common/config"
-	common "github.com/vivian-hua/civic-qa/services/common/model"
+	"github.com/team-ravl/civic-qa/service/account/internal/model"
+	"github.com/team-ravl/civic-qa/service/account/internal/repository/session"
+	"github.com/team-ravl/civic-qa/services/common/config"
+	common "github.com/team-ravl/civic-qa/services/common/model"
 )
 
 //===============================

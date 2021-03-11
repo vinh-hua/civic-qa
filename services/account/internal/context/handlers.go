@@ -7,12 +7,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/vivian-hua/civic-qa/services/common/helpers"
-	common "github.com/vivian-hua/civic-qa/services/common/model"
+	"github.com/team-ravl/civic-qa/services/common/helpers"
+	common "github.com/team-ravl/civic-qa/services/common/model"
 
-	"github.com/vivian-hua/civic-qa/service/account/internal/model"
-	"github.com/vivian-hua/civic-qa/service/account/internal/repository/session"
-	"github.com/vivian-hua/civic-qa/service/account/internal/repository/user"
+	"github.com/team-ravl/civic-qa/service/account/internal/model"
+	"github.com/team-ravl/civic-qa/service/account/internal/repository/session"
+	"github.com/team-ravl/civic-qa/service/account/internal/repository/user"
 )
 
 // HandleSignup handles a post request to create a new user

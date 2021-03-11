@@ -1,21 +1,29 @@
 .tag {
+    height: 30px;
+    display: flex;
     border: 1px solid #A4A6B3;
     border-radius: 10px;
     margin-right: 10px;
-    height: 30px;
-    display: flex;
     padding-left: 10px;
     background-color: white;
-    align-items: flex-start;
 }
 
-.tag-name {
-    padding-top: 5%;
+.tag-value {
+    padding-top: 2.5%;
+    color: #A4A6B3;
 }
 
 .tag-add-btn {
     border: 1px solid #A4A6B3;
     height: 30px;
+}
+
+.tag-add-input {
+    border: 1px solid #A4A6B3;
+    border-radius: 10px;
+    width: 100px;
+    height: 30px;
+    color: #A4A6B3;
 }
 
 .tag-remove-btn {
@@ -24,7 +32,6 @@
 
 .tag-remove-btn, .tag-add-btn {
     border-radius: 10px;
-    padding-top: 5%;
     outline: none;
     background-color: white;
 }

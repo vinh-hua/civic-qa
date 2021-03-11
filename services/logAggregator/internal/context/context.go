@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/model"
-	"github.com/vivian-hua/civic-qa/services/logAggregator/internal/repository"
+	"github.com/team-ravl/civic-qa/services/logAggregator/internal/model"
+	"github.com/team-ravl/civic-qa/services/logAggregator/internal/repository"
 )
 
 // Context stores handler context information for logAggregator

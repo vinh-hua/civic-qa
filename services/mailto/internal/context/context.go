@@ -1,6 +1,6 @@
 package context
 
-import "github.com/vivian-hua/civic-qa/services/common/config"
+import "github.com/team-ravl/civic-qa/services/common/config"
 
 // Context containers handler context information (none currently)
 type Context struct {

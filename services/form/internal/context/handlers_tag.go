@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/vivian-hua/civic-qa/services/form/internal/model"
+	"github.com/team-ravl/civic-qa/services/form/internal/model"
 )
 
 // HandleGetAllTags GET /tags
@@ -28,24 +28,10 @@ func (ctx *Context) HandleGetAllTags(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// get all the tag values
-	tagList := make([]string, len(tags))
-	for i := range tags {
-		tagList[i] = tags[i].Value
-	}
-
-	// marshal tag values to json
-	tagsJSON, err := json.Marshal(&tagList)
-	if err != nil {
-		log.Printf("Error marshalling tags: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
 	// write the response
 	w.Header().Set("content-type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	_, err = w.Write(tagsJSON)
+	err = json.NewEncoder(w).Encode(&tags)
 	if err != nil {
 		log.Printf("Error writing tags: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -79,24 +65,10 @@ func (ctx *Context) HandleGetTags(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// get all the tag values
-	tagList := make([]string, len(tags))
-	for i := range tags {
-		tagList[i] = tags[i].Value
-	}
-
-	// marshal tag values to json
-	tagsJSON, err := json.Marshal(&tagList)
-	if err != nil {
-		log.Printf("Error marshalling tags: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
 	// write the response
 	w.Header().Set("content-type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	_, err = w.Write(tagsJSON)
+	err = json.NewEncoder(w).Encode(&tags)
 	if err != nil {
 		log.Printf("Error writing tags: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

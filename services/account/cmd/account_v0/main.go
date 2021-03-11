@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/vivian-hua/civic-qa/service/account/internal/context"
+	"github.com/team-ravl/civic-qa/service/account/internal/context"
 
-	"github.com/vivian-hua/civic-qa/services/common/config"
-	aggregator "github.com/vivian-hua/civic-qa/services/logAggregator/pkg/middleware"
+	"github.com/team-ravl/civic-qa/services/common/config"
+	aggregator "github.com/team-ravl/civic-qa/services/logAggregator/pkg/middleware"
 )
 
 const (

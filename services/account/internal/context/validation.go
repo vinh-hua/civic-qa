@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/vivian-hua/civic-qa/service/account/internal/model"
+	"github.com/team-ravl/civic-qa/service/account/internal/model"
 )
 
 const (

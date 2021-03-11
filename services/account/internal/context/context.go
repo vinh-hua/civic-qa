@@ -5,9 +5,9 @@ package context
 import (
 	"fmt"
 
-	"github.com/vivian-hua/civic-qa/service/account/internal/repository/session"
-	"github.com/vivian-hua/civic-qa/service/account/internal/repository/user"
-	"github.com/vivian-hua/civic-qa/services/common/config"
+	"github.com/team-ravl/civic-qa/service/account/internal/repository/session"
+	"github.com/team-ravl/civic-qa/service/account/internal/repository/user"
+	"github.com/team-ravl/civic-qa/services/common/config"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )

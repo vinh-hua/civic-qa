@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/vivian-hua/civic-qa/service/account/internal/model"
-	"github.com/vivian-hua/civic-qa/service/account/internal/repository/session"
-	common "github.com/vivian-hua/civic-qa/services/common/model"
+	"github.com/team-ravl/civic-qa/service/account/internal/model"
+	"github.com/team-ravl/civic-qa/service/account/internal/repository/session"
+	common "github.com/team-ravl/civic-qa/services/common/model"
 	"golang.org/x/crypto/bcrypt"
 )
 
