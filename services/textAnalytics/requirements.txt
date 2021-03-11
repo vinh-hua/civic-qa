@@ -1,0 +1,4 @@
+flask
+requests
+python-dotenv
+azure-ai-textanalytics --pre

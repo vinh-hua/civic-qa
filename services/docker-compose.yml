@@ -12,6 +12,7 @@ services:
       - ACCOUNT_SVC=http://account:8080
       - FORM_SVC=http://form:7070
       - MAILTO_SVC=http://mailto:6060
+     
     depends_on:
       - account
       - form
@@ -49,6 +50,8 @@ services:
       - AGG_ADDR=http://logaggregator:8888
       - DB_IMPL=sqlite
       - DB_DSN=/database/database.db
+      - ANALYTICS_ADDR=http://textanalytics:9090
+      - ANALYTICS_IMPL=v0
     volumes:
       - ./test_databases:/database
     restart: 
@@ -73,6 +76,18 @@ services:
     environment:
       - ADDR=:6060
       - AGG_ADDR=http://logaggregator:8888
+    restart: 
+      "on-failure"
+  textanalytics:
+    build: 
+      context: ./textanalytics
+      args:
+        - PORT=9090
+    environment:
+      - ADDR=9090
+      - ANALYTICS_IMPL=mock
+      - AZURE_TEXT_ANALYTICS_ENDPOINT=${AZURE_TEXT_ANALYTICS_ENDPOINT_ENV}
+      - COGNITIVE_SERVICE_KEY=${COGNITIVE_SERVICE_KEY_ENV}
     restart: 
       "on-failure"
 
