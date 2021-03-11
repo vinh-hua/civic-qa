@@ -9,12 +9,11 @@ paths:
     $ref: '../gateway.yml#/paths/~1forms'
   /forms/{formID}:
     $ref: '../gateway.yml#/paths/~1forms~1{formID}'
-  /forms/{formID}/responses:
-    $ref: '../gateway.yml#/paths/~1forms~1{formID}~1responses'
   /responses:
     $ref: '../gateway.yml#/paths/~1responses'
   /responses/{responseID}:
     $ref: '../gateway.yml#/paths/~1responses~1{responseID}'
+  
 
 
     
@@ -82,5 +81,10 @@ components:
         subject:
           type: string
         body:
-          type: string        
+          type: string     
+
+    tagRequest:
+      properties:
+        value:
+          type: string
 
