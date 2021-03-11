@@ -14,7 +14,6 @@ export function Tags(props: TagProps) {
     const [inputShow, setInputShow] = useState(false);
 
     function addNewTag() {
-        console.log(inputText);
         if (inputText.length > 0) {
             props.addTag(inputText);
         }

@@ -11,39 +11,6 @@ export type EngagementReportBarChartData = {
 export function EngagementReports() {
   const [engagementChartData, setEngagementChartData] = useState<EngagementReportBarChartData[]>();
 
-    const testData = [
-        {
-          name: 'Topic 1',
-          count: 250
-        },
-        {
-          name: 'Topic 2',
-          count: 170
-        },
-        {
-          name: 'Topic 3',
-          count: 192
-        },
-        {
-          name: 'Topic 4',
-          count: 32
-        },
-        {
-          name: 'Topic 5',
-          count: 45
-        }
-      ];
-
-    testData.sort((a, b) => {
-        if (a.count > b.count) {
-            return -1;
-        } else if (a.count < b.count) {
-            return 1;
-        } else {
-            return 0;
-        }
-    });
-
     const getTags = async() => {
       var authToken = localStorage.getItem("Authorization") || "";
       const response = await fetch(Endpoints.Testbase + Endpoints.Tags, {
@@ -92,7 +59,7 @@ export function EngagementReports() {
     return (
         <div className="dashboard sub-dashboard">
             <Header title="Engagement Reports"></Header>
-            <h2>Issues/Inquiries</h2>
+            <h2>Topics/Inquiries</h2>
             <BarChart
                 width={700}
                 height={500}
