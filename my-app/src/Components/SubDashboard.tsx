@@ -5,7 +5,7 @@ import './SubDashboard.css';
 import { EmailTemplateCard } from './EmailTemplateCard';
 
 export type SubDashboardData = {
-    id: string;
+    id?: string;
     name: string;
     value: any;
     body?: string;

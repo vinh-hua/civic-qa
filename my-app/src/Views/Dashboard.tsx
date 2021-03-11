@@ -10,6 +10,8 @@ export function Dashboard() {
     // stat cards data
     const [general, setGeneral] = useState(0);
     const [casework, setCasework] = useState(0);
+    const [totalTopics, setTotalTopics] = useState(0);
+
 
     const getGeneralResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
@@ -42,10 +44,31 @@ export function Dashboard() {
         const responsesCasework = await response.json();
         setCasework(responsesCasework.length);
     }
+
+    const getTags = async() => {
+        var authToken = localStorage.getItem("Authorization") || "";
+        const response = await fetch(Endpoints.Testbase + Endpoints.Tags, {
+            method: "GET",
+            headers: new Headers({
+                "Authorization": authToken
+            })
+        });
+        if (response.status >= 300) {
+            console.log("Error retrieving form responses");
+            return;
+        }
+        let uniqueTags = new Set();
+        const tags = await response.json();
+        tags.forEach((tag: any) => {
+            uniqueTags.add(tag);
+        });
+        setTotalTopics(uniqueTags.size);
+    }
     
     useEffect(() => {
         getGeneralResponses();
         getCaseworkResponses();
+        getTags();
     }, []);
 
     let statCards = [

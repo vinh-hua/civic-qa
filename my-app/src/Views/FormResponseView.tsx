@@ -16,7 +16,7 @@ export type FormResponseViewProps = {
 
 export function FormResponseView(props: FormResponseViewProps) {
     const [isResolved, setIsResolved] = useState(true);
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState<any[]>([]);
     const [messageResponse, setMessageResponse] = useState("");
 
     async function createMailto() {
@@ -50,8 +50,11 @@ export function FormResponseView(props: FormResponseViewProps) {
             return;
         }
         const tags = await response.json();
-        setTags(tags);
-        console.log(tags);
+        var tagList: any[] = [];
+        tags.forEach((tag: any) => {
+            tagList.push(tag.value);
+        });
+        setTags(tagList);
     }
 
     async function removeTag(tagValue: string) {
