@@ -120,7 +120,7 @@ export function General() {
                 <Header title="General Inquiries"></Header>
                 <SubDashboard title="TOP SUBJECTS" data={subjectsInquiries} changeViewFunc={specificView} emailTemplates={false} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
-                    <SubHeaderLine title="SUMMARY"></SubHeaderLine>
+                    <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Inquiries"}></SubHeaderLine>
                     <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>
                 </div>
             </div>

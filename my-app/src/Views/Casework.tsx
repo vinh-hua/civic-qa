@@ -129,7 +129,7 @@ export function Casework() {
                 <Header title="Casework"></Header>
                 <SubDashboard title="TOPIC" data={topicsCases} changeViewFunc={specificView} emailTemplates={false} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
-                    <SubHeaderLine title="SUMMARY"></SubHeaderLine>
+                    <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Cases"}></SubHeaderLine>
                     <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>
                 </div>
             </div>

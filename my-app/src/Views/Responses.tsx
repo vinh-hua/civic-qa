@@ -58,7 +58,7 @@ export function Responses(props: ResponsesProps) {
             {onResponseView ? <FormResponseView responseId={specificResponseData?.id || ""} title="Form Responses" subject={specificResponseData?.name || ""} body={specificResponseData?.body || ""} setSpecificView={setSpecificView}></FormResponseView> :
             <div>
                 <Header title={headerTitle}></Header>
-                <SubDashboard title={subjecTitle} data={props.data ? props.data : responseData} changeViewFunc={setSpecificResponseContent} emailTemplates={false} fullPageView={true} subHeaderNumber={props.data ? props.data.length : responseData.length}></SubDashboard>
+                <SubDashboard title={subjecTitle} data={props.data ? props.data : responseData} changeViewFunc={setSpecificResponseContent} emailTemplates={false} fullPageView={true} subHeaderValue={props.data ? props.data.length : responseData.length}></SubDashboard>
             </div>}
         </div>
     );
