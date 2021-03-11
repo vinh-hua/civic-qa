@@ -1,14 +1,13 @@
 import './Tag.css';
 
 export type TagProps = {
-    tagId: string;
-    name: string;
+    value: string;
 }
 
 export function Tag(props: TagProps) {
     return(
         <div className="tag">
-            <p className="tag-name">{"#" + props.name}</p>
+            <p className="tag-value">{"#" + props.value}</p>
             <button className="tag-remove-btn"><img src="./assets/icons/remove.png"></img></button>
         </div>
     );

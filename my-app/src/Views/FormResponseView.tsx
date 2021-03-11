@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { Tag } from '../Components/Tag';
-import { TagAdd } from '../Components/TagAdd';
+import { Tags } from '../Components/Tags';
 import * as Endpoints from '../Constants/Endpoints';
 import "./FormResponseView.css";
 
@@ -14,15 +14,9 @@ export type FormResponseViewProps = {
     setSpecificView: Function;
 };
 
-export type TagType = {
-    id: string;
-    name: string;
-}
-
 export function FormResponseView(props: FormResponseViewProps) {
     const [isResolved, setIsResolved] = useState(true);
-    const [tags, setTags] = useState<TagType[]>([{id: "1", name: "test"}]);
-    const [mailto, setMailto] = useState("mailto:");
+    const [tags, setTags] = useState([]);
     const [messageResponse, setMessageResponse] = useState("");
 
     async function createMailto() {
@@ -43,9 +37,9 @@ export function FormResponseView(props: FormResponseViewProps) {
         window.location.href = mailtoString;
     }
 
-    const getTags = async(id: string) => {
+    const getTags = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + id + Endpoints.ResponsesTags, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -55,26 +49,34 @@ export function FormResponseView(props: FormResponseViewProps) {
             console.log("Error retreiving response tags");
             return;
         }
-        let tagsList: TagType[] = [];
         const tags = await response.json();
-        tags.forEach(function(tag: any) {
-            tagsList.push({id: tag.id, name: tag.name});
-        });
-        setTags(tagsList);
+        setTags(tags);
+        console.log(tags);
     }
 
-    async function removeTag(responseId: string) {
+    async function removeTag(tagValue: string) {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + responseId + Endpoints.ResponsesTags, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
 
         });
     }
 
-    async function addTag(responseId: string) {
+    async function addTag(tagValue: string) {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + responseId + Endpoints.ResponsesTags, {
-
+        var tagJson = JSON.stringify({value: tagValue});
+        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
+            method: "POST",
+            body: tagJson,
+            headers: new Headers({
+                "Authorization": authToken,
+                "Content-Type": "application/json"
+            })
         });
+        if (response.status >= 300) {
+            console.log("Error creating tag");
+            return;
+        }
+        getTags();
     }
 
     const resolveResponse = async(id: string, isResolved: boolean) => {
@@ -98,20 +100,16 @@ export function FormResponseView(props: FormResponseViewProps) {
         resolveResponse(props.responseId, isResolved);
     }
 
-    let tagsList:any[] = [];
-    tags.forEach(function(tag) {
-        tagsList.push(<Tag tagId={tag.id} name={tag.name}></Tag>)
-    });
+    useEffect(() => {
+        getTags();
+    }, []);
 
     return(
         <div>
             <button className="exit-button" onClick={() => props.setSpecificView()}><img src="./assets/icons/back-arrow.png"></img></button>
             <Header title={props.title}></Header>
             <SubHeaderLine title={props.subject}></SubHeaderLine>
-            <div className="tags-container">
-                    {tagsList}
-                    <TagAdd></TagAdd>
-            </div>
+            <Tags addTag={addTag} values={tags}></Tags>
             <div className="form-response-container">
                 <div className="form-response">
                     <p className="form-response-body">{props.body}</p>
