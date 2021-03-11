@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/team-ravl/civic-qa/services/common/config"
+	"github.com/team-ravl/civic-qa/services/form/internal/analytics"
 	"github.com/team-ravl/civic-qa/services/form/internal/repository/form"
 	"github.com/team-ravl/civic-qa/services/form/internal/repository/response"
 	"github.com/team-ravl/civic-qa/services/form/internal/repository/tag"
@@ -16,6 +17,7 @@ type Context struct {
 	FormStore     form.Store
 	ResponseStore response.Store
 	TagStore      tag.Store
+	Analytics     analytics.Client
 }
 
 // BuildContext returns a handler Context given a config Provider
@@ -35,7 +37,17 @@ func BuildContext(cfg config.Provider) (*Context, error) {
 		return nil, err
 	}
 
-	return &Context{FormStore: formStore, ResponseStore: respStore, TagStore: tagStore}, nil
+	analyticsClient, err := getAnalyticsClient(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Context{
+		FormStore:     formStore,
+		ResponseStore: respStore,
+		TagStore:      tagStore,
+		Analytics:     analyticsClient,
+	}, nil
 }
 
 // getFormStoreImpl returns a form.Store implementation based on
@@ -86,5 +98,20 @@ func getTagStoreImpl(cfg config.Provider) (tag.Store, error) {
 		return respStore, nil
 	default:
 		return nil, fmt.Errorf("Unknown DB_IMPL: %s", dbImpl)
+	}
+}
+
+func getAnalyticsClient(cfg config.Provider) (analytics.Client, error) {
+	analyticsImpl := cfg.GetOrFallback("ANALYTICS_IMPL", "v0")
+	switch analyticsImpl {
+	case "v0":
+		analyticsAddr := cfg.GetOrFallback("ANALYTICS_ADDR", "http://localhost:9090")
+		analyticsClient, err := analytics.NewClientV0(analyticsAddr)
+		if err != nil {
+			return nil, err
+		}
+		return analyticsClient, nil
+	default:
+		return nil, fmt.Errorf("Unknown ANALYTICS_IMPL: %s", analyticsImpl)
 	}
 }

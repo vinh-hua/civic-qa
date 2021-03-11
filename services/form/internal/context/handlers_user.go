@@ -85,15 +85,30 @@ func (ctx *Context) HandlePostForm(w http.ResponseWriter, r *http.Request) {
 		FormID:       uint(formID),
 	}
 
+	// respond
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Thank you!"))
+
+	// get tags from analytics
+	tagsStrings, err := ctx.Analytics.GetKeyPhrases(response)
+	if err != nil {
+		log.Printf("Error calling analytics: %v", err)
+		tagsStrings = make([]string, 0)
+	}
+
+	// make tag structs
+	tags := make([]model.Tag, len(tagsStrings))
+	for i := range tagsStrings {
+		tags[i] = model.Tag{Value: tagsStrings[i]}
+	}
+
+	// insert the responses
+	response.Tags = tags
 	// store the response
 	err = ctx.ResponseStore.Create(response)
 	if err != nil {
 		log.Printf("Error storing response: %v", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
-	// respond
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Thank you!")) // TODO: replace with html, maybe include correlationID
 }

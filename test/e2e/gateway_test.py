@@ -292,10 +292,9 @@ class TestForm(unittest.TestCase):
         common.post_form_user(GATEWAY_URL, form["id"], common.generate_response())
         resp = common.get_responses_params(GATEWAY_URL, auth, {"formID": form["id"]})[0]
 
-        for _ in range(10):
-            common.make_tag(GATEWAY_URL, auth, resp["id"], common.randstr(5, 10))
+      
 
-        assert len(common.get_all_tags(GATEWAY_URL, auth)) == 10
+        assert len(common.get_all_tags(GATEWAY_URL, auth)) == 3
 
     def test_get_tags_response(self):
         print("Testing get tags by response id")
@@ -309,19 +308,14 @@ class TestForm(unittest.TestCase):
         resp1 = common.get_responses_params(GATEWAY_URL, auth, {"formID": form1["id"]})[0]
         resp2 = common.get_responses_params(GATEWAY_URL, auth, {"formID": form2["id"]})[0]
 
-        for _ in range(3):
-            common.make_tag(GATEWAY_URL, auth, resp1["id"], common.randstr(5, 10))
-        
-        for _ in range(5):
-            common.make_tag(GATEWAY_URL, auth, resp2["id"], common.randstr(5, 10))
 
         assert len(common.get_all_tags_response(GATEWAY_URL, auth, resp1["id"])) == 3
-        assert len(common.get_all_tags_response(GATEWAY_URL, auth, resp2["id"])) == 5
+        assert len(common.get_all_tags_response(GATEWAY_URL, auth, resp2["id"])) == 3
         assert len(common.get_response(GATEWAY_URL, auth, resp1["id"])["tags"]) == 3
-        assert len(common.get_response(GATEWAY_URL, auth, resp2["id"])["tags"]) == 5
+        assert len(common.get_response(GATEWAY_URL, auth, resp2["id"])["tags"]) == 3
 
         allresps = common.get_responses(GATEWAY_URL, auth)
-        assert sum([len(res["tags"]) for res in allresps]) == 8
+        assert sum([len(res["tags"]) for res in allresps]) == 6
 
 
 class TestMailto(unittest.TestCase):
@@ -357,4 +351,7 @@ class TestMailto(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+  
+
    
