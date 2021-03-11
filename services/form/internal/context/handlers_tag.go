@@ -10,20 +10,8 @@ import (
 	"github.com/vivian-hua/civic-qa/services/form/internal/model"
 )
 
-/*
-	/responses/{responseID}/tags:
-		GET:
-			get a list of tags on a given response
-
-		DELETE:
-			remove a tag to a response
-			schema:
-				{
-					value: string
-				}
-*/
-
 // HandleGetAllTags GET /tags
+// Allows an authenticated user to get a list of all tags on all responses
 func (ctx *Context) HandleGetAllTags(w http.ResponseWriter, r *http.Request) {
 	// get the auth user
 	userID, authErr := getAuthUserID(r)
@@ -66,6 +54,7 @@ func (ctx *Context) HandleGetAllTags(w http.ResponseWriter, r *http.Request) {
 }
 
 // HandleGetTags GET /responses/{responseID}/tags
+// Allows an authenticated user to get all tags to a specific response
 func (ctx *Context) HandleGetTags(w http.ResponseWriter, r *http.Request) {
 	// parse the URL parameter
 	vars := mux.Vars(r)
@@ -116,6 +105,7 @@ func (ctx *Context) HandleGetTags(w http.ResponseWriter, r *http.Request) {
 }
 
 // HandlePostTag POST /responses/{responseID}/tags
+// Allows an authenticated user to add a tag to a respoonse
 func (ctx *Context) HandlePostTag(w http.ResponseWriter, r *http.Request) {
 	// parse the URL parameter
 	vars := mux.Vars(r)
@@ -153,6 +143,7 @@ func (ctx *Context) HandlePostTag(w http.ResponseWriter, r *http.Request) {
 }
 
 // HandleDeleteTag DELETE /responses/{responseID}/tags
+// Allows an authenticated user to remove a tag from a response
 func (ctx *Context) HandleDeleteTag(w http.ResponseWriter, r *http.Request) {
 	// parse the URL parameter
 	vars := mux.Vars(r)
