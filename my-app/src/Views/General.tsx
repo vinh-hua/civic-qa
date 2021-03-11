@@ -111,7 +111,7 @@ export function General() {
         onSpecificView ? 
         <div> 
             <div className="dashboard sub-dashboard">
-                <button className="exit-button" onClick={initialView}><img src="./assets/icons/back-arrow.png"></img></button>
+                <button className="exit-button" onClick={initialView}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
             </div>
             <Responses header="General Inquiries" subjectTitle={specificViewTitle} data={specificSubjectData}></Responses>
         </div>

@@ -120,7 +120,7 @@ export function FormResponseView(props: FormResponseViewProps) {
 
     return(
         <div>
-            <button className="exit-button" onClick={() => props.setSpecificView()}><img src="./assets/icons/back-arrow.png"></img></button>
+            <button className="exit-button" onClick={() => props.setSpecificView()}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
             <Header title={props.title}></Header>
             <SubHeaderLine title={props.subject}></SubHeaderLine>
             <Tags addTag={addTag} removeTag={removeTag} values={tags}></Tags>

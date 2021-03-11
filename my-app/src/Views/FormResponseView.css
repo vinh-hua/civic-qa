@@ -6,6 +6,10 @@
     margin-top: 2.5%;
 }
 
+.back-arrow {
+    height: 30px;
+}
+
 .form-response-container {
     background-color: rgb(196, 196, 196, 0.2);
     text-align: left;

@@ -52,7 +52,7 @@ export function Tags(props: TagProps) {
                         <input ref={wrapperRef} className="tag-add-input" type="text" placeholder={"#"} onChange={e => setInputText(e.target.value)}></input>
                     </form>
                 </div>
-                : <button className="tag-add-btn" onClick={() => setInputShow(true)}><img src="./assets/icons/add.png"></img></button>}
+                : <button className="tag-add-btn" onClick={() => setInputShow(true)}><img className="icon" src="./assets/icons/plus.svg"></img></button>}
         </div>
     );
 }

@@ -120,7 +120,7 @@ export function Casework() {
         onSpecificView ? 
         <div> 
             <div className="dashboard sub-dashboard">
-                <button className="exit-button" onClick={initialView}><img src="./assets/icons/back-arrow.png"></img></button>
+                <button className="exit-button" onClick={initialView}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
             </div>
             <Responses header="Casework" subjectTitle={specificViewTitle} data={specificTopicsData}></Responses>
         </div>
