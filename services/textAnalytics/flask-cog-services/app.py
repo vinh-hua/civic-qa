@@ -54,7 +54,8 @@ def extract_key_phrases_api():
     try:
         resp = analyticsController.extract_keyphrases(text_input, NUM_TAGS)
         return jsonify(resp)
-    except Exception:
+    except Exception as e:
+        print(e.with_traceback(), file=sys.stderr)
         data = {'error': 'InternalServerError from Azure Analytics API - keyphrase'}
         return jsonify(data), 500
 
@@ -73,5 +74,5 @@ def extract_key_phrases_api():
 #         return jsonify(data), 500
 
 if __name__ == "__main__":
-    addr = os.getenv("ADDR", 6060)
+    addr = os.getenv("ADDR", 9090)
     app.run(host='0.0.0.0', port=addr)

@@ -10,8 +10,8 @@ class MockAnalytics:
 
     def extract_key_phrases(self, document):
         document = self.clean(document[0])
-        words = document.split(" ").sort(key=lambda word: len(word))
-
+        words = document.split(" ")
+        words.sort(key=lambda word: -len(word))
         return words
 
     def clean(self, document):
