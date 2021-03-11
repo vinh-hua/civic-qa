@@ -7,6 +7,7 @@ import (
 
 	"github.com/vivian-hua/civic-qa/services/form/internal/model"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 // GormStore implements response.Store
@@ -24,7 +25,7 @@ func NewGormStore(dialector gorm.Dialector, config *gorm.Config, exec ...string)
 	}
 
 	// perform schema migration
-	err = db.AutoMigrate(&common.User{}, &model.Form{}, &model.FormResponse{})
+	err = db.AutoMigrate(&common.User{}, &model.Form{}, &model.FormResponse{}, &model.Tag{})
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +54,7 @@ func (g *GormStore) Create(response *model.FormResponse) error {
 // GetByID retrieves a new FormResponse by its ID
 func (g *GormStore) GetByID(responseID uint) (*model.FormResponse, error) {
 	var response model.FormResponse
-	result := g.db.Take(&response, responseID)
+	result := g.db.Preload(clause.Associations).Take(&response, responseID)
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
 			return nil, ErrResponseNotFound
@@ -108,9 +109,11 @@ func (g *GormStore) GetResponses(userID uint, query Query) ([]*model.FormRespons
 
 	// execute the query
 	result := sess.
+		Preload(clause.Associations).
 		Joins("JOIN forms ON forms.ID = formResponses.formID").Where("forms.userID = ?", userID).
 		Order("formResponses.createdAt DESC").
 		Find(&responses)
+
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
 			return nil, ErrResponseNotFound

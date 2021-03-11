@@ -317,6 +317,11 @@ class TestForm(unittest.TestCase):
 
         assert len(common.get_all_tags_response(GATEWAY_URL, auth, resp1["id"])) == 3
         assert len(common.get_all_tags_response(GATEWAY_URL, auth, resp2["id"])) == 5
+        assert len(common.get_response(GATEWAY_URL, auth, resp1["id"])["tags"]) == 3
+        assert len(common.get_response(GATEWAY_URL, auth, resp2["id"])["tags"]) == 5
+
+        allresps = common.get_responses(GATEWAY_URL, auth)
+        assert sum([len(res["tags"]) for res in allresps]) == 8
 
 
 class TestMailto(unittest.TestCase):
@@ -352,3 +357,4 @@ class TestMailto(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+   

@@ -217,7 +217,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
+                  $ref: "form/api-v0.yml#/components/schemas/tag"
     post:
       summary: add a tag to a response
       parameters:
@@ -267,7 +267,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
+                  $ref: "form/api-v0.yml#/components/schemas/tag"
       
   # =================================  form/user  =================================
   /form/{formID}:
