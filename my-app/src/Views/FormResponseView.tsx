@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
-import { Tag } from '../Components/Tag';
 import { Tags } from '../Components/Tags';
 import * as Endpoints from '../Constants/Endpoints';
 import "./FormResponseView.css";
 
 export type FormResponseViewProps = {
     responseId: string;
+    email: string;
     title: string;
     subject: string;
     body: string;
@@ -20,7 +20,10 @@ export function FormResponseView(props: FormResponseViewProps) {
     const [messageResponse, setMessageResponse] = useState("");
 
     async function createMailto() {
-        var mailtoRequest = {to: ["test@test.com"], subject: props.subject, body: messageResponse};
+        var emails: string[] = [];
+        console.log(props.email);
+        emails.push(props.email);
+        var mailtoRequest = {to: emails, subject: props.subject, body: messageResponse};
         var jsonMailtoRequest = JSON.stringify(mailtoRequest);
         const response = await fetch(Endpoints.Testbase + Endpoints.Mailto, {
             method: "POST",

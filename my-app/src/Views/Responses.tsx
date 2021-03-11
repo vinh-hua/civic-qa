@@ -34,7 +34,7 @@ export function Responses(props: ResponsesProps) {
         forms.forEach(function(formResponse: any) {
             var d = new Date(formResponse.createdAt);
             var t = d.toLocaleString("en-US");
-            formResponses.push({id: formResponse.id, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body});
+            formResponses.push({id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body});
         });
         setData(formResponses);
     }
@@ -55,7 +55,7 @@ export function Responses(props: ResponsesProps) {
     
     return (
         <div className="dashboard sub-dashboard">
-            {onResponseView ? <FormResponseView responseId={specificResponseData?.id || ""} title="Form Responses" subject={specificResponseData?.name || ""} body={specificResponseData?.body || ""} setSpecificView={setSpecificView}></FormResponseView> :
+            {onResponseView ? <FormResponseView responseId={specificResponseData?.id || ""} email={specificResponseData?.email || ""} title="Form Responses" subject={specificResponseData?.name || ""} body={specificResponseData?.body || ""} setSpecificView={setSpecificView}></FormResponseView> :
             <div>
                 <Header title={headerTitle}></Header>
                 <SubDashboard title={subjecTitle} data={props.data ? props.data : responseData} changeViewFunc={setSpecificResponseContent} emailTemplates={false} fullPageView={true} subHeaderValue={props.data ? props.data.length : responseData.length}></SubDashboard>

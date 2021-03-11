@@ -37,7 +37,7 @@ export function General() {
             var d = new Date(formResponse.createdAt);
             var t = d.toLocaleString("en-US");
             var subjects = formResponse.tags;
-            var data: SubDashboardData = {id: formResponse.id, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
+            var data: SubDashboardData = {id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
 
             subjects.forEach((subject: any) => {
                 if (subjectsMap.has(subject.value)) {
