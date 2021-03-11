@@ -19,3 +19,9 @@ type NewFormResponse struct {
 type PatchResponse struct {
 	Active bool `json:"active"`
 }
+
+// TagRequest is a model for a request
+// to create or delete a tag
+type TagRequest struct {
+	Value string `json:"value"`
+}
