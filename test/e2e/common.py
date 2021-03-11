@@ -3,6 +3,7 @@ import requests
 import string
 from urllib.parse import urlencode
 
+RAND_STRS = string.ascii_lowercase
 
 def randstr(low, high=None):
         # default high == low
@@ -96,11 +97,11 @@ def generate_response():
         "email": f"{randstr(6,12)}@example.com",
         "inquiryType": random.choice(["general", "casework"]),
         "subject": randstr(8, 20),
-        "body": randstr(20, 45)
+        "body": " ".join([randstr(2, 9) for _ in range(random.randint(5, 10))])
     }
 
-def post_form_user(URL, form_id, form_dict):
-    resp = requests.post(URL+"/form/"+str(form_id), data=form_dict)
+def post_form_user(URL, form_id, resp_dict):
+    resp = requests.post(URL+"/form/"+str(form_id), data=resp_dict)
     if resp.status_code != 200:
         raise ValueError(f"Status code: {resp.status_code} | error: {resp.text}")
 
