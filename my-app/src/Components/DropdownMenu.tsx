@@ -24,7 +24,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
         <div>
             <button className="dropdown-menu-btn" onClick={() => toggleMenu(showMenu => !showMenu)}>
                 <p className="dropdown-menu-btn-text">{props.chartView}</p>
-                {showMenu ? <img className="dropdown-menu-arrow" src="./assets/icons/up-arrow.png" /> : <img className="dropdown-menu-arrow" src="./assets/icons/down-arrow.svg" />}
+                {showMenu ? <img className="dropdown-menu-arrow rotate-arrow" src="./assets/icons/down-arrow.svg" /> : <img className="dropdown-menu-arrow" src="./assets/icons/down-arrow.svg" />}
             </button>
             {showMenu ? 
                 <div className="menu">
