@@ -16,6 +16,7 @@ Services: `docs/services/{service-name}/api-v{major-version}.yml`
 ### Run locally
 - Requirements:
     - Go 1.15
+    - gcc 
     - Docker
     - GNU Make
 - Steps:
