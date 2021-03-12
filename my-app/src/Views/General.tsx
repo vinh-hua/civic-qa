@@ -37,7 +37,7 @@ export function General() {
             var d = new Date(formResponse.createdAt);
             var t = d.toLocaleString("en-US");
             var subjects = formResponse.tags;
-            var data: SubDashboardData = {id: formResponse.id, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
+            var data: SubDashboardData = {id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
 
             subjects.forEach((subject: any) => {
                 if (subjectsMap.has(subject.value)) {
@@ -58,7 +58,11 @@ export function General() {
 
         var inquiries: SubDashboardData[] = [];
         Array.from(subjectsInquiries.keys()).forEach((key) => {
-            inquiries.push({name: key, value: subjectsInquiries.get(key) + " inquiries"});
+            var subText = " inquiry";
+            if ((subjectsInquiries.get(key) || 0) > 1) {
+                subText = " inquiries";
+            }
+            inquiries.push({name: key, value: subjectsInquiries.get(key) + subText});
         });
 
         inquiries.sort((a, b) => (a.value > b.value) ? -1 : (a.value === b.value) ? -1 : 1);
@@ -111,7 +115,7 @@ export function General() {
         onSpecificView ? 
         <div> 
             <div className="dashboard sub-dashboard">
-                <button className="exit-button" onClick={initialView}><img src="./assets/icons/back-arrow.png"></img></button>
+                <button className="exit-button" onClick={initialView}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
             </div>
             <Responses header="General Inquiries" subjectTitle={specificViewTitle} data={specificSubjectData}></Responses>
         </div>
@@ -120,7 +124,7 @@ export function General() {
                 <Header title="General Inquiries"></Header>
                 <SubDashboard title="TOP SUBJECTS" data={subjectsInquiries} changeViewFunc={specificView} emailTemplates={false} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
-                    <SubHeaderLine title="SUMMARY"></SubHeaderLine>
+                    <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Inquiries"}></SubHeaderLine>
                     <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>
                 </div>
             </div>

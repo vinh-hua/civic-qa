@@ -50,7 +50,7 @@ export function EngagementReports() {
       });
 
       setEngagementChartData(engagementChartData);
-  }
+    }
 
     useEffect(() => {
         getTags();

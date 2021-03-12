@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
-import { Tag } from '../Components/Tag';
 import { Tags } from '../Components/Tags';
 import * as Endpoints from '../Constants/Endpoints';
 import "./FormResponseView.css";
 
 export type FormResponseViewProps = {
     responseId: string;
+    email: string;
     title: string;
     subject: string;
     body: string;
@@ -20,7 +20,7 @@ export function FormResponseView(props: FormResponseViewProps) {
     const [messageResponse, setMessageResponse] = useState("");
 
     async function createMailto() {
-        var mailtoRequest = {to: ["test@test.com"], subject: props.subject, body: messageResponse};
+        var mailtoRequest = {to: [props.email], subject: props.subject, body: messageResponse};
         var jsonMailtoRequest = JSON.stringify(mailtoRequest);
         const response = await fetch(Endpoints.Testbase + Endpoints.Mailto, {
             method: "POST",
@@ -120,7 +120,7 @@ export function FormResponseView(props: FormResponseViewProps) {
 
     return(
         <div>
-            <button className="exit-button" onClick={() => props.setSpecificView()}><img src="./assets/icons/back-arrow.png"></img></button>
+            <button className="exit-button" onClick={() => props.setSpecificView()}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
             <Header title={props.title}></Header>
             <SubHeaderLine title={props.subject}></SubHeaderLine>
             <Tags addTag={addTag} removeTag={removeTag} values={tags}></Tags>

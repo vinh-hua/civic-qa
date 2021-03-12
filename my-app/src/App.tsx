@@ -67,7 +67,7 @@ export default function App() {
                 </div>
                 <ul>
                 <li>{path =="/settings" ? <img className="icon" src="./assets/icons/settings-active.svg"/> : <img className="icon" src="./assets/icons/settings.svg"/>}<NavLink className="nav-link" activeClassName="active-link" to="/settings">{Constants.Settings}</NavLink></li>
-                  <li><img src="./assets/icons/logout.png"/><button className="logout-btn" onClick={userLogout}>{Constants.Logout}</button></li>
+                  <li><img className="icon" src="./assets/icons/logout.svg"/><button className="logout-btn" onClick={userLogout}>{Constants.Logout}</button></li>
                 </ul>
               </nav>
             </div>

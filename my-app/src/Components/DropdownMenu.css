@@ -19,5 +19,10 @@
 }
 
 .dropdown-menu-arrow {
+    width: 20px;
     float: right;
+}
+
+.rotate-arrow {
+    transform: rotate(180deg);
 }

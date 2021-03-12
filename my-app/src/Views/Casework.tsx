@@ -47,7 +47,7 @@ export function Casework() {
             var d = new Date(formResponse.createdAt);
             var t = d.toLocaleString("en-US");
             var topics = formResponse.tags;
-            var data: SubDashboardData = {id: formResponse.id, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
+            var data: SubDashboardData = {id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
 
             topics.forEach((topic: any) => {
                 if (topicsMap.has(topic.value)) {
@@ -68,7 +68,11 @@ export function Casework() {
 
         var cases: SubDashboardData[] = [];
         Array.from(topicsCases.keys()).forEach((key) => {
-            cases.push({name: key, value: topicsCases.get(key) + " cases"});
+            var subText = " case";
+            if ((topicsCases.get(key) || 0) > 1) {
+                subText = " cases";
+            }
+            cases.push({name: key, value: topicsCases.get(key) + subText});
         })
 
         cases.sort((a, b) => (a.value > b.value) ? -1 : (a.value === b.value) ? -1 : 1);
@@ -120,7 +124,7 @@ export function Casework() {
         onSpecificView ? 
         <div> 
             <div className="dashboard sub-dashboard">
-                <button className="exit-button" onClick={initialView}><img src="./assets/icons/back-arrow.png"></img></button>
+                <button className="exit-button" onClick={initialView}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
             </div>
             <Responses header="Casework" subjectTitle={specificViewTitle} data={specificTopicsData}></Responses>
         </div>
@@ -129,7 +133,7 @@ export function Casework() {
                 <Header title="Casework"></Header>
                 <SubDashboard title="TOPIC" data={topicsCases} changeViewFunc={specificView} emailTemplates={false} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
-                    <SubHeaderLine title="SUMMARY"></SubHeaderLine>
+                    <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Cases"}></SubHeaderLine>
                     <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>
                 </div>
             </div>

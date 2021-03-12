@@ -6,6 +6,7 @@ import { EmailTemplateCard } from './EmailTemplateCard';
 
 export type SubDashboardData = {
     id?: string;
+    email?: string;
     name: string;
     value: any;
     body?: string;
@@ -17,7 +18,7 @@ export type SubDashboardProps = {
     changeViewFunc: Function;
     emailTemplates: boolean;
     fullPageView: boolean;
-    subHeaderNumber?: number;
+    subHeaderValue?: any;
 };
 
 export function SubDashboard(props: SubDashboardProps) {
@@ -31,7 +32,7 @@ export function SubDashboard(props: SubDashboardProps) {
     return (
         <div>
             <div>
-                <SubHeaderLine title={props.title} subHeaderNumber={props.subHeaderNumber ? props.subHeaderNumber : undefined}></SubHeaderLine>
+                <SubHeaderLine title={props.title} subHeaderValue={props.subHeaderValue ? props.subHeaderValue : undefined}></SubHeaderLine>
                 {props.fullPageView ? 
                 <div className="sub-dash-cards-700">
                     {cards}
