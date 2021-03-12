@@ -20,10 +20,7 @@ export function FormResponseView(props: FormResponseViewProps) {
     const [messageResponse, setMessageResponse] = useState("");
 
     async function createMailto() {
-        var emails: string[] = [];
-        console.log(props.email);
-        emails.push(props.email);
-        var mailtoRequest = {to: emails, subject: props.subject, body: messageResponse};
+        var mailtoRequest = {to: [props.email], subject: props.subject, body: messageResponse};
         var jsonMailtoRequest = JSON.stringify(mailtoRequest);
         const response = await fetch(Endpoints.Testbase + Endpoints.Mailto, {
             method: "POST",
