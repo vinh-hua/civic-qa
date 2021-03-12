@@ -58,7 +58,11 @@ export function General() {
 
         var inquiries: SubDashboardData[] = [];
         Array.from(subjectsInquiries.keys()).forEach((key) => {
-            inquiries.push({name: key, value: subjectsInquiries.get(key) + " inquiries"});
+            var subText = " inquiry";
+            if ((subjectsInquiries.get(key) || 0) > 1) {
+                subText = " inquiries";
+            }
+            inquiries.push({name: key, value: subjectsInquiries.get(key) + subText});
         });
 
         inquiries.sort((a, b) => (a.value > b.value) ? -1 : (a.value === b.value) ? -1 : 1);
