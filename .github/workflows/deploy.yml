@@ -1,3 +1,5 @@
+name: Deploy
+
 on:
   workflow_dispatch:
     
@@ -12,9 +14,8 @@ jobs:
     - name: checkout
       uses: actions/checkout@v2
       with:
-          ref: features/deploy
-          token: ${{ secrets.PAT_TOKEN }}
-    - uses: actions/checkout@master
+        ref: features/deploy
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: SCP docker-compose file
       uses: appleboy/scp-action@master
       with:
