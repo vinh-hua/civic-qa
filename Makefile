@@ -1,4 +1,4 @@
 
 
-DEFAULT:
-	@echo "No recipes yet! :)"
+PROD:
+	act -s SSH_HOST=${SSH_HOST} DB_DSN=${DB_DSN} SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY} -j deploy

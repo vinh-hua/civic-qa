@@ -1,3 +1,6 @@
+# secrets
+secrets.env
+
 # Executables
 *.exe
 
