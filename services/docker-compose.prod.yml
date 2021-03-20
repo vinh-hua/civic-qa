@@ -1,0 +1,119 @@
+version: "3.9"
+services:
+
+  gateway:
+    image: ${DOCKER_USER}/gateway
+    build: 
+      context: ./gateway
+      args:
+        - PORT=80 
+    ports:
+      - "80:80"
+    environment:
+      - ADDR=:80
+      - AGG_ADDR=http://logaggregator:8888
+      - ACCOUNT_SVC=http://account:8080
+      - FORM_SVC=http://form:7070
+      - MAILTO_SVC=http://mailto:6060
+    depends_on:
+      - account
+      - form
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+
+  account:
+    image: ${DOCKER_USER}/account
+    build: 
+      context: ./account
+      args:
+        - PORT=8080
+    environment:
+      - ADDR=:8080
+      - AGG_ADDR=http://logaggregator:8888
+      - DB_IMPL=mysql
+      - DB_DSN=${DB_DSN}
+      - SESS_IMPL=redis
+      - REDIS_ADDR=redis:6379
+    depends_on:
+      - redis
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+
+  redis:
+    image: "redis"
+    restart: 
+      "on-failure"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: "on-failure"
+
+  form:
+    image: ${DOCKER_USER}/form
+    build: 
+      context: ./form
+      args:
+        - PORT=7070
+    environment:
+      - ADDR=:7070
+      - AGG_ADDR=http://logaggregator:8888
+      - DB_IMPL=mysql
+      - DB_DSN=${DB_DSN}
+      - ANALYTICS_ADDR=http://textanalytics:9090
+      - ANALYTICS_IMPL=v0
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+        
+  logaggregator:
+    image: ${DOCKER_USER}/logaggregator
+    build: 
+      context: ./logAggregator
+      args:
+        - PORT=8888
+    environment:
+      - ADDR=:8888
+      - DB_DSN=/database/logs.db
+    volumes:
+      - ./test_databases:/database
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: "on-failure"
+
+  mailto:
+    image: ${DOCKER_USER}/mailto
+    build:
+      context: ./mailto
+      args:
+        - PORT=6060
+    environment:
+      - ADDR=:6060
+      - AGG_ADDR=http://logaggregator:8888
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+      
+  textanalytics:
+    image: ${DOCKER_USER}/textanalytics
+    build: 
+      context: ./textanalytics
+      args:
+        - PORT=9090
+    environment:
+      - ADDR=9090
+      - ANALYTICS_IMPL=mock
+      - AZURE_TEXT_ANALYTICS_ENDPOINT=${AZURE_TEXT_ANALYTICS_ENDPOINT_ENV}
+      - COGNITIVE_SERVICE_KEY=${COGNITIVE_SERVICE_KEY_ENV}
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+
+    

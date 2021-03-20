@@ -11,6 +11,9 @@ jobs:
    steps:
     - name: checkout
       uses: actions/checkout@v2
+      with:
+          ref: features/deploy
+          token: ${{ secrets.PAT_TOKEN }}
     - name: Deploy to swarm
       uses: sagebind/docker-swarm-deploy-action@v2
       with:
