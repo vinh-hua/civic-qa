@@ -1,4 +1,5 @@
 # secrets
+build.sh
 deploy.sh
 secrets.env
 

@@ -24,7 +24,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "services/docker-compose.prod.yml"
         target: "/root"
-    - name: multiple command
+    - name: deploy stack
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -35,4 +35,6 @@ jobs:
           export DB_DSN_LOGS="${{ secrets.DB_DSN_LOGS }}"
           export DOCKER_USER="${{ secrets.DOCKER_USER }}"
           docker stack deploy --compose-file services/docker-compose.prod.yml civicqa
+          docker service ls
+
 
