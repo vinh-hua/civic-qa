@@ -78,9 +78,8 @@ services:
         - PORT=8888
     environment:
       - ADDR=:8888
-      - DB_DSN=/database/logs.db
-    volumes:
-      - ./test_databases:/database
+      - DB_IMPL=mysql
+      - DB_DSN=${DB_DSN_LOGS}
     deploy:
       replicas: 1
       restart_policy:

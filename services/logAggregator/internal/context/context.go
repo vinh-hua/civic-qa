@@ -1,12 +1,13 @@
 package context
 
 import (
-	"encoding/json"
-	"log"
-	"net/http"
+	"errors"
 
-	"github.com/team-ravl/civic-qa/services/logAggregator/internal/model"
+	"github.com/team-ravl/civic-qa/services/common/config"
 	"github.com/team-ravl/civic-qa/services/logAggregator/internal/repository"
+	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 // Context stores handler context information for logAggregator
@@ -14,59 +15,31 @@ type Context struct {
 	Repo *repository.LogRepository
 }
 
-// HandleLog handles a Log request
-func (ctx *Context) HandleLog(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Expected: POST", http.StatusMethodNotAllowed)
-		return
-	}
-
-	// Parse request
-	var logReq model.LogEntry
-	err := json.NewDecoder(r.Body).Decode(&logReq)
+func BuildContext(cfg config.Provider) (*Context, error) {
+	logRepo, err := getLogRepositoryImpl(cfg)
 	if err != nil {
-		log.Printf("Failed to parse Log request: %v\n", err)
-		http.Error(w, "Malformed Request", http.StatusBadRequest)
-		return
+		return nil, err
 	}
-
-	// Create log entry
-	logErr := ctx.Repo.Log(logReq)
-	if err != nil {
-		log.Printf("Failed to Log: %v\n", logErr.Err)
-		http.Error(w, "Failed to log", http.StatusInternalServerError)
-		return
-	}
-
-	w.WriteHeader(http.StatusCreated)
+	return &Context{Repo: logRepo}, nil
 }
 
-// HandleQuery handles a query request
-func (ctx *Context) HandleQuery(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Expected: POST", http.StatusMethodNotAllowed)
-		return
+func getLogRepositoryImpl(cfg config.Provider) (*repository.LogRepository, error) {
+	dbImpl := cfg.GetOrFallback("DB_IMPL", "sqlite")
+	dbDsn := cfg.GetOrFallback("DB_DSN_LOGS", "logs.db")
+	switch dbImpl {
+	case "sqlite":
+		logRepo, err := repository.NewLogRepository(sqlite.Open(dbDsn), &gorm.Config{})
+		if err != nil {
+			return nil, err
+		}
+		return logRepo, nil
+	case "mysql":
+		logRepo, err := repository.NewLogRepository(mysql.Open(dbDsn), &gorm.Config{})
+		if err != nil {
+			return nil, err
+		}
+		return logRepo, nil
+	default:
+		return nil, errors.New("Unknown DB_IMPL")
 	}
-
-	// Parse request
-	var queryReq model.LogQuery
-	err := json.NewDecoder(r.Body).Decode(&queryReq)
-	if err != nil {
-		log.Printf("Failed to parse query request: %v\n", err)
-		http.Error(w, "Malformed Request", http.StatusBadRequest)
-		return
-	}
-
-	// Query
-	result, queryErr := ctx.Repo.Query(queryReq)
-	if err != nil {
-		log.Printf("Failed to query: %v\n", queryErr.Err)
-		http.Error(w, "Failed to query", http.StatusBadRequest)
-		return
-	}
-
-	// Return results
-	w.Header().Set("content-type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(&result)
 }
