@@ -102,7 +102,7 @@ services:
   textanalytics:
     image: ${DOCKER_USER}/textanalytics
     build: 
-      context: ./textanalytics
+      context: ./textAnalytics
       args:
         - PORT=9090
     environment:

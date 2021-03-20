@@ -26,14 +26,11 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USER }} 
         password: ${{ secrets.DOCKER_TOKEN }} 
-    - name: make push_prod
+    - name: build and push containers
       run: |
-        pwd
-        ls
-        cd ./services
-        pwd
-        ls
-        make push_prod
+        cd services
+        docker-compose -f docker-compose.prod.yml build
+        docker-compose -f docker-compose.prod.yml push
 
 
       

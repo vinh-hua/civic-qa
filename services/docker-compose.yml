@@ -81,7 +81,7 @@ services:
       "on-failure"
   textanalytics:
     build: 
-      context: ./textanalytics
+      context: ./textAnalytics
       args:
         - PORT=9090
     environment:
