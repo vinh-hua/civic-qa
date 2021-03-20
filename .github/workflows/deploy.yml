@@ -14,12 +14,23 @@ jobs:
       with:
           ref: features/deploy
           token: ${{ secrets.PAT_TOKEN }}
-    - name: Deploy to swarm
-      uses: sagebind/docker-swarm-deploy-action@v2
+    - uses: actions/checkout@master
+    - name: SCP docker-compose file
+      uses: appleboy/scp-action@master
       with:
-        remote_host: ${{ secrets.SSH_HOST }}
-        ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-        #ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
-        args: stack deploy --compose-file ./services/docker-compose.prod.yml civicqa
-        
+        host: ${{ secrets.SSH_HOST }}
+        username: root
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: "./services/docker-compose.prod.yml"
+        target: "/root"
+    - name: multiple command
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: root
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          export DB_DSN="${{ secrets.DB_DSN }}"
+          export DOCKER_USER="${{ secrets.DOCKER_USER }}"
+          docker stack deploy --compose-file docker-compose.prod.yml civicqa
 

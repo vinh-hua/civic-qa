@@ -1,4 +1,5 @@
 # secrets
+deploy.sh
 secrets.env
 
 # Executables
