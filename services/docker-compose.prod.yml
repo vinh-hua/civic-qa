@@ -79,7 +79,7 @@ services:
     environment:
       - ADDR=:8888
       - DB_IMPL=mysql
-      - DB_DSN=${DB_DSN_LOGS}
+      - DB_DSN_LOGS=${DB_DSN_LOGS}
     deploy:
       replicas: 1
       restart_policy:
