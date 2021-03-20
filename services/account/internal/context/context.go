@@ -8,6 +8,8 @@ import (
 	"github.com/team-ravl/civic-qa/service/account/internal/repository/session"
 	"github.com/team-ravl/civic-qa/service/account/internal/repository/user"
 	"github.com/team-ravl/civic-qa/services/common/config"
+
+	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -63,6 +65,14 @@ func getUserStoreImpl(cfg config.Provider) (user.Store, error) {
 	switch dbImpl {
 	case "sqlite":
 		store, err := user.NewGormStore(sqlite.Open(dbDsn), &gorm.Config{}, "PRAGMA foreign_keys = ON;")
+		if err != nil {
+			return nil, err
+		}
+
+		return store, nil
+
+	case "mysql":
+		store, err := user.NewGormStore(mysql.Open(dbDsn), &gorm.Config{})
 		if err != nil {
 			return nil, err
 		}

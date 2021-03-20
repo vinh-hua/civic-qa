@@ -1,4 +1,5 @@
 github.com/felixge/httpsnoop v1.0.1/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=
+github.com/go-sql-driver/mysql v1.5.0 h1:ozyZYNQW3x3HtqT1jira07DN2PArx2v7/mN66gGcHOs=
 github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/google/uuid v1.2.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/gorilla/handlers v1.5.1/go.mod h1:t8XrUpc4KVXb7HGyJ4/cEnwQiaxrX/hz1Zv/4g96P1Q=
@@ -19,6 +20,7 @@ github.com/team-ravl/civic-qa/services/logAggregator v0.0.0-20210301202124-142c5
 github.com/team-ravl/civic-qa/services/logAggregator v0.0.0-20210301202124-142c59451b9f/go.mod h1:GNWDpzM0gSvDeMzJ4Io2QPPZ7a4aN3c26ccnY63aZjY=
 github.com/urfave/negroni v1.0.0 h1:kIimOitoypq34K7TG7DUaJ9kq/N4Ofuwi1sjz0KipXc=
 github.com/urfave/negroni v1.0.0/go.mod h1:Meg73S6kFm/4PpbYdq35yYWoCZ9mS/YSx+lKnmiohz4=
+gorm.io/driver/mysql v1.0.5 h1:WAAmvLK2rG0tCOqrf5XcLi2QUwugd4rcVJ/W3aoon9o=
 gorm.io/driver/mysql v1.0.5/go.mod h1:N1OIhHAIhx5SunkMGqWbGFVeh4yTNWKmMo1GOAsohLI=
 gorm.io/driver/sqlite v1.1.4 h1:PDzwYE+sI6De2+mxAneV9Xs11+ZyKV6oxD3wDGkaNvM=
 gorm.io/driver/sqlite v1.1.4/go.mod h1:mJCeTFr7+crvS+TRnWc5Z3UvwxUN1BGBLMrf5LA9DYw=

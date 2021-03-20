@@ -9,6 +9,7 @@ require (
 	github.com/team-ravl/civic-qa/services/common v0.0.0
 	github.com/team-ravl/civic-qa/services/logAggregator v0.0.0-20210227211936-aef745c47c5f
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83
+	gorm.io/driver/mysql v1.0.5
 	gorm.io/driver/sqlite v1.1.4
 	gorm.io/gorm v1.21.3
 )
