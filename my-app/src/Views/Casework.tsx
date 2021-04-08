@@ -21,7 +21,7 @@ export function Casework() {
 
 
     const getResponses = async() => {
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.ResponsesActiveCasework, {
             method: "GET",
             headers: new Headers({
                 "Authorization": auth

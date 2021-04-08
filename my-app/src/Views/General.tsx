@@ -20,7 +20,7 @@ export function General() {
     const [summaryTopics, setSummaryTopics] = useState(0);
 
     const getResponses = async() => {
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.ResponsesActiveGeneral, {
             method: "GET",
             headers: new Headers({
                 "Authorization": auth

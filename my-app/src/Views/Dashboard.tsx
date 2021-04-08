@@ -17,7 +17,7 @@ export function Dashboard() {
 
 
     const getGeneralResponses = async() => {
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.ResponsesActiveGeneral, {
             method: "GET",
             headers: new Headers({
                 "Authorization": auth
@@ -32,7 +32,7 @@ export function Dashboard() {
     }
 
     const getCaseworkResponses = async() => {
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework, {
+        const response = await fetch(Endpoints.Testbase + Endpoints.ResponsesActiveCasework, {
             method: "GET",
             headers: new Headers({
                 "Authorization": auth
