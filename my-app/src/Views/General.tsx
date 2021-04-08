@@ -4,9 +4,12 @@ import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { StatCardRow } from '../Components/StatCardRow';
 import { Responses } from './Responses';
+import { useSelector } from 'react-redux';
+import { AppState } from '../Redux/Reducers/rootReducer'
 import * as Endpoints from '../Constants/Endpoints';
 
 export function General() {
+    const { auth } = useSelector((state: AppState) => state.auth);
     const [onSpecificView, setSpecificView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
     const [specificSubjectData, setSpecificSubjectData] = useState<SubDashboardData[]>([]);
@@ -17,11 +20,10 @@ export function General() {
     const [summaryTopics, setSummaryTopics] = useState(0);
 
     const getResponses = async() => {
-        var authToken = localStorage.getItem("Authorization") || "";
         const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral, {
             method: "GET",
             headers: new Headers({
-                "Authorization": authToken
+                "Authorization": auth
             })
         });
         if (response.status >= 300) {
@@ -74,11 +76,10 @@ export function General() {
     }
 
     const getResponsesToday = async() => {
-        var authToken = localStorage.getItem("Authorization") || "";
         const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral + "&" + Endpoints.ResponsesTodayOnly, {
             method: "GET",
             headers: new Headers({
-                "Authorization": authToken
+                "Authorization": auth
             })
         });
         if (response.status >= 300) {

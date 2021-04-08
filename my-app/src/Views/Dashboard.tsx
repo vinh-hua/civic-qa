@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { StatCardRow } from '../Components/StatCardRow';
 import { DashboardChartStats } from '../Dashboard/DashboardChartStats';
+import { useSelector } from 'react-redux';
+import { AppState } from '../Redux/Reducers/rootReducer'
 import * as Constants from '../Constants/Constants';
 import * as Endpoints from '../Constants/Endpoints';
 import './Dashboard.css';
 
 // currently using dummy data for StatCards and LineChart
 export function Dashboard() {
+    const { auth } = useSelector((state: AppState) => state.auth);
     // stat cards data
     const [general, setGeneral] = useState(0);
     const [casework, setCasework] = useState(0);
@@ -14,11 +17,10 @@ export function Dashboard() {
 
 
     const getGeneralResponses = async() => {
-        var authToken = localStorage.getItem("Authorization") || "";
         const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral, {
             method: "GET",
             headers: new Headers({
-                "Authorization": authToken
+                "Authorization": auth
             })
         });
         if (response.status >= 300) {
@@ -30,11 +32,10 @@ export function Dashboard() {
     }
 
     const getCaseworkResponses = async() => {
-        var authToken = localStorage.getItem("Authorization") || "";
         const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework, {
             method: "GET",
             headers: new Headers({
-                "Authorization": authToken
+                "Authorization": auth
             })
         });
         if (response.status >= 300) {
@@ -46,11 +47,10 @@ export function Dashboard() {
     }
 
     const getTags = async() => {
-        var authToken = localStorage.getItem("Authorization") || "";
         const response = await fetch(Endpoints.Testbase + Endpoints.Tags, {
             method: "GET",
             headers: new Headers({
-                "Authorization": authToken
+                "Authorization": auth
             })
         });
         if (response.status >= 300) {

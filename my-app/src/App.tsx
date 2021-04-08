@@ -14,14 +14,20 @@ import * as Constants from './Constants/Constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from './Redux/Reducers/rootReducer'
 import { PathActions } from './Redux/Actions/pathActions';
+import { AuthActions } from './Redux/Actions/authActions';
 
 export default function App() {
-  const authToken = localStorage.getItem("Authorization");
-  const [auth, setAuth] = useState((authToken != "") && (authToken != null));
   const location = useLocation();
 
+  const { auth } = useSelector((state: AppState) => state.auth);
   const { path } = useSelector((state: AppState) => state.path);
+
+  const authDispatch = useDispatch<Dispatch<AuthActions>>();
   const pathDispatch = useDispatch<Dispatch<PathActions>>();
+
+  const handleSetAuth = (auth: string) => {
+    authDispatch({type: 'SET_AUTH', payload: auth})
+  }
 
   const handleSetPath = (path: string) => {
     pathDispatch({type: 'SET_PATH', payload: path})
@@ -33,23 +39,22 @@ export default function App() {
 
   const userLogout = async(e: any) => {
     e.preventDefault();
-    var authToken = localStorage.getItem("Authorization") || "";
     const response = await fetch("http://localhost/v0/logout", {
       method: "POST",
       headers: new Headers({
-          "Authorization": authToken
+          "Authorization": auth
       })
     });
     if (response.status >= 300) {
       console.log("Failed to logout");
     }
-    localStorage.removeItem("Authorization");
-    setAuth(false);
+    // localStorage.removeItem("Authorization");
+    handleSetAuth('');
   }
 
   function userLogin(authToken: string) {
     localStorage.setItem("Authorization", authToken);
-    setAuth(true);
+    handleSetAuth(authToken);
   }
 
   return (
