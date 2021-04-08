@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState, Dispatch} from "react";
 import { Route, NavLink, Redirect, useLocation } from "react-router-dom";
 import { ProfileHeader } from "./Profile/ProfileHeader";
 import { Dashboard } from './Views/Dashboard';
@@ -7,19 +7,28 @@ import { General } from './Views/General';
 import { Casework } from './Views/Casework';
 import { Responses } from './Views/Responses';
 import { EngagementReports } from './Views/EngagementReports';
-import { Templates } from './Views/Templates';
 import { Settings } from './Views/Settings';
 import { Login } from './Views/Login';
 import * as Constants from './Constants/Constants';
+// redux imports 
+import { useSelector, useDispatch } from 'react-redux';
+import { AppState } from './Redux/Reducers/rootReducer'
+import { PathActions } from './Redux/Actions/pathActions';
 
 export default function App() {
   const authToken = localStorage.getItem("Authorization");
   const [auth, setAuth] = useState((authToken != "") && (authToken != null));
-  const [path, setPath] = useState("/dashboard");
   const location = useLocation();
 
+  const { path } = useSelector((state: AppState) => state.path);
+  const pathDispatch = useDispatch<Dispatch<PathActions>>();
+
+  const handleSetPath = (path: string) => {
+    pathDispatch({type: 'SET_PATH', payload: path})
+  }
+
   useEffect(() => {
-    setPath(location.pathname);
+    handleSetPath(location.pathname);
   }, [location]);
 
   const userLogout = async(e: any) => {
