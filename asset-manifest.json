@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/civic-qa/static/css/main.d1396bf8.chunk.css",
+    "main.js": "/civic-qa/static/js/main.271f4e2d.chunk.js",
+    "main.js.map": "/civic-qa/static/js/main.271f4e2d.chunk.js.map",
+    "runtime-main.js": "/civic-qa/static/js/runtime-main.94b0f083.js",
+    "runtime-main.js.map": "/civic-qa/static/js/runtime-main.94b0f083.js.map",
+    "static/js/2.b22398a7.chunk.js": "/civic-qa/static/js/2.b22398a7.chunk.js",
+    "static/js/2.b22398a7.chunk.js.map": "/civic-qa/static/js/2.b22398a7.chunk.js.map",
+    "index.html": "/civic-qa/index.html",
+    "static/css/main.d1396bf8.chunk.css.map": "/civic-qa/static/css/main.d1396bf8.chunk.css.map",
+    "static/js/2.b22398a7.chunk.js.LICENSE.txt": "/civic-qa/static/js/2.b22398a7.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.94b0f083.js",
+    "static/js/2.b22398a7.chunk.js",
+    "static/css/main.d1396bf8.chunk.css",
+    "static/js/main.271f4e2d.chunk.js"
+  ]
+}
