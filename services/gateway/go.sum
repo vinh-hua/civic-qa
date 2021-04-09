@@ -1,5 +1,6 @@
 github.com/felixge/httpsnoop v1.0.1 h1:lvB5Jl89CsZtGIWuTcDM1E/vkVs49/Ml7JJe07l8SPQ=
 github.com/felixge/httpsnoop v1.0.1/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=
+github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/google/uuid v1.2.0 h1:qJYtXnJRWmpe7m/3XlyhrsLrEURqHRM2kxzoxXqyUDs=
 github.com/google/uuid v1.2.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/gorilla/handlers v1.5.1 h1:9lRY6j8DEeeBT10CvO9hGW0gmky0BprnvDI5vfhUHH4=
@@ -11,8 +12,6 @@ github.com/jinzhu/now v1.1.1/go.mod h1:d3SSVoowX0Lcu0IBviAWJpolVfI5UJVZZ7cO71lE/
 github.com/mattn/go-sqlite3 v1.14.5/go.mod h1:WVKg1VTActs4Qso6iwGbiFih2UIHo0ENGwNd0Lj+XmI=
 github.com/mattn/go-sqlite3 v1.14.6 h1:dNPt6NO46WmLVt2DLNpwczCmdV5boIZ6g/tlDrlRUbg=
 github.com/mattn/go-sqlite3 v1.14.6/go.mod h1:NyWgC/yNuGj7Q9rpYnZvas74GogHl5/Z4A/KQRfk6bU=
-github.com/urfave/negroni v1.0.0 h1:kIimOitoypq34K7TG7DUaJ9kq/N4Ofuwi1sjz0KipXc=
-github.com/urfave/negroni v1.0.0/go.mod h1:Meg73S6kFm/4PpbYdq35yYWoCZ9mS/YSx+lKnmiohz4=
 github.com/team-ravl/civic-qa/services/common v0.0.0-20210217005008-848fa3bc0399 h1:C78tp2O84XIE9K1zYfmfr55dXTgNGZE10Jq0dA8AxJA=
 github.com/team-ravl/civic-qa/services/common v0.0.0-20210217005008-848fa3bc0399/go.mod h1:JQKJyp3Xi6UUICplQpjiAI0SoeZm7D+YoNumsgxEiLA=
 github.com/team-ravl/civic-qa/services/common v0.0.0-20210227211936-aef745c47c5f h1:cgSafvK8SUG2VJOVgtfjOAIE5DJlN8oYE+JUa6TBXgI=
@@ -21,6 +20,10 @@ github.com/team-ravl/civic-qa/services/common v0.0.0-20210301202124-142c59451b9f
 github.com/team-ravl/civic-qa/services/common v0.0.0-20210301202124-142c59451b9f/go.mod h1:M1d7kDdIWVmgwNAL/rH13Nm+4KHaGt4Rb1aI8qV9DxQ=
 github.com/team-ravl/civic-qa/services/logAggregator v0.0.0-20210227211936-aef745c47c5f h1:s3bTHmya8SOjgXIWX+Fk88D0X+17DcgwOaK3FgBY71E=
 github.com/team-ravl/civic-qa/services/logAggregator v0.0.0-20210227211936-aef745c47c5f/go.mod h1:VX3Kf0LEnMBJ9GW6eQ1c1XZHPLrjlaI2rv8iBeya8dE=
+github.com/urfave/negroni v1.0.0 h1:kIimOitoypq34K7TG7DUaJ9kq/N4Ofuwi1sjz0KipXc=
+github.com/urfave/negroni v1.0.0/go.mod h1:Meg73S6kFm/4PpbYdq35yYWoCZ9mS/YSx+lKnmiohz4=
+gorm.io/driver/mysql v1.0.5/go.mod h1:N1OIhHAIhx5SunkMGqWbGFVeh4yTNWKmMo1GOAsohLI=
 gorm.io/driver/sqlite v1.1.4/go.mod h1:mJCeTFr7+crvS+TRnWc5Z3UvwxUN1BGBLMrf5LA9DYw=
 gorm.io/gorm v1.20.7/go.mod h1:0HFTzE/SqkGTzK6TlDPPQbAYCluiVvhzoA1+aVyzenw=
 gorm.io/gorm v1.20.12/go.mod h1:0HFTzE/SqkGTzK6TlDPPQbAYCluiVvhzoA1+aVyzenw=
+gorm.io/gorm v1.21.3/go.mod h1:0HFTzE/SqkGTzK6TlDPPQbAYCluiVvhzoA1+aVyzenw=

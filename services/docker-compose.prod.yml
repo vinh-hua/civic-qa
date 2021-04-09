@@ -1,5 +1,8 @@
+version: "3.3"
 services:
+
   gateway:
+    image: ${DOCKER_USER}/gateway
     build: 
       context: ./gateway
       args:
@@ -12,13 +15,16 @@ services:
       - ACCOUNT_SVC=http://account:8080
       - FORM_SVC=http://form:7070
       - MAILTO_SVC=http://mailto:6060
-     
     depends_on:
       - account
       - form
-    restart: 
-      "on-failure"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+
   account:
+    image: ${DOCKER_USER}/account
     build: 
       context: ./account
       args:
@@ -26,21 +32,28 @@ services:
     environment:
       - ADDR=:8080
       - AGG_ADDR=http://logaggregator:8888
-      - DB_IMPL=sqlite
-      - DB_DSN=/database/database.db
+      - DB_IMPL=mysql
+      - DB_DSN=${DB_DSN}
       - SESS_IMPL=redis
       - REDIS_ADDR=redis:6379
-    volumes:
-      - ./test_databases:/database
     depends_on:
       - redis
-    restart: 
-      "on-failure"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+
   redis:
-    image: "redis:alpine"
+    image: "redis"
     restart: 
       "on-failure"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: "on-failure"
+
   form:
+    image: ${DOCKER_USER}/form
     build: 
       context: ./form
       args:
@@ -48,28 +61,32 @@ services:
     environment:
       - ADDR=:7070
       - AGG_ADDR=http://logaggregator:8888
-      - DB_IMPL=sqlite
-      - DB_DSN=/database/database.db
+      - DB_IMPL=mysql
+      - DB_DSN=${DB_DSN}
       - ANALYTICS_ADDR=http://textanalytics:9090
       - ANALYTICS_IMPL=v0
-    volumes:
-      - ./test_databases:/database
-    restart: 
-      "on-failure"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+        
   logaggregator:
+    image: ${DOCKER_USER}/logaggregator
     build: 
       context: ./logAggregator
       args:
         - PORT=8888
     environment:
       - ADDR=:8888
-      - DB_IMPL=sqlite
-      - DB_DSN_LOGS=/database/logs.db
-    volumes:
-      - ./test_databases:/database
-    restart: 
-      "on-failure"
+      - DB_IMPL=mysql
+      - DB_DSN_LOGS=${DB_DSN_LOGS}
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: "on-failure"
+
   mailto:
+    image: ${DOCKER_USER}/mailto
     build:
       context: ./mailto
       args:
@@ -77,9 +94,13 @@ services:
     environment:
       - ADDR=:6060
       - AGG_ADDR=http://logaggregator:8888
-    restart: 
-      "on-failure"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+      
   textanalytics:
+    image: ${DOCKER_USER}/textanalytics
     build: 
       context: ./textAnalytics
       args:
@@ -89,7 +110,9 @@ services:
       - ANALYTICS_IMPL=mock
       - AZURE_TEXT_ANALYTICS_ENDPOINT=${AZURE_TEXT_ANALYTICS_ENDPOINT_ENV}
       - COGNITIVE_SERVICE_KEY=${COGNITIVE_SERVICE_KEY_ENV}
-    restart: 
-      "on-failure"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
 
     
