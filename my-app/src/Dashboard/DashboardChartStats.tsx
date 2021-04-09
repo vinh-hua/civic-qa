@@ -13,7 +13,7 @@ export function DashboardChartStats() {
 
     async function getTotal() {
         var authToken = localStorage.getItem("Authorization") || "";
-        const responseTotal = await fetch(Endpoints.Testbase + Endpoints.Responses, {
+        const responseTotal = await fetch(Endpoints.Base + Endpoints.Responses, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -29,7 +29,7 @@ export function DashboardChartStats() {
 
     async function getTodayTrends() {
         var authToken = localStorage.getItem("Authorization") || "";
-        const responseToday= await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesTodayOnly, {
+        const responseToday= await fetch(Endpoints.Base + Endpoints.Responses + "?" + Endpoints.ResponsesTodayOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken

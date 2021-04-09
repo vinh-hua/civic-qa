@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
@@ -20,7 +20,7 @@ export function General() {
     const [summaryTopics, setSummaryTopics] = useState(0);
 
     const getResponses = async() => {
-        const response = await fetch(Endpoints.Testbase + Endpoints.ResponsesActiveGeneral, {
+        const response = await fetch(Endpoints.Base + Endpoints.ResponsesActiveGeneral, {
             method: "GET",
             headers: new Headers({
                 "Authorization": auth
@@ -76,7 +76,7 @@ export function General() {
     }
 
     const getResponsesToday = async() => {
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral + "&" + Endpoints.ResponsesTodayOnly, {
+        const response = await fetch(Endpoints.Base + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral + "&" + Endpoints.ResponsesTodayOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": auth

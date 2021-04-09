@@ -19,7 +19,7 @@ export function Responses(props: ResponsesProps) {
 
     const getResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.ResponsesActiveOnly, {
+        const response = await fetch(Endpoints.Base + Endpoints.ResponsesActiveOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken

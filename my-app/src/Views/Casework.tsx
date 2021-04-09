@@ -21,7 +21,7 @@ export function Casework() {
 
 
     const getResponses = async() => {
-        const response = await fetch(Endpoints.Testbase + Endpoints.ResponsesActiveCasework, {
+        const response = await fetch(Endpoints.Base + Endpoints.ResponsesActiveCasework, {
             method: "GET",
             headers: new Headers({
                 "Authorization": auth
@@ -77,7 +77,7 @@ export function Casework() {
     }
 
     const getResponsesToday = async() => {
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework + "&" + Endpoints.ResponsesTodayOnly, {
+        const response = await fetch(Endpoints.Base + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework + "&" + Endpoints.ResponsesTodayOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": auth

@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState, Dispatch} from "react";
+import { useEffect, Dispatch} from "react";
 import { Route, NavLink, Redirect, useLocation } from "react-router-dom";
 import { ProfileHeader } from "./Profile/ProfileHeader";
 import { Dashboard } from './Views/Dashboard';
@@ -9,19 +9,16 @@ import { Responses } from './Views/Responses';
 import { EngagementReports } from './Views/EngagementReports';
 import { Settings } from './Views/Settings';
 import { Login } from './Views/Login';
-import * as Constants from './Constants/Constants';
-// redux imports 
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from './Redux/Reducers/rootReducer'
 import { PathActions } from './Redux/Actions/pathActions';
 import { AuthActions } from './Redux/Actions/authActions';
+import * as Constants from './Constants/Constants';
 
 export default function App() {
   const location = useLocation();
-
   const { auth } = useSelector((state: AppState) => state.auth);
   const { path } = useSelector((state: AppState) => state.path);
-
   const authDispatch = useDispatch<Dispatch<AuthActions>>();
   const pathDispatch = useDispatch<Dispatch<PathActions>>();
 
