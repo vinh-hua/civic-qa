@@ -13,7 +13,7 @@ export function EngagementReports() {
 
     const getTags = async() => {
       var authToken = localStorage.getItem("Authorization") || "";
-      const response = await fetch(Endpoints.Testbase + Endpoints.Tags, {
+      const response = await fetch(Endpoints.Base + Endpoints.Tags, {
           method: "GET",
           headers: new Headers({
               "Authorization": authToken

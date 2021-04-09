@@ -8,6 +8,8 @@ import (
 	"github.com/team-ravl/civic-qa/services/form/internal/repository/form"
 	"github.com/team-ravl/civic-qa/services/form/internal/repository/response"
 	"github.com/team-ravl/civic-qa/services/form/internal/repository/tag"
+
+	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -62,6 +64,12 @@ func getFormStoreImpl(cfg config.Provider) (form.Store, error) {
 			return nil, err
 		}
 		return formStore, nil
+	case "mysql":
+		formStore, err := form.NewGormStore(mysql.Open(dbDsn), &gorm.Config{})
+		if err != nil {
+			return nil, err
+		}
+		return formStore, nil
 	default:
 		return nil, fmt.Errorf("Unknown DB_IMPL: %s", dbImpl)
 	}
@@ -79,6 +87,12 @@ func getResponseStoreImpl(cfg config.Provider) (response.Store, error) {
 			return nil, err
 		}
 		return respStore, nil
+	case "mysql":
+		respStore, err := response.NewGormStore(mysql.Open(dbDsn), &gorm.Config{})
+		if err != nil {
+			return nil, err
+		}
+		return respStore, nil
 	default:
 		return nil, fmt.Errorf("Unknown DB_IMPL: %s", dbImpl)
 	}
@@ -91,11 +105,17 @@ func getTagStoreImpl(cfg config.Provider) (tag.Store, error) {
 	dbDsn := cfg.GetOrFallback("DB_DSN", "database.db")
 	switch dbImpl {
 	case "sqlite":
-		respStore, err := tag.NewGormStore(sqlite.Open(dbDsn), &gorm.Config{}, "PRAGMA foreign_keys = ON;")
+		tagStore, err := tag.NewGormStore(sqlite.Open(dbDsn), &gorm.Config{}, "PRAGMA foreign_keys = ON;")
 		if err != nil {
 			return nil, err
 		}
-		return respStore, nil
+		return tagStore, nil
+	case "mysql":
+		tagStore, err := tag.NewGormStore(mysql.Open(dbDsn), &gorm.Config{})
+		if err != nil {
+			return nil, err
+		}
+		return tagStore, nil
 	default:
 		return nil, fmt.Errorf("Unknown DB_IMPL: %s", dbImpl)
 	}

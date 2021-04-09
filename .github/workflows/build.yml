@@ -1,0 +1,30 @@
+name: build backend
+
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    name: "Build Backend Containers"  
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      GO111MODULE: on
+    steps:
+    - name: setup go
+      uses: actions/setup-go@v1
+      with:
+        go-version: '1.15.10'
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: docker login
+      uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKER_USER }} 
+        password: ${{ secrets.DOCKER_TOKEN }} 
+    - name: build and push containers
+      run: |
+        cd services
+        make push_prod
+
+
+      

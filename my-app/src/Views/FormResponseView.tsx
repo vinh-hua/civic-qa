@@ -22,7 +22,7 @@ export function FormResponseView(props: FormResponseViewProps) {
     async function createMailto() {
         var mailtoRequest = {to: [props.email], subject: props.subject, body: messageResponse};
         var jsonMailtoRequest = JSON.stringify(mailtoRequest);
-        const response = await fetch(Endpoints.Testbase + Endpoints.Mailto, {
+        const response = await fetch(Endpoints.Base + Endpoints.Mailto, {
             method: "POST",
             body: jsonMailtoRequest,
             headers: new Headers({
@@ -39,7 +39,7 @@ export function FormResponseView(props: FormResponseViewProps) {
 
     const getTags = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
+        const response = await fetch(Endpoints.Base + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
@@ -60,7 +60,7 @@ export function FormResponseView(props: FormResponseViewProps) {
     async function removeTag(tagValue: string) {
         var authToken = localStorage.getItem("Authorization") || "";
         var tagJson = JSON.stringify({value: tagValue});
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
+        const response = await fetch(Endpoints.Base + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
             method: "DELETE",
             body: tagJson,
             headers: new Headers({
@@ -78,7 +78,7 @@ export function FormResponseView(props: FormResponseViewProps) {
     async function addTag(tagValue: string) {
         var authToken = localStorage.getItem("Authorization") || "";
         var tagJson = JSON.stringify({value: tagValue});
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
+        const response = await fetch(Endpoints.Base + Endpoints.Responses + "/" + props.responseId + Endpoints.ResponsesTags, {
             method: "POST",
             body: tagJson,
             headers: new Headers({
@@ -96,7 +96,7 @@ export function FormResponseView(props: FormResponseViewProps) {
     const resolveResponse = async(id: string, isResolved: boolean) => {
         var authToken = localStorage.getItem("Authorization") || "";
         var patchActive = JSON.stringify({active: !isResolved});
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "/" + id, {
+        const response = await fetch(Endpoints.Base + Endpoints.Responses + "/" + id, {
             method: "PATCH",
             body: patchActive,
             headers: new Headers({

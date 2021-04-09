@@ -4,21 +4,15 @@ import (
 	// standard
 	"log"
 	"net/http"
-	"os"
-	"time"
 
 	// 3rd party
 	"github.com/gorilla/mux"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 
 	// common
 	"github.com/team-ravl/civic-qa/services/common/config"
 
 	// internal
 	"github.com/team-ravl/civic-qa/services/logAggregator/internal/context"
-	"github.com/team-ravl/civic-qa/services/logAggregator/internal/repository"
 )
 
 const (
@@ -39,16 +33,10 @@ func main() {
 	api := router.PathPrefix(VersionBase).Subrouter()
 
 	// Handler context
-	repo, err := repository.NewLogRepository(sqlite.Open(cfg.GetOrFallback("DB_DSN", "logs.db")), &gorm.Config{
-		Logger: logger.New(log.New(os.Stdout, "\r\n", log.LstdFlags),
-			logger.Config{
-				SlowThreshold: time.Second,
-			}),
-	})
+	ctx, err := context.BuildContext(cfg)
 	if err != nil {
-		log.Fatalf("Failed to create log repository: %v", err)
+		log.Fatalf("Failed to create handler context: %v", err)
 	}
-	ctx := &context.Context{Repo: repo}
 
 	// Routes
 	api.HandleFunc("/log", ctx.HandleLog)

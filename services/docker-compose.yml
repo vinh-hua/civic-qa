@@ -63,7 +63,8 @@ services:
         - PORT=8888
     environment:
       - ADDR=:8888
-      - DB_DSN=/database/logs.db
+      - DB_IMPL=sqlite
+      - DB_DSN_LOGS=/database/logs.db
     volumes:
       - ./test_databases:/database
     restart: 
@@ -80,7 +81,7 @@ services:
       "on-failure"
   textanalytics:
     build: 
-      context: ./textanalytics
+      context: ./textAnalytics
       args:
         - PORT=9090
     environment:

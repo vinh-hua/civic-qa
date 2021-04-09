@@ -4,18 +4,12 @@ import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { StatCardRow } from '../Components/StatCardRow';
 import { Responses } from './Responses';
+import { useSelector } from 'react-redux';
+import { AppState } from '../Redux/Reducers/rootReducer'
 import * as Endpoints from '../Constants/Endpoints';
 
-// TODO: will data be pre-sorted on back-end?
-// currently using test data
-function getSubDashboardData(): Array<SubDashboardData> {
-    var data = [];
-    data.push({name: "Test", value: 22});
-    return data as Array<SubDashboardData>;
-}
-
 export function Casework() {
-    const testData = getSubDashboardData();
+    const { auth } = useSelector((state: AppState) => state.auth);
     const [onSpecificView, setSpecificView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
     const [specificTopicsData, setSpecificTopicsData] = useState<SubDashboardData[]>([]);
@@ -27,11 +21,10 @@ export function Casework() {
 
 
     const getResponses = async() => {
-        var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework, {
+        const response = await fetch(Endpoints.Base + Endpoints.ResponsesActiveCasework, {
             method: "GET",
             headers: new Headers({
-                "Authorization": authToken
+                "Authorization": auth
             })
         });
         if (response.status >= 300) {
@@ -84,11 +77,10 @@ export function Casework() {
     }
 
     const getResponsesToday = async() => {
-        var authToken = localStorage.getItem("Authorization") || "";
-        const response = await fetch(Endpoints.Testbase + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework + "&" + Endpoints.ResponsesTodayOnly, {
+        const response = await fetch(Endpoints.Base + Endpoints.Responses + "?" + Endpoints.ResponsesActiveCasework + "&" + Endpoints.ResponsesTodayOnly, {
             method: "GET",
             headers: new Headers({
-                "Authorization": authToken
+                "Authorization": auth
             })
         });
         if (response.status >= 300) {
