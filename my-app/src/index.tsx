@@ -7,7 +7,7 @@ import './index.css';
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-    <Router>
+    <Router basename="civic-qa">
         <Provider store={store}>
             <App />   
         </Provider>

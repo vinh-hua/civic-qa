@@ -14,6 +14,7 @@ import { AppState } from './Redux/Reducers/rootReducer'
 import { PathActions } from './Redux/Actions/pathActions';
 import { AuthActions } from './Redux/Actions/authActions';
 import * as Constants from './Constants/Constants';
+import * as Endpoints from './Constants/Endpoints';
 
 export default function App() {
   const location = useLocation();
@@ -36,7 +37,7 @@ export default function App() {
 
   const userLogout = async(e: any) => {
     e.preventDefault();
-    const response = await fetch("http://localhost/v0/logout", {
+    const response = await fetch(Endpoints.Base + "/logout", {
       method: "POST",
       headers: new Headers({
           "Authorization": auth
