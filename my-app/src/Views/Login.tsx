@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
-// import * as Endpoints from '../Endpoints/Endpoints';
+import * as Endpoints from '../Constants/Endpoints';
 
 export type LoginProps = {
     userLogin: Function;
@@ -18,7 +18,7 @@ export function Login(props: LoginProps) {
         e.preventDefault();
         var login = {email: email, password: password};
         var jsonLogin = JSON.stringify(login);
-        const response = await fetch("http://localhost/v0/login", {
+        const response = await fetch(Endpoints.Base + "/login", {
             method: "POST",
             body: jsonLogin,
             headers: new Headers({
@@ -38,7 +38,7 @@ export function Login(props: LoginProps) {
         e.preventDefault();
         var newUser = {email: email, password: password, passwordConfirm: confirmPassword, firstName: firstName, lastName: lastName};
         var jsonNewUser = JSON.stringify(newUser);
-        const response = await fetch("http://localhost/v0/signup", {
+        const response = await fetch(Endpoints.Base + "/signup", {
             method: "POST",
             body: jsonNewUser,
             headers: new Headers({
