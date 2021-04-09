@@ -2,13 +2,6 @@ name: build backend
 
 on:
   workflow_dispatch:
-    
-  push:
-    branches:
-      - "main"
-    paths:
-      - "services/**"
-
 jobs:
   build:
     name: "Build Backend Containers"  
@@ -21,12 +14,8 @@ jobs:
       uses: actions/setup-go@v1
       with:
         go-version: '1.15.10'
-  
     - name: checkout
       uses: actions/checkout@v2
-      with:
-        ref: features/deploy
-        token: ${{ secrets.GITHUB_TOKEN }}
     - name: docker login
       uses: docker/login-action@v1 
       with:
@@ -35,30 +24,7 @@ jobs:
     - name: build and push containers
       run: |
         cd services
-        ls -l
-
-        echo "==== Vendor: Gateway ===="
-        cd ./gateway && go mod vendor
-        cd ..
-        
-        echo "==== Vendor: Account ===="
-        cd ./account && go mod vendor
-        cd ..
-        
-        echo "==== Vendor: Form ===="
-        cd ./form && go mod vendor
-        cd ..
-        
-        echo "==== Vendor: LogAggregator ===="
-        cd ./logAggregator && go mod vendor
-        cd ..
-        
-        echo "==== Vendor: mailto ===="
-        cd ./mailto && go mod vendor
-        cd ..
-        
-        docker-compose -f docker-compose.prod.yml build
-        docker-compose -f docker-compose.prod.yml push
+        make push_prod
 
 
       
