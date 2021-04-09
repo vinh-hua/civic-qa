@@ -13,9 +13,6 @@ jobs:
    steps:
     - name: checkout
       uses: actions/checkout@v2
-      with:
-        ref: features/deploy
-        token: ${{ secrets.GITHUB_TOKEN }}
     - name: SCP docker-compose file
       uses: appleboy/scp-action@master
       with:

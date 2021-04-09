@@ -1,0 +1,23 @@
+# on:
+ 
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     env:
+#       GO111MODULE: on
+#     steps:
+#     - name: checkout
+#       uses: actions/checkout@v2
+     
+#     - name: setup go
+#       uses: actions/setup-go@v1
+#       with:
+#         go-version: '1.15.10'
+#     - name: run tests
+#       run: |
+#         cd services
+#         make test
