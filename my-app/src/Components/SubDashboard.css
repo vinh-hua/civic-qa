@@ -38,15 +38,15 @@
     margin-bottom: 30px;
 }
 
-.sub-dash-cards-400 {
-    height: 400px;
+.sub-dash-cards-short {
+    height: 40vh;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
 }
 
-.sub-dash-cards-700 {
-    height: 700px;
+.sub-dash-cards-long {
+    height: 70vh;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -54,4 +54,5 @@
 
 .sub-summary {
     margin-top: 30px;
+    height: 20vh;
 }
