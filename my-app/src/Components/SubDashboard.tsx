@@ -34,10 +34,10 @@ export function SubDashboard(props: SubDashboardProps) {
             <div>
                 <SubHeaderLine title={props.title} subHeaderValue={props.subHeaderValue ? props.subHeaderValue : undefined}></SubHeaderLine>
                 {props.fullPageView ? 
-                <div className="sub-dash-cards-700">
+                <div className="sub-dash-cards-long">
                     {cards}
                 </div> :
-                <div className="sub-dash-cards-400">
+                <div className="sub-dash-cards-short">
                     {cards}
                 </div>
                 }
