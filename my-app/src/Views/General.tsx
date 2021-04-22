@@ -76,7 +76,7 @@ export function General() {
     }
 
     const getResponsesToday = async() => {
-        const response = await fetch(Endpoints.Base + Endpoints.Responses + "?" + Endpoints.ResponsesActiveGeneral + "&" + Endpoints.ResponsesTodayOnly, {
+        const response = await fetch(Endpoints.Base +  Endpoints.ResponsesActiveGeneralTodayOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": auth
