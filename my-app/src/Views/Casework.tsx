@@ -3,14 +3,14 @@ import { Header } from '../Components/Header';
 import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { StatCardRow } from '../Components/StatCardRow';
-import { Responses } from './Responses';
+import { Inquiries } from './Inquiries';
 import { useSelector } from 'react-redux';
 import { AppState } from '../Redux/Reducers/rootReducer'
 import * as Endpoints from '../Constants/Endpoints';
 
 export function Casework() {
     const { auth } = useSelector((state: AppState) => state.auth);
-    const [onSpecificView, setSpecificView] = useState(false);
+    const [onInquiriesView, setInquiriesView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
     const [specificTopicsData, setSpecificTopicsData] = useState<SubDashboardData[]>([]);
     const [topicsResponsesData, setTopicsResponsesData] = useState<Map<string, SubDashboardData[]>>();
@@ -91,14 +91,14 @@ export function Casework() {
         setSummaryToday(responsesToday.length);
     }
 
-    function specificView(data: SubDashboardData) {
+    function inquiriesView(data: SubDashboardData) {
         setSpecificViewTitle(data.name);
         setSpecificTopicsData(topicsResponsesData?.get(data.name) || []);
-        setSpecificView(true);
+        setInquiriesView(true);
     }
 
     function initialView() {
-        setSpecificView(false);
+        setInquiriesView(false);
     }
     
     useEffect(() => {
@@ -113,22 +113,22 @@ export function Casework() {
     ];
 
     return (
-        onSpecificView ? 
-        <div> 
-            <div className="dashboard sub-dashboard">
-                <button className="exit-button" onClick={initialView}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
+        onInquiriesView ? 
+            <div> 
+                <div className="dashboard sub-dashboard">
+                    <button className="exit-button" onClick={initialView}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
+                </div>
+                <Inquiries header="Casework" subjectTitle={specificViewTitle} data={specificTopicsData} hideInquiryBackArrow={true}></Inquiries>
             </div>
-            <Responses header="Casework" subjectTitle={specificViewTitle} data={specificTopicsData}></Responses>
-        </div>
-        : <div className="dashboard sub-dashboard">
-            <div>
-                <Header title="Casework"></Header>
-                <SubDashboard title="TOPIC" data={topicsCases} changeViewFunc={specificView} emailTemplates={false} fullPageView={false}></SubDashboard>
-                <div className="sub-summary">
-                    <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Cases"}></SubHeaderLine>
-                    <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>
+            : <div className="dashboard sub-dashboard">
+                <div>
+                    <Header title="Casework Topics"></Header>
+                    <SubDashboard title="TOPICS" data={topicsCases} changeViewFunc={inquiriesView} emailTemplates={false} fullPageView={false}></SubDashboard>
+                    <div className="sub-summary">
+                        <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Cases"}></SubHeaderLine>
+                        <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>
+                    </div>
                 </div>
             </div>
-        </div>
     );
 }

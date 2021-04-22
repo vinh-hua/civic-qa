@@ -3,7 +3,7 @@ import { Header } from '../Components/Header';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { Tags } from '../Components/Tags';
 import * as Endpoints from '../Constants/Endpoints';
-import "./FormResponseView.css";
+import "./FormInquiryView.css";
 
 export type FormResponseViewProps = {
     responseId: string;
@@ -12,9 +12,10 @@ export type FormResponseViewProps = {
     subject: string;
     body: string;
     setSpecificView: Function;
+    hideBackArrow: boolean;
 };
 
-export function FormResponseView(props: FormResponseViewProps) {
+export function FormInquiryView(props: FormResponseViewProps) {
     const [isResolved, setIsResolved] = useState(true);
     const [tags, setTags] = useState<any[]>([]);
     const [messageResponse, setMessageResponse] = useState("");
@@ -120,7 +121,7 @@ export function FormResponseView(props: FormResponseViewProps) {
 
     return(
         <div>
-            <button className="exit-button" onClick={() => props.setSpecificView()}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
+            {props.hideBackArrow ? null : <button className="exit-button" onClick={() => props.setSpecificView()}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>}
             <Header title={props.title}></Header>
             <SubHeaderLine title={props.subject}></SubHeaderLine>
             <Tags addTag={addTag} removeTag={removeTag} values={tags}></Tags>

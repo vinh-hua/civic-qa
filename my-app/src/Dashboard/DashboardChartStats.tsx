@@ -9,7 +9,7 @@ export function DashboardChartStats() {
     const [total, setTotal] = useState(0);
     const [today, setToday] = useState(0);
     const [todayTrends, setTodayTrends] = useState<ChartData[]>([]);
-    const [chartView, setChartView] = useState(Constants.Responses);
+    const [chartView, setChartView] = useState(Constants.Inquiries);
 
     async function getTotal() {
         var authToken = localStorage.getItem("Authorization") || "";

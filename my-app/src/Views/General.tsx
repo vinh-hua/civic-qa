@@ -3,14 +3,14 @@ import { Header } from '../Components/Header';
 import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { StatCardRow } from '../Components/StatCardRow';
-import { Responses } from './Responses';
+import { Inquiries } from './Inquiries';
 import { useSelector } from 'react-redux';
 import { AppState } from '../Redux/Reducers/rootReducer'
 import * as Endpoints from '../Constants/Endpoints';
 
 export function General() {
     const { auth } = useSelector((state: AppState) => state.auth);
-    const [onSpecificView, setSpecificView] = useState(false);
+    const [onInquiriesView, setInquiriesView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
     const [specificSubjectData, setSpecificSubjectData] = useState<SubDashboardData[]>([]);
     const [subjectsResponsesData, setSubjectsResponsesData] = useState<Map<string, SubDashboardData[]>>();
@@ -90,14 +90,14 @@ export function General() {
         setSummaryToday(responsesToday.length);
     }
 
-    function specificView(data: SubDashboardData) {
+    function inquiriesView(data: SubDashboardData) {
         setSpecificViewTitle(data.name);
         setSpecificSubjectData(subjectsResponsesData?.get(data.name) || []);
-        setSpecificView(true);
+        setInquiriesView(true);
     }
 
     function initialView() {
-        setSpecificView(false);
+        setInquiriesView(false);
     }
     
     useEffect(() => {
@@ -113,17 +113,17 @@ export function General() {
     ];
 
     return (
-        onSpecificView ? 
+        onInquiriesView ? 
         <div> 
             <div className="dashboard sub-dashboard">
                 <button className="exit-button" onClick={initialView}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
             </div>
-            <Responses header="General Inquiries" subjectTitle={specificViewTitle} data={specificSubjectData}></Responses>
+            <Inquiries header="General" subjectTitle={specificViewTitle} data={specificSubjectData} hideInquiryBackArrow={true}></Inquiries>
         </div>
         : <div className="dashboard sub-dashboard">
             <div>
                 <Header title="General Inquiries"></Header>
-                <SubDashboard title="TOP SUBJECTS" data={subjectsInquiries} changeViewFunc={specificView} emailTemplates={false} fullPageView={false}></SubDashboard>
+                <SubDashboard title="TOPICS" data={subjectsInquiries} changeViewFunc={inquiriesView} emailTemplates={false} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
                     <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Inquiries"}></SubHeaderLine>
                     <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>

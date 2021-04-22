@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
-import { BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import * as Endpoints from '../Constants/Endpoints';
 
 export type EngagementReportBarChartData = {
@@ -49,6 +49,7 @@ export function EngagementReports() {
         }
       });
 
+      engagementChartData = engagementChartData.slice(0, 5);
       setEngagementChartData(engagementChartData);
     }
 
@@ -57,25 +58,27 @@ export function EngagementReports() {
     }, []);
 
     return (
-        <div className="dashboard sub-dashboard">
+        <div className="dashboard sub-dashboard view">
             <Header title="Engagement Reports"></Header>
-            <h2>Topics/Inquiries</h2>
-            <BarChart
-                width={700}
-                height={500}
-                data={engagementChartData}
-                margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                }}
-                >
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" fill="#855CF8" />
-            </BarChart>
+            <h2>Most Frequent Topics</h2>
+            <div style={{ width: '100%', height: 500 }}>
+              <ResponsiveContainer>
+                <BarChart
+                    data={engagementChartData}
+                    margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                    }}
+                    >
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="count" fill="#855CF8" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
         </div>
     );
 }

@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
 import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
-import { FormResponseView } from './FormResponseView'; 
+import { FormInquiryView } from './FormInquiryView'; 
 import * as Endpoints from '../Constants/Endpoints';
 
 export type ResponsesProps = {
     header?: string;
     subjectTitle?: string;
     data: Array<SubDashboardData>;
+    hideInquiryBackArrow?: boolean;
 }
 
-export function Responses(props: ResponsesProps) {
-    const headerTitle = props.header || "Form Responses";
-    const subjecTitle = props.subjectTitle || "CURRENT RESPONSES";
+export function Inquiries(props: ResponsesProps) {
+    const headerTitle = props.header || "Form Inquiries";
+    const subjecTitle = props.subjectTitle || "CURRENT INQUIRIES";
+    const hideBackArrow = props.hideInquiryBackArrow || false;
     const [onResponseView, setResponseView] = useState(false);
     const [responseData, setData] = useState<SubDashboardData[]>([]);
     const [specificResponseData, setSpecificResponseData] = useState<SubDashboardData>();
@@ -55,7 +57,8 @@ export function Responses(props: ResponsesProps) {
     
     return (
         <div className="dashboard sub-dashboard">
-            {onResponseView ? <FormResponseView responseId={specificResponseData?.id || ""} email={specificResponseData?.email || ""} title="Form Responses" subject={specificResponseData?.name || ""} body={specificResponseData?.body || ""} setSpecificView={setSpecificView}></FormResponseView> :
+            {onResponseView ? 
+            <FormInquiryView responseId={specificResponseData?.id || ""} email={specificResponseData?.email || ""} title="Inquiry" subject={specificResponseData?.name || ""} body={specificResponseData?.body || ""} setSpecificView={setSpecificView} hideBackArrow={hideBackArrow}></FormInquiryView> :
             <div>
                 <Header title={headerTitle}></Header>
                 <SubDashboard title={subjecTitle} data={props.data ? props.data : responseData} changeViewFunc={setSpecificResponseContent} emailTemplates={false} fullPageView={true} subHeaderValue={props.data ? props.data.length : responseData.length}></SubDashboard>

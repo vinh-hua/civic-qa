@@ -5,7 +5,7 @@ import { ProfileHeader } from "./Profile/ProfileHeader";
 import { Dashboard } from './Views/Dashboard';
 import { General } from './Views/General';
 import { Casework } from './Views/Casework';
-import { Responses } from './Views/Responses';
+import {Inquiries } from './Views/Inquiries';
 import { EngagementReports } from './Views/EngagementReports';
 import { Settings } from './Views/Settings';
 import { Login } from './Views/Login';
@@ -46,7 +46,6 @@ export default function App() {
     if (response.status >= 300) {
       console.log("Failed to logout");
     }
-    // localStorage.removeItem("Authorization");
     handleSetAuth('');
   }
 
@@ -69,26 +68,28 @@ export default function App() {
                 <h1 className="title">{Constants.Title}</h1>
                 <ul>
                   <li>{path == "/dashboard" ? <img className="icon" src="./assets/icons/pie-chart-active.svg"/> : <img className="icon" src="./assets/icons/pie-chart.svg"/>}<NavLink className="nav-link" activeClassName="active-link" to="/dashboard">{Constants.Dashboard}</NavLink></li>
-                  <li className="dashboard-sub-li"><NavLink className="nav-link" activeClassName="active-link" to="/general">{Constants.GeneralInquiries}</NavLink></li>
+                  <li className="dashboard-sub-li"><NavLink className="nav-link" activeClassName="active-link" to="/general">{Constants.General}</NavLink></li>
                   <li className="dashboard-sub-li"><NavLink className="nav-link" activeClassName="active-link" to="/casework">{Constants.Casework}</NavLink></li>
-                  <li>{path =="/responses" ? <img className="icon" src="./assets/icons/inbox-active.svg"/> : <img className="icon" src="./assets/icons/inbox.svg"/>}<NavLink className="nav-link" activeClassName="active-link" to="/responses">{Constants.Responses}</NavLink></li>
+                  <li>{path =="/inquiries" ? <img className="icon" src="./assets/icons/inbox-active.svg"/> : <img className="icon" src="./assets/icons/inbox.svg"/>}<NavLink className="nav-link" activeClassName="active-link" to="/inquiries">{Constants.Inquiries}</NavLink></li>
                   <li>{path =="/engagement-reports" ? <img className="icon" src="./assets/icons/stats-active.svg"/> :<img className="icon" src="./assets/icons/stats.svg"/>}<NavLink className="nav-link" activeClassName="active-link" to="/engagement-reports">{Constants.EngagementReports}</NavLink></li>
                 </ul>
                 <div className="compose-email-btn-container">
                   <hr className="solid"/>
                 </div>
                 <ul>
-                <li>{path =="/settings" ? <img className="icon" src="./assets/icons/settings-active.svg"/> : <img className="icon" src="./assets/icons/settings.svg"/>}<NavLink className="nav-link" activeClassName="active-link" to="/settings">{Constants.Settings}</NavLink></li>
+                  <li>{path =="/settings" ? <img className="icon" src="./assets/icons/settings-active.svg"/> : <img className="icon" src="./assets/icons/settings.svg"/>}<NavLink className="nav-link" activeClassName="active-link" to="/settings">{Constants.Settings}</NavLink></li>
                   <li><img className="icon" src="./assets/icons/logout.svg"/><button className="logout-btn" onClick={userLogout}>{Constants.Logout}</button></li>
                 </ul>
               </nav>
             </div>
-            <Route path="/dashboard" component={Dashboard}></Route>
-            <Route path="/general" component={General}></Route>
-            <Route path="/casework" component={Casework}></Route>
-            <Route path="/responses" component={Responses}/>
-            <Route path="/engagement-reports" component={EngagementReports}/>
-            <Route path="/settings" component={Settings}/>
+            <div className="view">
+              <Route path="/dashboard" component={Dashboard}/>
+              <Route path="/general" component={General}/>
+              <Route path="/casework" component={Casework}/>
+              <Route path="/inquiries" component={Inquiries}/>
+              <Route path="/engagement-reports" component={EngagementReports}/>
+              <Route path="/settings" component={Settings}/>
+            </div>
           </div> : null}
         </div>
   );
