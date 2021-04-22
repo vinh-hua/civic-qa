@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.view {
+  padding-top: 2.5%;
+}
+
 .icon {
   height: 15px;
 }
@@ -10,13 +14,6 @@
   color: #9B51E0;
   font-size: 48px;
   padding-top: 20%;
-}
-
-.profile-header {
-  width: 80%;
-  padding-top: 20px;
-  float: right;
-  padding-bottom: 20px;
 }
 
 .nav-bar {

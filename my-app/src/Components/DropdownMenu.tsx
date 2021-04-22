@@ -7,7 +7,7 @@ export type DropdownMenuProps = {
     setChartView: Dispatch<SetStateAction<string>>;
 };
 
-// add topics when there is time
+// TODO: add topics
 // <button onClick={() => SetChartViewAndToggleMenu(Constants.Topics)} className="dropdown-menu-btn"><p className="dropdown-menu-btn-text">{Constants.Topics}</p></button>
 
 export function DropdownMenu(props: DropdownMenuProps) {
@@ -28,7 +28,7 @@ export function DropdownMenu(props: DropdownMenuProps) {
             </button>
             {showMenu ? 
                 <div className="menu">
-                    <button onClick={() => SetChartViewAndToggleMenu(Constants.Responses)} className="dropdown-menu-btn"><p className="dropdown-menu-btn-text">{Constants.Responses}</p></button>
+                    <button onClick={() => SetChartViewAndToggleMenu(Constants.Inquiries)} className="dropdown-menu-btn"><p className="dropdown-menu-btn-text">{Constants.Topics}</p></button>
                 </div> : <div />}
         </div>
     );

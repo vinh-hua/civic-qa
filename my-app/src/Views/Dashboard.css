@@ -3,20 +3,20 @@
     margin-right: 2.5%;
 }
 
-.trends, .itinerary {
+.trends {
     border-radius: 10px;
     box-shadow: 0 0 1px 0 #9FA2B4;
     margin-top: 30px;
 }
 
-.chart-heading, .itinerary-heading {
+.chart-heading {
     display: flex;
     justify-content: space-between;
     margin-left: 2.5%;
     text-align: left;
 }
 
-.chart-title, .itinerary-title {
+.chart-title {
     padding-top: 20px;
 }
 
@@ -33,8 +33,4 @@
     flex-direction: column;
     justify-content: space-evenly;
     margin-left: 10%;
-}
-
-.itinerary {
-    margin-top: 30px;
 }

@@ -7,7 +7,6 @@ import * as Constants from '../Constants/Constants';
 import * as Endpoints from '../Constants/Endpoints';
 import './Dashboard.css';
 
-// currently using dummy data for StatCards and LineChart
 export function Dashboard() {
     const { auth } = useSelector((state: AppState) => state.auth);
     const [general, setGeneral] = useState(0);
@@ -49,8 +48,8 @@ export function Dashboard() {
     }, []);
 
     let statCards = [
-        {title: Constants.General, stat: general},
-        {title: Constants.Casework, stat: casework}
+        {title: Constants.ActiveGeneral, stat: general},
+        {title: Constants.ActiveCasework, stat: casework}
     ]
 
     return (
