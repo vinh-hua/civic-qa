@@ -6,6 +6,7 @@ export const EngagementReports = "Engagement Reports";
 export const Templates = "Your Templates";
 export const ComposeEmail = "Compose Email";
 export const Settings = "Settings";
+export const AboutUs = "About Us";
 export const Logout = "Logout";
 
 // stat cards

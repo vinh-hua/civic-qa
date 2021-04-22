@@ -46,7 +46,6 @@ export default function App() {
     if (response.status >= 300) {
       console.log("Failed to logout");
     }
-    // localStorage.removeItem("Authorization");
     handleSetAuth('');
   }
 
@@ -78,14 +77,14 @@ export default function App() {
                   <hr className="solid"/>
                 </div>
                 <ul>
-                <li>{path =="/settings" ? <img className="icon" src="./assets/icons/settings-active.svg"/> : <img className="icon" src="./assets/icons/settings.svg"/>}<NavLink className="nav-link" activeClassName="active-link" to="/settings">{Constants.Settings}</NavLink></li>
+                  <li>{path =="/settings" ? <img className="icon" src="./assets/icons/settings-active.svg"/> : <img className="icon" src="./assets/icons/settings.svg"/>}<NavLink className="nav-link" activeClassName="active-link" to="/settings">{Constants.Settings}</NavLink></li>
                   <li><img className="icon" src="./assets/icons/logout.svg"/><button className="logout-btn" onClick={userLogout}>{Constants.Logout}</button></li>
                 </ul>
               </nav>
             </div>
-            <Route path="/dashboard" component={Dashboard}></Route>
-            <Route path="/general" component={General}></Route>
-            <Route path="/casework" component={Casework}></Route>
+            <Route path="/dashboard" component={Dashboard}/>
+            <Route path="/general" component={General}/>
+            <Route path="/casework" component={Casework}/>
             <Route path="/responses" component={Responses}/>
             <Route path="/engagement-reports" component={EngagementReports}/>
             <Route path="/settings" component={Settings}/>
