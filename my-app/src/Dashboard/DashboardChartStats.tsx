@@ -29,7 +29,7 @@ export function DashboardChartStats() {
 
     async function getTodayTrends() {
         var authToken = localStorage.getItem("Authorization") || "";
-        const responseToday= await fetch(Endpoints.Base + Endpoints.Responses + "?" + Endpoints.ResponsesTodayOnly, {
+        const responseToday= await fetch(Endpoints.Base + Endpoints.ResponsesTodayOnly, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
