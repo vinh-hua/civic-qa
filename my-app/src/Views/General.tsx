@@ -122,7 +122,7 @@ export function General() {
         </div>
         : <div className="dashboard sub-dashboard">
             <div>
-                <Header title="General Inquiries"></Header>
+                <Header title="General Topics"></Header>
                 <SubDashboard title="TOPICS" data={subjectsInquiries} changeViewFunc={inquiriesView} emailTemplates={false} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
                     <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Inquiries"}></SubHeaderLine>
