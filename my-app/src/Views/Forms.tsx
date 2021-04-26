@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
 import { FormCard } from '../Components/FormCard';
+import './Forms.css';
 import * as Endpoints from '../Constants/Endpoints';
 
 export type FormData = {
@@ -10,6 +11,7 @@ export type FormData = {
 
 export function Forms() {
     const [formData, setFormData] = useState<FormData[]>([]);
+    const [newFormName, setNewFormName] = useState("");
 
     const getForms = async() => {
         const authToken = localStorage.getItem("Authorization") || "";
@@ -37,6 +39,27 @@ export function Forms() {
         var iframeString: string =  "<iframe src=\"" + Endpoints.Base + "/form/" + id + "\"></iframe>";
         navigator.clipboard.writeText(iframeString);
     }
+
+    const createForm = async(e: any) => {
+        e.preventDefault();
+        const authToken = localStorage.getItem("Authorization") || "";
+        var newForm = {name: newFormName};
+        var jsonNewForm = JSON.stringify(newForm);
+        const response = await fetch(Endpoints.Base + "/forms", {
+            method: "POST",
+            body: jsonNewForm,
+            headers: new Headers({
+                "Content-Type": "application/json",
+                "Authorization": authToken
+            })
+        });
+        if (response.status >= 300) {
+            alert("There was an error trying to get your forms.");
+            return;
+        }
+        setNewFormName("");
+        getForms();
+    }
         
     useEffect(() => {
         getForms();
@@ -48,8 +71,16 @@ export function Forms() {
     return(
         <div className="dashboard subdashboard">
             <Header title="Your Forms"></Header>
-            <div>
+            <div className="form-cards">
                 {formCards}
+            </div>
+            <hr className="forms-create-divider"/>
+            <div className="new-form-container">
+                <h1>Create a form</h1>
+                <form className="new-form" autoComplete="off" onSubmit={createForm}>
+                    <input className="new-form-input" name="name" type="text" value={newFormName} placeholder="Form Name" onChange={e => setNewFormName(e.target.value)} required/>
+                    <input className="new-form-create-btn" type="submit" value="Create" />
+                </form>
             </div>
         </div>
     );

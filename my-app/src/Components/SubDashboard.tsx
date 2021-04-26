@@ -1,7 +1,6 @@
 import { SubDashboardCard } from './SubDashboardCard';
 import { SubHeaderLine } from './SubHeaderLine';
 import './SubDashboard.css';
-import { EmailTemplateCard } from './EmailTemplateCard';
 
 export type InquiryData = {
     id?: string;

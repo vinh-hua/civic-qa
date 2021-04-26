@@ -30,3 +30,7 @@
     margin-right: 30px;
     float: right;
 }
+
+.sub-dash-card-btn:hover {
+    color: rgb(179, 103, 255, .7);
+}

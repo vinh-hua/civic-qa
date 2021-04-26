@@ -96,6 +96,7 @@ export function General() {
 
     function initialView() {
         setInquiriesView(false);
+        getInquiries();
     }
     
     useEffect(() => {

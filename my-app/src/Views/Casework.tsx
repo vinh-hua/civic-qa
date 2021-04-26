@@ -97,6 +97,7 @@ export function Casework() {
 
     function initialView() {
         setInquiriesView(false);
+        getInquiries();
     }
     
     useEffect(() => {
