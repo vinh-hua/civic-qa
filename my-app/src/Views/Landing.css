@@ -1,0 +1,54 @@
+.landing-page {
+    padding-top: 20px;
+    height: 100vh;
+    background-image: linear-gradient(to right, #C9A8FF, #8000FF);
+    background-color: #8000FF;
+}
+
+.landing-logo-title-container {
+    float: left;
+    padding-left: 2.5%;
+    display: flex;
+}
+
+.landing-logo {
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+}
+
+.landing-title {
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.landing-btn-container {
+    padding-right: 2.5%;
+    float: right;  
+    height: 10vh;
+}
+
+.landing-btn {
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.project-container {
+    padding-top: 5%;
+    margin-left: 15%;
+    text-align: left;
+}
+
+.landing-sub-title {
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.teammate-img {
+    width: 150px;
+}

@@ -4,12 +4,10 @@ import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { StatCardRow } from '../Components/StatCardRow';
 import { Inquiries } from './Inquiries';
-import { useSelector } from 'react-redux';
-import { AppState } from '../Redux/Reducers/rootReducer'
 import * as Endpoints from '../Constants/Endpoints';
 
 export function General() {
-    const { auth } = useSelector((state: AppState) => state.auth);
+    const auth = localStorage.getItem("Authorization") || "";
     const [onInquiriesView, setInquiriesView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
     const [specificSubjectData, setSpecificSubjectData] = useState<SubDashboardData[]>([]);
@@ -122,7 +120,7 @@ export function General() {
         </div>
         : <div className="dashboard sub-dashboard">
             <div>
-                <Header title="General Inquiries"></Header>
+                <Header title="General Topics"></Header>
                 <SubDashboard title="TOPICS" data={subjectsInquiries} changeViewFunc={inquiriesView} emailTemplates={false} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
                     <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Inquiries"}></SubHeaderLine>

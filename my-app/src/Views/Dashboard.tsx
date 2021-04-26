@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { StatCardRow } from '../Components/StatCardRow';
 import { DashboardChartStats } from '../Dashboard/DashboardChartStats';
-import { useSelector } from 'react-redux';
-import { AppState } from '../Redux/Reducers/rootReducer'
 import * as Constants from '../Constants/Constants';
 import * as Endpoints from '../Constants/Endpoints';
 import './Dashboard.css';
 
 export function Dashboard() {
-    const { auth } = useSelector((state: AppState) => state.auth);
+    const auth = localStorage.getItem("Authorization") || "";
     const [general, setGeneral] = useState(0);
     const [casework, setCasework] = useState(0);
 
