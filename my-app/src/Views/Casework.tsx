@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
-import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
+import { SubDashboard, InquiryData } from '../Components/SubDashboard';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { StatCardRow } from '../Components/StatCardRow';
 import { Inquiries } from './Inquiries';
@@ -10,9 +10,9 @@ export function Casework() {
     const auth = localStorage.getItem("Authorization") || "";
     const [onInquiriesView, setInquiriesView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
-    const [specificTopicsData, setSpecificTopicsData] = useState<SubDashboardData[]>([]);
-    const [topicsResponsesData, setTopicsResponsesData] = useState<Map<string, SubDashboardData[]>>();
-    const [topicsCases, setTopicsCases] = useState<SubDashboardData[]>([]);
+    const [specificTopicsData, setSpecificTopicsData] = useState<InquiryData[]>([]);
+    const [topicsResponsesData, setTopicsResponsesData] = useState<Map<string, InquiryData[]>>();
+    const [topicsCases, setTopicsCases] = useState<InquiryData[]>([]);
     const [summaryToday, setSummaryToday] = useState(0);
     const [summaryTotal, setSummaryTotal] = useState(0);
     const [summaryTopics, setSummaryTopics] = useState(0);
@@ -30,15 +30,15 @@ export function Casework() {
             return;
         }
         const responsesGeneral = await response.json();
-        var formResponses: SubDashboardData[] = [];
-        let topicsMap = new Map<string, SubDashboardData[]>();
+        var formResponses: InquiryData[] = [];
+        let topicsMap = new Map<string, InquiryData[]>();
         let topicsCases = new Map<string, number>();
 
         responsesGeneral.forEach(function(formResponse: any) {
             var d = new Date(formResponse.createdAt);
             var t = d.toLocaleString("en-US");
             var topics = formResponse.tags;
-            var data: SubDashboardData = {id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
+            var data: InquiryData = {id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
 
             topics.forEach((topic: any) => {
                 if (topicsMap.has(topic.value)) {
@@ -46,7 +46,7 @@ export function Casework() {
                     getList?.push(data);
                     topicsMap.set(topic.value, getList || []);
                 } else {
-                    var newList: SubDashboardData[] = [];
+                    var newList: InquiryData[] = [];
                     newList.push(data);
                     topicsMap.set(topic.value, newList);
                 }
@@ -57,7 +57,7 @@ export function Casework() {
             formResponses.push(data);
         });
 
-        var cases: SubDashboardData[] = [];
+        var cases: InquiryData[] = [];
         Array.from(topicsCases.keys()).forEach((key) => {
             var subText = " case";
             if ((topicsCases.get(key) || 0) > 1) {
@@ -89,7 +89,7 @@ export function Casework() {
         setSummaryToday(responsesToday.length);
     }
 
-    function inquiriesView(data: SubDashboardData) {
+    function inquiriesView(data: InquiryData) {
         setSpecificViewTitle(data.name);
         setSpecificTopicsData(topicsResponsesData?.get(data.name) || []);
         setInquiriesView(true);

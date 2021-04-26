@@ -1,10 +1,9 @@
-import { Dispatch, SetStateAction } from 'react';
 import { SubDashboardCard } from './SubDashboardCard';
 import { SubHeaderLine } from './SubHeaderLine';
 import './SubDashboard.css';
 import { EmailTemplateCard } from './EmailTemplateCard';
 
-export type SubDashboardData = {
+export type InquiryData = {
     id?: string;
     email?: string;
     name: string;
@@ -14,7 +13,7 @@ export type SubDashboardData = {
 
 export type SubDashboardProps = {
     title: string;
-    data: Array<SubDashboardData>;
+    data: Array<InquiryData>;
     changeViewFunc: Function;
     emailTemplates: boolean;
     fullPageView: boolean;

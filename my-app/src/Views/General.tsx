@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
-import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
+import { SubDashboard, InquiryData } from '../Components/SubDashboard';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { StatCardRow } from '../Components/StatCardRow';
 import { Inquiries } from './Inquiries';
@@ -10,9 +10,9 @@ export function General() {
     const auth = localStorage.getItem("Authorization") || "";
     const [onInquiriesView, setInquiriesView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
-    const [specificSubjectData, setSpecificSubjectData] = useState<SubDashboardData[]>([]);
-    const [subjectsResponsesData, setSubjectsResponsesData] = useState<Map<string, SubDashboardData[]>>();
-    const [subjectsInquiries, setSubjectsInquiries] = useState<SubDashboardData[]>([]);
+    const [specificSubjectData, setSpecificSubjectData] = useState<InquiryData[]>([]);
+    const [subjectsResponsesData, setSubjectsResponsesData] = useState<Map<string, InquiryData[]>>();
+    const [subjectsInquiries, setSubjectsInquiries] = useState<InquiryData[]>([]);
     const [summaryToday, setSummaryToday] = useState(0);
     const [summaryTotal, setSummaryTotal] = useState(0);
     const [summaryTopics, setSummaryTopics] = useState(0);
@@ -29,15 +29,15 @@ export function General() {
             return;
         }
         const responsesGeneral = await response.json();
-        var formResponses: SubDashboardData[] = [];
-        let subjectsMap = new Map<string, SubDashboardData[]>();
+        var formResponses: InquiryData[] = [];
+        let subjectsMap = new Map<string, InquiryData[]>();
         let subjectsInquiries = new Map<string, number>();
 
         responsesGeneral.forEach(function(formResponse: any) {
             var d = new Date(formResponse.createdAt);
             var t = d.toLocaleString("en-US");
             var subjects = formResponse.tags;
-            var data: SubDashboardData = {id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
+            var data: InquiryData = {id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
 
             subjects.forEach((subject: any) => {
                 if (subjectsMap.has(subject.value)) {
@@ -45,7 +45,7 @@ export function General() {
                     getList?.push(data);
                     subjectsMap.set(subject.value, getList || []);
                 } else {
-                    var newList: SubDashboardData[] = [];
+                    var newList: InquiryData[] = [];
                     newList.push(data);
                     subjectsMap.set(subject.value, newList);
                 }
@@ -56,7 +56,7 @@ export function General() {
             formResponses.push(data);
         });
 
-        var inquiries: SubDashboardData[] = [];
+        var inquiries: InquiryData[] = [];
         Array.from(subjectsInquiries.keys()).forEach((key) => {
             var subText = " inquiry";
             if ((subjectsInquiries.get(key) || 0) > 1) {
@@ -88,7 +88,7 @@ export function General() {
         setSummaryToday(responsesToday.length);
     }
 
-    function inquiriesView(data: SubDashboardData) {
+    function inquiriesView(data: InquiryData) {
         setSpecificViewTitle(data.name);
         setSpecificSubjectData(subjectsResponsesData?.get(data.name) || []);
         setInquiriesView(true);

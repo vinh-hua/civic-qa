@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
-import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
+import { SubDashboard, InquiryData } from '../Components/SubDashboard';
 import { FormInquiryView } from './FormInquiryView'; 
 import * as Endpoints from '../Constants/Endpoints';
 
 export type ResponsesProps = {
     header?: string;
     subjectTitle?: string;
-    data: Array<SubDashboardData>;
+    data: Array<InquiryData>;
     hideInquiryBackArrow?: boolean;
 }
 
@@ -16,8 +16,8 @@ export function Inquiries(props: ResponsesProps) {
     const subjecTitle = props.subjectTitle || "CURRENT INQUIRIES";
     const hideBackArrow = props.hideInquiryBackArrow || false;
     const [onResponseView, setResponseView] = useState(false);
-    const [responseData, setData] = useState<SubDashboardData[]>([]);
-    const [specificResponseData, setSpecificResponseData] = useState<SubDashboardData>();
+    const [responseData, setData] = useState<InquiryData[]>([]);
+    const [specificResponseData, setSpecificResponseData] = useState<InquiryData>();
 
     const getResponses = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
@@ -32,7 +32,7 @@ export function Inquiries(props: ResponsesProps) {
             return;
         }
         const forms = await response.json();
-        var formResponses: Array<SubDashboardData> = [];
+        var formResponses: Array<InquiryData> = [];
         forms.forEach(function(formResponse: any) {
             var d = new Date(formResponse.createdAt);
             var t = d.toLocaleString("en-US");
@@ -45,7 +45,7 @@ export function Inquiries(props: ResponsesProps) {
         getResponses();
     }, []);
 
-    function setSpecificResponseContent(formResponse: SubDashboardData) {
+    function setSpecificResponseContent(formResponse: InquiryData) {
         setResponseView(true);
         setSpecificResponseData(formResponse);
     }
