@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import * as Endpoints from '../Constants/Endpoints';
+import './SignupLogin.css';
 
 export type SignupProps = {
     userLogin: Function;
@@ -43,7 +44,7 @@ export function Signup(props: SignupProps) {
     return(
         <div className="signup-login-page">
             <div className="signup-login-container">
-                <img src="./assets/icons/logo.png"></img>
+                <img className="signup-login-logo" src="./assets/icons/logo.png"></img>
                 <h1 className="signup-login-title">Civic QA</h1>
                 <form className="signup-login-form" autoComplete="off" onSubmit={attemptSignup}>
                     <input className="signup-login-form-input signup-login-form-text" name="fname" type="text" value={firstName} placeholder="First Name" onChange={e => setFirstName(e.target.value)} required/>

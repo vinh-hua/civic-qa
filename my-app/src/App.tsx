@@ -47,8 +47,6 @@ export default function App() {
           <div>
             <Navigation userLogout={userLogout}></Navigation>
             <div className="view">
-              <Route path="/signup" exact component={Signup}></Route>
-              <Route path="/login" exact component={Login}></Route>
               <Route path="/dashboard" exact component={Dashboard}/>
               <Route path="/general" exact component={General}/>
               <Route path="/casework" exact component={Casework}/>
@@ -56,11 +54,7 @@ export default function App() {
               <Route path="/engagement-reports" exact component={EngagementReports}/>
               <Route path="/settings" exact component={Settings}/>
             </div>
-          </div> : 
-          <div>
-            <NavLink to="/signup">Signup</NavLink>
-            <NavLink to="login">Login</NavLink>
-          </div>}
+          </div> : null}
         </div>
   );
 }
