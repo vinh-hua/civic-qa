@@ -4,12 +4,10 @@ import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
 import { SubHeaderLine } from '../Components/SubHeaderLine';
 import { StatCardRow } from '../Components/StatCardRow';
 import { Inquiries } from './Inquiries';
-import { useSelector } from 'react-redux';
-import { AppState } from '../Redux/Reducers/rootReducer'
 import * as Endpoints from '../Constants/Endpoints';
 
 export function Casework() {
-    const { auth } = useSelector((state: AppState) => state.auth);
+    const auth = localStorage.getItem("Authorization") || "";
     const [onInquiriesView, setInquiriesView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
     const [specificTopicsData, setSpecificTopicsData] = useState<SubDashboardData[]>([]);

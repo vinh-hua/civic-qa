@@ -1,27 +1,27 @@
-.login-page {
+.signup-login-page {
     height: 100vh;
     background-image: linear-gradient(to right, #C9A8FF, #8000FF);
 }
 
-.login-container {
+.signup-login-container {
     padding-top: 5%;
     text-align: center;
 }
 
-.login-title {
+.signup-login-title {
     color: white;
     font-size: 90px;
     font-weight: bold;
 }
 
-.login-form {
+.signup-login-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.login-form-input {
+.signup-login-form-input {
     border: none;
     border-radius: 10px;
     width: 22.5%;
@@ -35,7 +35,7 @@ input:-webkit-autofill::first-line {
     font-size: 24px
 }
 
-.login-form-text {
+.signup-login-form-text {
     padding-left: 30px;
 }
 
@@ -43,7 +43,7 @@ input:-webkit-autofill::first-line {
     color: #A4A6B3;
 }
 
-.login-btn {
+.signup-login-btn {
     color: white;
     background-color: #363740;
     border: none;
@@ -53,7 +53,7 @@ input:-webkit-autofill::first-line {
     height: 70px;
 }
 
-.switch-login-signup-btn {
+.switch-signup-login-btn {
     background: none;
     border: none;
     color: white;
