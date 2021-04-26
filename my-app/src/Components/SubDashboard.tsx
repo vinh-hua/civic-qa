@@ -20,7 +20,7 @@ export type SubDashboardProps = {
 };
 
 export function SubDashboard(props: SubDashboardProps) {
-    let cards:any[] = [];
+    let cards: any[] = [];
     props.data.forEach(d => cards.push(<SubDashboardCard data={d} changeViewFunc={props.changeViewFunc}></SubDashboardCard>));
 
     return (
