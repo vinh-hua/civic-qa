@@ -10,14 +10,14 @@ export function General() {
     const auth = localStorage.getItem("Authorization") || "";
     const [onInquiriesView, setInquiriesView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
-    const [specificSubjectData, setSpecificSubjectData] = useState<InquiryData[]>([]);
-    const [subjectsResponsesData, setSubjectsResponsesData] = useState<Map<string, InquiryData[]>>();
-    const [subjectsInquiries, setSubjectsInquiries] = useState<InquiryData[]>([]);
+    const [specificTopicData, setSpecificTopicData] = useState<InquiryData[]>([]);
+    const [topicsData, setTopicsData] = useState<Map<string, InquiryData[]>>();
+    const [topicsInquiries, setTopicsInquiries] = useState<InquiryData[]>([]);
     const [summaryToday, setSummaryToday] = useState(0);
     const [summaryTotal, setSummaryTotal] = useState(0);
     const [summaryTopics, setSummaryTopics] = useState(0);
 
-    const getResponses = async() => {
+    const getInquiries = async() => {
         const response = await fetch(Endpoints.Base + Endpoints.ResponsesActiveGeneral, {
             method: "GET",
             headers: new Headers({
@@ -28,16 +28,16 @@ export function General() {
             console.log("Error retrieving form responses");
             return;
         }
-        const responsesGeneral = await response.json();
-        var formResponses: InquiryData[] = [];
+        const inquiriesGeneral = await response.json();
+        var formInquiries: InquiryData[] = [];
         let subjectsMap = new Map<string, InquiryData[]>();
         let subjectsInquiries = new Map<string, number>();
 
-        responsesGeneral.forEach(function(formResponse: any) {
-            var d = new Date(formResponse.createdAt);
+        inquiriesGeneral.forEach(function(inquiry: any) {
+            var d = new Date(inquiry.createdAt);
             var t = d.toLocaleString("en-US");
-            var subjects = formResponse.tags;
-            var data: InquiryData = {id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
+            var subjects = inquiry.tags;
+            var data: InquiryData = {id: inquiry.id, email: inquiry.emailAddress, name: inquiry.name + " / " + inquiry.subject, value: t, body: inquiry.body}
 
             subjects.forEach((subject: any) => {
                 if (subjectsMap.has(subject.value)) {
@@ -53,7 +53,7 @@ export function General() {
                 subjectsInquiries.set(subject.value, (subjectsInquiries.get(subject.value) || 0) + 1);
 
             });
-            formResponses.push(data);
+            formInquiries.push(data);
         });
 
         var inquiries: InquiryData[] = [];
@@ -68,12 +68,12 @@ export function General() {
         inquiries.sort((a, b) => (a.value > b.value) ? -1 : (a.value === b.value) ? -1 : 1);
 
         setSummaryTopics(inquiries.length);
-        setSummaryTotal(formResponses.length);
-        setSubjectsInquiries(inquiries);
-        setSubjectsResponsesData(subjectsMap);
+        setSummaryTotal(formInquiries.length);
+        setTopicsInquiries(inquiries);
+        setTopicsData(subjectsMap);
     }
 
-    const getResponsesToday = async() => {
+    const getInquiriesToday = async() => {
         const response = await fetch(Endpoints.Base +  Endpoints.ResponsesActiveGeneralTodayOnly, {
             method: "GET",
             headers: new Headers({
@@ -84,13 +84,13 @@ export function General() {
             console.log("Error retrieving form responses");
             return;
         }
-        const responsesToday = await response.json();
-        setSummaryToday(responsesToday.length);
+        const inquiriesToday = await response.json();
+        setSummaryToday(inquiriesToday.length);
     }
 
     function inquiriesView(data: InquiryData) {
         setSpecificViewTitle(data.name);
-        setSpecificSubjectData(subjectsResponsesData?.get(data.name) || []);
+        setSpecificTopicData(topicsData?.get(data.name) || []);
         setInquiriesView(true);
     }
 
@@ -99,8 +99,8 @@ export function General() {
     }
     
     useEffect(() => {
-        getResponses();
-        getResponsesToday();
+        getInquiries();
+        getInquiriesToday();
     }, []);
 
 
@@ -116,12 +116,12 @@ export function General() {
             <div className="dashboard sub-dashboard">
                 <button className="exit-button" onClick={initialView}><img className="back-arrow" src="./assets/icons/arrow.svg"></img></button>
             </div>
-            <Inquiries header="General" subjectTitle={specificViewTitle} data={specificSubjectData} hideInquiryBackArrow={true}></Inquiries>
+            <Inquiries header="General" subjectTitle={specificViewTitle} data={specificTopicData} hideInquiryBackArrow={true}></Inquiries>
         </div>
         : <div className="dashboard sub-dashboard">
             <div>
                 <Header title="General Topics"></Header>
-                <SubDashboard title="TOPICS" data={subjectsInquiries} changeViewFunc={inquiriesView} emailTemplates={false} fullPageView={false}></SubDashboard>
+                <SubDashboard title="TOPICS" data={topicsInquiries} changeViewFunc={inquiriesView} fullPageView={false}></SubDashboard>
                 <div className="sub-summary">
                     <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Inquiries"}></SubHeaderLine>
                     <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>

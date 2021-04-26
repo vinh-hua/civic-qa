@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
 import * as Endpoints from '../Constants/Endpoints';
 
+export type FormData = {
+    id: string;
+    name: string;
+}
+
 export function Forms() {
+    const [formData, setFormData] = useState<FormData[]>([]);
+
     const getForms = async() => {
         const authToken = localStorage.getItem("Authorization") || "";
         const response = await fetch(Endpoints.Base + "/forms", {
@@ -15,8 +22,10 @@ export function Forms() {
             alert("There was an error trying to get your forms.");
             return;
         }
-        const forms = await response.json();
-        console.log(forms);
+        const formResponses = await response.json();
+        formResponses.forEach(function(form: any) {
+
+        });
     }
         
     useEffect(() => {

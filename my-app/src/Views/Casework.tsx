@@ -11,14 +11,14 @@ export function Casework() {
     const [onInquiriesView, setInquiriesView] = useState(false);
     const [specificViewTitle, setSpecificViewTitle] = useState("");
     const [specificTopicsData, setSpecificTopicsData] = useState<InquiryData[]>([]);
-    const [topicsResponsesData, setTopicsResponsesData] = useState<Map<string, InquiryData[]>>();
+    const [topicsData, setTopicsData] = useState<Map<string, InquiryData[]>>();
     const [topicsCases, setTopicsCases] = useState<InquiryData[]>([]);
     const [summaryToday, setSummaryToday] = useState(0);
     const [summaryTotal, setSummaryTotal] = useState(0);
     const [summaryTopics, setSummaryTopics] = useState(0);
 
 
-    const getResponses = async() => {
+    const getInquiries = async() => {
         const response = await fetch(Endpoints.Base + Endpoints.ResponsesActiveCasework, {
             method: "GET",
             headers: new Headers({
@@ -29,16 +29,16 @@ export function Casework() {
             console.log("Error retrieving form responses");
             return;
         }
-        const responsesGeneral = await response.json();
-        var formResponses: InquiryData[] = [];
+        const inquiriesCasework = await response.json();
+        var inquiries: InquiryData[] = [];
         let topicsMap = new Map<string, InquiryData[]>();
         let topicsCases = new Map<string, number>();
 
-        responsesGeneral.forEach(function(formResponse: any) {
-            var d = new Date(formResponse.createdAt);
+        inquiriesCasework.forEach(function(inquiry: any) {
+            var d = new Date(inquiry.createdAt);
             var t = d.toLocaleString("en-US");
-            var topics = formResponse.tags;
-            var data: InquiryData = {id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body}
+            var topics = inquiry.tags;
+            var data: InquiryData = {id: inquiry.id, email: inquiry.emailAddress, name: inquiry.name + " / " + inquiry.subject, value: t, body: inquiry.body}
 
             topics.forEach((topic: any) => {
                 if (topicsMap.has(topic.value)) {
@@ -54,7 +54,7 @@ export function Casework() {
                 topicsCases.set(topic.value, (topicsCases.get(topic.value) || 0) + 1);
 
             });
-            formResponses.push(data);
+            inquiries.push(data);
         });
 
         var cases: InquiryData[] = [];
@@ -69,12 +69,12 @@ export function Casework() {
         cases.sort((a, b) => (a.value > b.value) ? -1 : (a.value === b.value) ? -1 : 1);
 
         setSummaryTopics(cases.length);
-        setSummaryTotal(formResponses.length);
+        setSummaryTotal(inquiries.length);
         setTopicsCases(cases);
-        setTopicsResponsesData(topicsMap);
+        setTopicsData(topicsMap);
     }
 
-    const getResponsesToday = async() => {
+    const getInquiriesToday = async() => {
         const response = await fetch(Endpoints.Base + Endpoints.ResponsesActiveCaseworkTodayOnly, {
             method: "GET",
             headers: new Headers({
@@ -85,13 +85,13 @@ export function Casework() {
             console.log("Error retrieving form responses");
             return;
         }
-        const responsesToday = await response.json();
-        setSummaryToday(responsesToday.length);
+        const inquiriesToday = await response.json();
+        setSummaryToday(inquiriesToday.length);
     }
 
     function inquiriesView(data: InquiryData) {
         setSpecificViewTitle(data.name);
-        setSpecificTopicsData(topicsResponsesData?.get(data.name) || []);
+        setSpecificTopicsData(topicsData?.get(data.name) || []);
         setInquiriesView(true);
     }
 
@@ -100,8 +100,8 @@ export function Casework() {
     }
     
     useEffect(() => {
-        getResponses();
-        getResponsesToday();
+        getInquiries();
+        getInquiriesToday();
     }, []);
 
     let statCards = [
@@ -121,7 +121,7 @@ export function Casework() {
             : <div className="dashboard sub-dashboard">
                 <div>
                     <Header title="Casework Topics"></Header>
-                    <SubDashboard title="TOPICS" data={topicsCases} changeViewFunc={inquiriesView} emailTemplates={false} fullPageView={false}></SubDashboard>
+                    <SubDashboard title="TOPICS" data={topicsCases} changeViewFunc={inquiriesView} fullPageView={false}></SubDashboard>
                     <div className="sub-summary">
                         <SubHeaderLine title="SUMMARY" subHeaderValue={"Active Cases"}></SubHeaderLine>
                         <StatCardRow spaceEven={false} cards={statCards}></StatCardRow>
