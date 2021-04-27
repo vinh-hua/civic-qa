@@ -1,4 +1,4 @@
-export const Base = "http://165.232.148.104/v0";
+export const Base = "https://api.civicqa.codes/v0";
 export const Signup = "/signup";
 export const Responses = "/responses";
 export const ResponsesActiveOnly = "/responses?activeOnly=true";
