@@ -3,14 +3,14 @@
     flex-flow: wrap;
     justify-content: space-evenly;
     margin-top: 5%;
-    height: 50vh;
+    height: 45vh;
     overflow-y: auto;
 }
 
 .forms-create-divider {
+    margin-top: 30px;
     border-top: 1px solid;
-    color: #A4A6B3;
-    opacity: 30%;
+    color: #DFE0EB;
 }
 
 .new-form-container {
