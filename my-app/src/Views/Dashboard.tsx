@@ -10,7 +10,7 @@ export function Dashboard() {
     const [general, setGeneral] = useState(0);
     const [casework, setCasework] = useState(0);
 
-    const getGeneralResponses = async() => {
+    const getGeneralInquiries = async() => {
         const response = await fetch(Endpoints.Base + Endpoints.ResponsesActiveGeneral, {
             method: "GET",
             headers: new Headers({
@@ -21,11 +21,11 @@ export function Dashboard() {
             console.log("Error retrieving form responses");
             return;
         }
-        const responsesGeneral = await response.json();
-        setGeneral(responsesGeneral.length);
+        const inquiriesGeneral = await response.json();
+        setGeneral(inquiriesGeneral.length);
     }
 
-    const getCaseworkResponses = async() => {
+    const getCaseworkInquiries = async() => {
         const response = await fetch(Endpoints.Base + Endpoints.ResponsesActiveCasework, {
             method: "GET",
             headers: new Headers({
@@ -36,13 +36,13 @@ export function Dashboard() {
             console.log("Error retrieving form responses");
             return;
         }
-        const responsesCasework = await response.json();
-        setCasework(responsesCasework.length);
+        const inquiriesCasework = await response.json();
+        setCasework(inquiriesCasework.length);
     }
     
     useEffect(() => {
-        getGeneralResponses();
-        getCaseworkResponses();
+        getGeneralInquiries();
+        getCaseworkInquiries();
     }, []);
 
     let statCards = [

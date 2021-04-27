@@ -1,8 +1,8 @@
-import { SubDashboardData } from '../Components/SubDashboard';
+import { InquiryData } from '../Components/SubDashboard';
 import './SubDashboardCard.css';
 
 export type SubDashboardCardProps = {
-    data: SubDashboardData;
+    data: InquiryData;
     changeViewFunc: Function;
 }
 

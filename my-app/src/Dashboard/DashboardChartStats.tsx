@@ -13,18 +13,18 @@ export function DashboardChartStats() {
 
     async function getTotal() {
         var authToken = localStorage.getItem("Authorization") || "";
-        const responseTotal = await fetch(Endpoints.Base + Endpoints.Responses, {
+        const inquiries = await fetch(Endpoints.Base + Endpoints.Responses, {
             method: "GET",
             headers: new Headers({
                 "Authorization": authToken
             })
         });
-        if (responseTotal.status >= 300) {
+        if (inquiries.status >= 300) {
             console.log("Error retrieving form responses");
             return;
         }
-        const formsTotal = await responseTotal.json();
-        setTotal(formsTotal.length);
+        const inquiryTotal = await inquiries.json();
+        setTotal(inquiryTotal.length);
     }
 
     async function getTodayTrends() {
@@ -39,11 +39,11 @@ export function DashboardChartStats() {
             console.log("Error retrieving form responses");
             return;
         }
-        const formsToday = await responseToday.json();
+        const inquiriesToday = await responseToday.json();
         // map hour and form response counts
         var trendData = new Map<number, number>();
-        formsToday.forEach(function(form: any) {
-            var date = new Date(form.createdAt);
+        inquiriesToday.forEach(function(inquiry: any) {
+            var date = new Date(inquiry.createdAt);
             var hour = date.getHours();
             if (trendData.has(hour)) {
                 trendData.set(hour, (trendData.get(hour) || 0) + 1);
@@ -57,7 +57,7 @@ export function DashboardChartStats() {
             trendDataArray.push({index: i, responses: trendData.get(i) || 0});
         }
         setTodayTrends(trendDataArray);
-        setToday(formsToday.length);
+        setToday(inquiriesToday.length);
     }
 
     useEffect(() => {

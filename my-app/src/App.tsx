@@ -6,6 +6,7 @@ import { Dashboard } from './Views/Dashboard';
 import { General } from './Views/General';
 import { Casework } from './Views/Casework';
 import {Inquiries } from './Views/Inquiries';
+import { Forms } from './Views/Forms';
 import { EngagementReports } from './Views/EngagementReports';
 import { Settings } from './Views/Settings';
 import { Landing } from './Views/Landing';
@@ -51,6 +52,7 @@ export default function App() {
               <Route path="/general" exact component={General}/>
               <Route path="/casework" exact component={Casework}/>
               <Route path="/inquiries" exact component={Inquiries}/>
+              <Route path="/forms" exact component={Forms}/>
               <Route path="/engagement-reports" exact component={EngagementReports}/>
               <Route path="/settings" exact component={Settings}/>
             </div>

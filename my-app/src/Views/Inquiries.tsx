@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '../Components/Header';
-import { SubDashboard, SubDashboardData } from '../Components/SubDashboard';
+import { SubDashboard, InquiryData } from '../Components/SubDashboard';
 import { FormInquiryView } from './FormInquiryView'; 
 import * as Endpoints from '../Constants/Endpoints';
 
 export type ResponsesProps = {
     header?: string;
     subjectTitle?: string;
-    data: Array<SubDashboardData>;
+    data: Array<InquiryData>;
     hideInquiryBackArrow?: boolean;
 }
 
@@ -15,11 +15,11 @@ export function Inquiries(props: ResponsesProps) {
     const headerTitle = props.header || "Form Inquiries";
     const subjecTitle = props.subjectTitle || "CURRENT INQUIRIES";
     const hideBackArrow = props.hideInquiryBackArrow || false;
-    const [onResponseView, setResponseView] = useState(false);
-    const [responseData, setData] = useState<SubDashboardData[]>([]);
-    const [specificResponseData, setSpecificResponseData] = useState<SubDashboardData>();
+    const [onInquiryView, setInquiryView] = useState(false);
+    const [responseData, setData] = useState<InquiryData[]>([]);
+    const [specificInquiryData, setSpecificInquiryData] = useState<InquiryData>();
 
-    const getResponses = async() => {
+    const getInquiries = async() => {
         var authToken = localStorage.getItem("Authorization") || "";
         const response = await fetch(Endpoints.Base + Endpoints.ResponsesActiveOnly, {
             method: "GET",
@@ -32,36 +32,36 @@ export function Inquiries(props: ResponsesProps) {
             return;
         }
         const forms = await response.json();
-        var formResponses: Array<SubDashboardData> = [];
-        forms.forEach(function(formResponse: any) {
-            var d = new Date(formResponse.createdAt);
+        var formInquiries: Array<InquiryData> = [];
+        forms.forEach(function(inquiry: any) {
+            var d = new Date(inquiry.createdAt);
             var t = d.toLocaleString("en-US");
-            formResponses.push({id: formResponse.id, email: formResponse.emailAddress, name: formResponse.name + " / " + formResponse.subject, value: t, body: formResponse.body});
+            formInquiries.push({id: inquiry.id, email: inquiry.emailAddress, name: inquiry.name + " / " + inquiry.subject, value: t, body: inquiry.body});
         });
-        setData(formResponses);
+        setData(formInquiries);
     }
 
     useEffect(() => {
-        getResponses();
+        getInquiries();
     }, []);
 
-    function setSpecificResponseContent(formResponse: SubDashboardData) {
-        setResponseView(true);
-        setSpecificResponseData(formResponse);
+    function setSpecificInquiryContent(formResponse: InquiryData) {
+        setInquiryView(true);
+        setSpecificInquiryData(formResponse);
     }
 
     function setSpecificView() {
-        setResponseView(false);
-        getResponses();
+        setInquiryView(false);
+        getInquiries();
     }
     
     return (
         <div className="dashboard sub-dashboard">
-            {onResponseView ? 
-            <FormInquiryView responseId={specificResponseData?.id || ""} email={specificResponseData?.email || ""} title="Inquiry" subject={specificResponseData?.name || ""} body={specificResponseData?.body || ""} setSpecificView={setSpecificView} hideBackArrow={hideBackArrow}></FormInquiryView> :
+            {onInquiryView ? 
+            <FormInquiryView responseId={specificInquiryData?.id || ""} email={specificInquiryData?.email || ""} title="Inquiry" subject={specificInquiryData?.name || ""} body={specificInquiryData?.body || ""} setSpecificView={setSpecificView} hideBackArrow={hideBackArrow}></FormInquiryView> :
             <div>
                 <Header title={headerTitle}></Header>
-                <SubDashboard title={subjecTitle} data={props.data ? props.data : responseData} changeViewFunc={setSpecificResponseContent} emailTemplates={false} fullPageView={true} subHeaderValue={props.data ? props.data.length : responseData.length}></SubDashboard>
+                <SubDashboard title={subjecTitle} data={props.data ? props.data : responseData} changeViewFunc={setSpecificInquiryContent} fullPageView={true} subHeaderValue={props.data ? props.data.length : responseData.length}></SubDashboard>
             </div>}
         </div>
     );
