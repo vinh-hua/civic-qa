@@ -1,6 +1,7 @@
 import './App.css';
 import { useState} from "react";
-import { Route, NavLink, Redirect } from "react-router-dom";
+
+import { Route, Redirect } from "react-router-dom";
 import { Navigation } from './Components/Navigation';
 import { Dashboard } from './Views/Dashboard';
 import { General } from './Views/General';
@@ -40,21 +41,21 @@ export default function App() {
 
   return (
       <div className="App">
-        {auth ? <Redirect to="/dashboard"/> : <Redirect to="/welcome"/>}
-        <Route path="/welcome" component={Landing}></Route>
-        <Route path="/signup" component={() => <Signup userLogin={userLogin}/>}></Route>
-        <Route path="/login" component={() => <Login userLogin={userLogin}/>}></Route>
+        <Route exact path="/" component={Landing}></Route>
+        <Route exact path="/signup" component={() => <Signup userLogin={userLogin}/>}></Route>
+        <Route exact path="/login" component={() => <Login userLogin={userLogin}/>}></Route>
+        {auth ? <Redirect to="/dashboard"/> : <Redirect to="/"/>}
         {auth ?
           <div>
             <Navigation userLogout={userLogout}></Navigation>
             <div className="view">
-              <Route path="/dashboard" exact component={Dashboard}/>
-              <Route path="/general" exact component={General}/>
-              <Route path="/casework" exact component={Casework}/>
-              <Route path="/inquiries" exact component={Inquiries}/>
-              <Route path="/forms" exact component={Forms}/>
-              <Route path="/engagement-reports" exact component={EngagementReports}/>
-              <Route path="/settings" exact component={Settings}/>
+              <Route exact path="/dashboard" component={Dashboard}/>
+              <Route exact path="/general" component={General}/>
+              <Route exact path="/casework" component={Casework}/>
+              <Route exact path="/inquiries" component={Inquiries}/>
+              <Route exact path="/forms" component={Forms}/>
+              <Route exact path="/engagement-reports" component={EngagementReports}/>
+              <Route exact path="/settings" component={Settings}/>
             </div>
           </div> : null}
         </div>
