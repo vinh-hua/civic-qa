@@ -1,6 +1,5 @@
 .landing-page {
     padding-top: 20px;
-    height: 100vh;
     background-image: linear-gradient(to right, #C9A8FF, #8000FF);
 }
 
@@ -38,8 +37,10 @@
 
 .project-container {
     padding-top: 5%;
-    margin-left: 15%;
+    margin-left: 17.5%;
+    margin-right: 17.5%;
     text-align: left;
+    color: white;
 }
 
 .landing-sub-title {
@@ -48,6 +49,12 @@
     font-weight: bold;
 }
 
-.teammate-img {
-    width: 150px;
+ol > li {
+    margin-bottom: 0em;
+}
+
+.team-bios {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
