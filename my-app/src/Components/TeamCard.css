@@ -4,5 +4,21 @@
 }
 
 .team-bio {
-    width: 400px;
+    width: 600px;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #9B51E0;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+.team-name-picture {
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.bio {
+    padding-top: 65px;
+    margin-left: 20px;
+    padding-right: 15px;
 }

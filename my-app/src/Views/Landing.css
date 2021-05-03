@@ -1,12 +1,19 @@
 .landing-page {
-    padding-top: 20px;
-    background-image: linear-gradient(to right, #C9A8FF, #8000FF);
+    background-color: white;
+}
+
+.landing-page-bar {
+    padding-top: 2%;
+    padding-bottom: 1%;
+    position: absolute;
+    width: 100%;
+    background-color: #363740;
 }
 
 .landing-logo-title-container {
-    float: left;
     padding-left: 2.5%;
     display: flex;
+    float: left;
 }
 
 .landing-logo {
@@ -23,34 +30,42 @@
 
 .landing-btn-container {
     padding-right: 2.5%;
-    float: right;  
-    height: 10vh;
+    float: right;
 }
 
 .landing-btn {
     font-weight: bold;
-    color: white;
+    color:  white;
     text-decoration: none;
     margin-left: 15px;
     margin-right: 15px;
 }
 
 .project-container {
-    padding-top: 5%;
-    margin-left: 17.5%;
-    margin-right: 17.5%;
+    padding-top: 7.5%;
+    margin-left: 15%;
+    margin-right: 15%;
     text-align: left;
-    color: white;
+    color: #363740;
+}
+
+.landing-sub-section {
+    margin-bottom: 50px;
 }
 
 .landing-sub-title {
-    color: white;
+    color: #9B51E0;
     font-size: 40px;
     font-weight: bold;
 }
 
 ol > li {
     margin-bottom: 0em;
+}
+
+iframe {
+    border: 1px solid #9B51E0;
+    border-radius: 10px;
 }
 
 .team-bios {
