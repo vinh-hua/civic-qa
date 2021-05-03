@@ -2,6 +2,10 @@
     background-color: white;
 }
 
+.landing-page p {
+    font-size: 20px;
+}
+
 .landing-page-bar {
     padding-top: 2%;
     padding-bottom: 1%;
