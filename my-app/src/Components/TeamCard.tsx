@@ -9,8 +9,10 @@ export type TeamCardProps = {
 export function TeamCard(props: TeamCardProps) {
     return(
         <div className="team-bio">
-            <h2>{props.name}</h2>
-            <img className="teammate-img" src={props.img}></img>
+            <div className="team-name-picture">
+                <h2>{props.name}</h2>
+                <img className="teammate-img" src={props.img}></img>
+            </div>
             <p className="bio">{props.bio}</p>
         </div>
     );
