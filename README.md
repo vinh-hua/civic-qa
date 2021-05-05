@@ -12,6 +12,9 @@
 Gateway API: `docs/services/gateway.yml`  
 Services: `docs/services/{service-name}/api-v{major-version}.yml`
 
+## License
+MIT License: `LICENSE.txt`
+
 ## Backend
 ### Run locally
 - Requirements:
