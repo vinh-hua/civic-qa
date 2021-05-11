@@ -317,7 +317,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "mailto/api-v0/yml#/components/schemas/request"
+              $ref: "mailto/api-v0.yml#/components/schemas/request"
       responses:
         '200':
           description: Bytes of HTML, anchor tag with mailto href

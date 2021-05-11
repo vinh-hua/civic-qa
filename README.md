@@ -30,7 +30,7 @@ With improved responsiveness and greater overall efficiency, LAs will be able to
 
 ## Documentation
 Gateway API: `docs/services/gateway.yml`  
-Services: `docs/services/{service-name}/api-v{major-version}.yml`
+Services: `docs/services/{service-name}/`: [`api-v{major-version}.yml` | `service.md`]
 
 ## License
 MIT License: `LICENSE.txt`
@@ -57,3 +57,12 @@ MIT License: `LICENSE.txt`
     - npm install
     - Change Base constant in civic-qa/my-app/src/Constants/Endpoints.ts to http://localhost:3000/v0 to make requests         to local backend
     - npm start to run client on localhost:3000 
+
+## Future Work
+Some places for future maintainers to start:
+- `logAggregator`'s Query functionality isn't really useful over raw SQL, consider creating a secure admin service to view database data from the log db and main db directly.
+- `form`'s data access is kind of a mess due to limitations (mostly of my understanding) of GORM. Consider refactoring to reduce the number of JOINS produced by certain queries. 
+- `unit testing`. I know it's not fun, but there are a lot of unit tests to right. Use them to find places where code is overly coupled too. Right now we rely pretty heavily on integration tests located in `test/e2e`.
+- `templated responses`: Frontend + Storage/API for bulk responding via templates.
+- `dynamic forms`: Frontend Editor/Management + backend storage/API/HTML Generation to create dynamic forms with custom fields, inputs, and validation. May require advanced knowledge of JSON data in MySQL or some other tricks to represent un-normalized data.
+ 
