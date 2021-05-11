@@ -48,11 +48,15 @@ export function Landing() {
                 <div className="landing-sub-section about-team">
                     <h1 className="landing-sub-title">Meet the Team</h1>
                     <div className="team-bios">   
-                        <TeamCard name="Lia Kitahata" img="./assets/images/lia.jpg" bio={LandingPage.LiaBio}></TeamCard>
-                        <TeamCard name="Rafi Bayer" img="./assets/images/rafi.jpg" bio={LandingPage.RafiBio}></TeamCard>
-                        <TeamCard name="Amit Galitzky" img="./assets/images/amit.jpg" bio={LandingPage.AmitBio}></TeamCard>
-                        <TeamCard name="Vivian Hua" img="./assets/images/vivian.jpg" bio={LandingPage.VivianBio}></TeamCard>
+                        <TeamCard name="Lia Kitahata" img="./assets/images/lia.jpg" bio={LandingPage.LiaBio} linkedin="https://www.linkedin.com/in/liakitahata/"></TeamCard>
+                        <TeamCard name="Rafi Bayer" img="./assets/images/rafi.jpg" bio={LandingPage.RafiBio} linkedin="https://www.linkedin.com/in/rafael-bayer/"></TeamCard>
+                        <TeamCard name="Amit Galitzky" img="./assets/images/amit.jpg" bio={LandingPage.AmitBio} linkedin="https://www.linkedin.com/in/amit-galitzky-844272171/"></TeamCard>
+                        <TeamCard name="Vivian Hua" img="./assets/images/vivian.jpg" bio={LandingPage.VivianBio} linkedin="https://www.linkedin.com/in/viviancarolinehua"></TeamCard>
                     </div>
+                </div>
+                <div className="landing-sub-section project-status">
+                    <h1 className="landing-sub-title">Project Status</h1>
+                    <p>{LandingPage.ProjectStatus} <a href="https://github.com/Team-RAVL/civic-qa">here</a>.</p>
                 </div>
             </div>
         </div>

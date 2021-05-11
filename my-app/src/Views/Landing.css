@@ -77,3 +77,19 @@ iframe {
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+.pic-linkedin {
+    display: flex;
+}
+
+.linkedin-btn {
+    background: none;
+    border: none;
+    margin-left: 10px;
+    height: 30px;
+    width: 30px;
+}
+
+.linkedin-icon {
+    width: 30px;
+}
