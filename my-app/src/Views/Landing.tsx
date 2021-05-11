@@ -9,7 +9,7 @@ export function Landing() {
             <div className="landing-page-bar">
                 <div className="landing-logo-title-container">
                     <img className="landing-logo" src="./assets/icons/logo.png"></img>
-                    <h1 className="landing-title">Civic QA</h1>
+                    <h1 className="landing-bar-title">Civic QA</h1>
                 </div>
                 <div className="landing-btn-container">
                     <NavLink className="landing-btn" to="/signup">Signup</NavLink>
@@ -17,7 +17,9 @@ export function Landing() {
                 </div>
             </div>
             <div className="project-container">
+                <h1 className="landing-title">Civic QA</h1>
                 <div className="landing-sub-section project-overview">
+                    <img className="landing-img-example" src="./assets/images/civic-qa-example.png"></img>
                     <h1 className="landing-sub-title">Problem Overview</h1>
                     <p>{LandingPage.ProblemOverview1}</p>
                     <p>{LandingPage.ProblemOverview2}</p>
@@ -30,6 +32,7 @@ export function Landing() {
                 </div>
                 <div className="landing-sub-section project-solution">
                     <h1 className="landing-sub-title">How does Civic QA help?</h1>
+                    <img className="landing-img-impact" src="./assets/images/civic-qa-impact.png"></img>
                     <p>{LandingPage.Solution1}</p>
                     <ol className="process-steps">
                         <li>Research</li>
