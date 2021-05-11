@@ -9,7 +9,7 @@ export function Landing() {
             <div className="landing-page-bar">
                 <div className="landing-logo-title-container">
                     <img className="landing-logo" src="./assets/icons/logo.png"></img>
-                    <h1 className="landing-title">Civic QA</h1>
+                    <h1 className="landing-bar-title">Civic QA</h1>
                 </div>
                 <div className="landing-btn-container">
                     <NavLink className="landing-btn" to="/signup">Signup</NavLink>
@@ -17,7 +17,9 @@ export function Landing() {
                 </div>
             </div>
             <div className="project-container">
+                <h1 className="landing-title">Civic QA</h1>
                 <div className="landing-sub-section project-overview">
+                    <img className="landing-img-example" src="./assets/images/civic-qa-example.png"></img>
                     <h1 className="landing-sub-title">Problem Overview</h1>
                     <p>{LandingPage.ProblemOverview1}</p>
                     <p>{LandingPage.ProblemOverview2}</p>
@@ -30,6 +32,7 @@ export function Landing() {
                 </div>
                 <div className="landing-sub-section project-solution">
                     <h1 className="landing-sub-title">How does Civic QA help?</h1>
+                    <img className="landing-img-impact" src="./assets/images/civic-qa-impact.png"></img>
                     <p>{LandingPage.Solution1}</p>
                     <ol className="process-steps">
                         <li>Research</li>
@@ -48,11 +51,15 @@ export function Landing() {
                 <div className="landing-sub-section about-team">
                     <h1 className="landing-sub-title">Meet the Team</h1>
                     <div className="team-bios">   
-                        <TeamCard name="Lia Kitahata" img="./assets/images/lia.jpg" bio={LandingPage.LiaBio}></TeamCard>
-                        <TeamCard name="Rafi Bayer" img="./assets/images/rafi.jpg" bio={LandingPage.RafiBio}></TeamCard>
-                        <TeamCard name="Amit Galitzky" img="./assets/images/amit.jpg" bio={LandingPage.AmitBio}></TeamCard>
-                        <TeamCard name="Vivian Hua" img="./assets/images/vivian.jpg" bio={LandingPage.VivianBio}></TeamCard>
+                        <TeamCard name="Lia Kitahata" img="./assets/images/lia.jpg" bio={LandingPage.LiaBio} linkedin="https://www.linkedin.com/in/liakitahata/"></TeamCard>
+                        <TeamCard name="Rafi Bayer" img="./assets/images/rafi.jpg" bio={LandingPage.RafiBio} linkedin="https://www.linkedin.com/in/rafael-bayer/"></TeamCard>
+                        <TeamCard name="Amit Galitzky" img="./assets/images/amit.jpg" bio={LandingPage.AmitBio} linkedin="https://www.linkedin.com/in/amit-galitzky-844272171/"></TeamCard>
+                        <TeamCard name="Vivian Hua" img="./assets/images/vivian.jpg" bio={LandingPage.VivianBio} linkedin="https://www.linkedin.com/in/viviancarolinehua"></TeamCard>
                     </div>
+                </div>
+                <div className="landing-sub-section project-status">
+                    <h1 className="landing-sub-title">Project Status</h1>
+                    <p>{LandingPage.ProjectStatus} <a href="https://github.com/Team-RAVL/civic-qa">here</a>.</p>
                 </div>
             </div>
         </div>

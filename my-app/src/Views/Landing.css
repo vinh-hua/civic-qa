@@ -26,10 +26,27 @@
     margin-right: 20px;
 }
 
-.landing-title {
+.landing-bar-title {
     color: white;
     font-size: 25px;
     font-weight: bold;
+}
+
+.landing-title {
+    color: #9B51E0;
+    font-size: 64px;
+    font-weight: bold;
+}
+
+.landing-img-example {
+    width: 100%;
+}
+
+.landing-img-impact {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 70%;
+    margin-left: 15%;
 }
 
 .landing-btn-container {
@@ -76,4 +93,20 @@ iframe {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.pic-linkedin {
+    display: flex;
+}
+
+.linkedin-btn {
+    background: none;
+    border: none;
+    margin-left: 10px;
+    height: 30px;
+    width: 30px;
+}
+
+.linkedin-icon {
+    width: 30px;
 }
