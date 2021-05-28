@@ -86,7 +86,7 @@ services:
         - PORT=9090
     environment:
       - ADDR=9090
-      - ANALYTICS_IMPL=mock
+      - ANALYTICS_IMPL=rake
       - AZURE_TEXT_ANALYTICS_ENDPOINT=${AZURE_TEXT_ANALYTICS_ENDPOINT_ENV}
       - COGNITIVE_SERVICE_KEY=${COGNITIVE_SERVICE_KEY_ENV}
     restart: 
